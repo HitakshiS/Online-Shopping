@@ -45,13 +45,13 @@ const INITIAL_STATE = {
 export default (HomeReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case ActionTypes.ADD_VALUE: {
-      return { ...state, counter: state.counter + 1 };
+      return { ...state, cart: state.cart + 1 };
     }
     case ActionTypes.SUB_VALUE: {
-      return { ...state, counter: state.counter - 1 };
+      return { ...state, cart: state.cart - 1 };
     }
     case ActionTypes.RESET: {
-      return { ...state, counter: 0 };
+      return { ...state, cart: 0 };
     }
     default:
       return state;

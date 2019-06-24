@@ -2,16 +2,19 @@ import ActionTypes from "../../store/ActionTypes";
 
 export const addCounterVal = () => {
   return {
-    type: ActionTypes.ADD_VALUE
+    type: ActionTypes.ADD_VALUE,
+    payload: id
   };
 };
 export const subCounterVal = () => {
   return {
-    type: ActionTypes.SUB_VALUE
+    type: ActionTypes.SUB_VALUE,
+    payload: id
   };
 };
 export const reset = () => {
   return {
-    type: ActionTypes.RESET
+    type: ActionTypes.id,
+    payload: id
   };
 };

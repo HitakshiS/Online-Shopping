@@ -4,6 +4,7 @@ import CustomText from "../../Components/CustomText";
 import CustomButton from "../../Components/CustomButton";
 import Images from "../../AppConfig/Images";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 class HomeScreen extends Component {
   renderItem = ({ item }) => {
@@ -33,7 +34,10 @@ class HomeScreen extends Component {
           <CustomText title="In stock" />
         </View>
         <View style={{ flex: 1, alignSelf: "center", paddingRight: 10 }}>
-          <CustomButton title="Add To Cart" />
+          <CustomButton
+            title="Add To Cart"
+            onPress={() => this.props.subCounterVal()}
+          />
         </View>
       </View>
     );
@@ -56,4 +60,15 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(HomeScreen);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      addCounterVal
+    },
+    dispatch
+  );
+
+export default connect(
+  mapDispatchToProps,
+  mapStateToProps
+)(HomeScreen);

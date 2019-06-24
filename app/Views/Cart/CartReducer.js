@@ -41,7 +41,12 @@ const INITIAL_STATE = {
     }
   ],
 
-  cartList: [],
+  cartList: [
+    {
+      id: "",
+      qty: 0
+    }
+  ],
 
   purchasedList: []
 };
@@ -59,10 +64,14 @@ export default (CartReducer = (state = INITIAL_STATE, action) => {
         ...state,
         exampleData: state.exampleData.map(data => {
           if (data.id === action.payload) {
-            return { ...data, stock: data.stock + 1 };
+            return { ...data, stock: data.stock - 1 };
           } else {
             return data;
           }
+        }),
+        cartList: state.cartList.push({
+          id: action.payload,
+          qty: 1
         })
       };
     }
