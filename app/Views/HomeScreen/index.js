@@ -1,56 +1,65 @@
 import React, { Component } from "react";
-import { Button, View, StyleSheet, Image, FlatList } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  Image,
+  FlatList,
+  StyleSheet
+} from "react-native";
 import CustomText from "../../Components/CustomText";
 import CustomButton from "../../Components/CustomButton";
-import Images from "../../AppConfig/Images";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { addCounterVal, subCounterVal, addToCart, hideCartBtn } from "./action";
+import ListItem from "../../Components/ListItem";
 
 class HomeScreen extends Component {
-  renderItem = ({ item }) => {
-    console.log("item.image", item.image);
-    return (
-      <View
-        style={{
-          flexDirection: "row",
-          backgroundColor: "#BFEFFF",
-          margin: 10,
-          borderWidth: 1,
-          borderColor: "black",
-          padding: 20
-        }}
-      >
-        <Image style={{ flex: 1 }} source={item.image} />
-        <View
-          style={{
-            flexDirection: "column",
-            flex: 1,
-            alignSelf: "center",
-            marginLeft: 10
-          }}
-        >
-          <CustomText title={item.name} />
-          <CustomText title="price" />
-          <CustomText title="In stock" />
-        </View>
-        <View style={{ flex: 1, alignSelf: "center", paddingRight: 10 }}>
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: "Home",
+      headerRight: (
+        <View style={{ margin: 10 }}>
           <CustomButton
-            title="Add To Cart"
-            onPress={() => this.props.subCounterVal()}
+            onPress={() => navigation.navigate("Cart")}
+            title="Cart"
+            color="blue"
           />
         </View>
-      </View>
+      )
+    };
+  };
+
+  actionOnRow(item) {
+    this.props.navigation.navigate("ListItemDetail", {
+      itemValue: item
+    });
+  }
+
+  renderItem = ({ item }) => {
+    return (
+      <TouchableOpacity onPress={() => this.actionOnRow(item)}>
+        <ListItem
+          item={item}
+          hideCartBtn={id => {
+            this.props.hideCartBtn(id);
+          }}
+          onValueUpdated={(id, qty) => {
+            this.props.addToCart(id, qty + 1);
+          }}
+        />
+      </TouchableOpacity>
     );
   };
+
   render() {
-    return (
+    return this.props.reducer && this.props.reducer.exampleData ? (
       <View>
         <FlatList
           data={this.props.reducer.exampleData}
           renderItem={this.renderItem}
         />
       </View>
-    );
+    ) : null;
   }
 }
 
@@ -63,12 +72,13 @@ function mapStateToProps(state) {
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      addCounterVal
+      addToCart,
+      hideCartBtn
     },
     dispatch
   );
 
 export default connect(
-  mapDispatchToProps,
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(HomeScreen);

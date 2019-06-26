@@ -6,21 +6,32 @@ import CustomButton from "./CustomButton";
 export default class IncDec extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      counter: 0
+      counter: props.value ? props.value : 1
     };
   }
 
   onPress = (isAdd = true) => {
-    this.setState({
-      counter: isAdd ? this.state.counter + 1 : this.state.counter - 1
-    });
+    this.setState(
+      {
+        counter: isAdd ? this.state.counter + 1 : this.state.counter - 1
+      },
+      () => {
+        this.props.onValueUpdated(this.state.counter);
+      }
+    );
   };
 
   render() {
     return (
       <View
-        style={{ flexDirection: "row", flex: 1, justifyContent: "flex-end" }}
+        style={{
+          flexDirection: "row",
+          flex: 1,
+          justifyContent: "flex-end",
+          padding: 10
+        }}
       >
         <CustomButton
           style={styles.buttonStyles}
@@ -51,12 +62,7 @@ export default class IncDec extends Component {
 
 const styles = StyleSheet.create({
   buttonStyles: {
-    color: "#ff0000",
-    backgroundColor: "red",
     flex: 1,
-    marginRight: 10,
-    marginLeft: 10,
-    marginTop: 10,
     borderRadius: 30
   },
   textStyles: {

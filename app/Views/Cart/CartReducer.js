@@ -1,5 +1,4 @@
 import ActionTypes from "../../store/ActionTypes";
-import { combineReducers } from "redux";
 import Images from "../../AppConfig/Images";
 
 const INITIAL_STATE = {
@@ -48,7 +47,12 @@ const INITIAL_STATE = {
     }
   ],
 
-  purchasedList: []
+  purchasedList: [
+    {
+      id: "",
+      qty: ""
+    }
+  ]
 };
 
 export default (CartReducer = (state = INITIAL_STATE, action) => {
@@ -81,14 +85,17 @@ export default (CartReducer = (state = INITIAL_STATE, action) => {
         ...state,
         exampleData: state.exampleData.map(data => {
           if (data.id === action.payload) {
-            return { ...data, stock: data.stock - 1 };
+            return { ...data, stock: data.stock + 1 };
           } else {
             return data;
           }
+        }),
+        cartList: state.cartList.pop({
+          id: action.payload,
+          qty: 1
         })
       };
     }
-
     case ActionTypes.RESET: {
       return {
         ...state,

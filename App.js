@@ -2,20 +2,22 @@ import React, { Component } from "react";
 import { Text, View, Button, Image } from "react-native";
 import { createStore, applyMiddleware } from "redux";
 import HomeScreen from "./app/Views/HomeScreen";
-import Cart from "./app/Views/Cart";
+import Profile from "./app/Views/Profile";
 import { Provider } from "react-redux";
-import reducer from "./app/Views/Cart/reducer";
+import HomeReducer from "./app/Views/HomeScreen/HomeReducer";
+import RootReducer from "./app/store/RootReducer";
 import { logger } from "redux-logger";
 import createSagaMiddleware from "redux-saga";
+import AppNavigator from "./app/Navigator/AppNavigator";
 
 //const sagaMiddleware = createSagaMiddleware()
-const store = createStore(reducer, applyMiddleware(logger));
+const store = createStore(RootReducer, applyMiddleware(logger));
 //sagaMiddleware.run(rootSaga);
 export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <Cart />
+        <AppNavigator />
       </Provider>
     );
   }
