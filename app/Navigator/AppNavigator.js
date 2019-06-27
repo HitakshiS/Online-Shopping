@@ -7,6 +7,8 @@ import HomeScreen from "../Views/HomeScreen";
 import Cart from "../Views/Cart";
 import ListItemDetail from "../Views/ListItemDetail";
 import Profile from "../Views/Profile";
+import Success from "../Views/SuccessFailure/Success";
+import Failure from "../Views/SuccessFailure/Failure";
 
 const AppNavigatorOne = createStackNavigator({
   Home: {
@@ -20,6 +22,12 @@ const AppNavigatorOne = createStackNavigator({
   },
   Profile: {
     screen: Profile
+  },
+  Failure: {
+    screen: Failure
+  },
+  Failure: {
+    screen: Failure
   }
 });
 const MyDrawerNavigator = createDrawerNavigator({

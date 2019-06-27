@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Text, View, Button, StyleSheet } from "react-native";
-import CustomText from "./CustomText";
 import CustomButton from "./CustomButton";
 
 export default class IncDec extends Component {
@@ -25,35 +24,21 @@ export default class IncDec extends Component {
 
   render() {
     return (
-      <View
-        style={{
-          flexDirection: "row",
-          flex: 1,
-          justifyContent: "flex-end",
-          padding: 10
-        }}
-      >
+      <View style={styles.containerStyles}>
         <CustomButton
           style={styles.buttonStyles}
           title="-"
           onPress={() => this.onPress(false)}
           disabled={this.state.counter > 0 ? false : true}
+          color="#7a42f4"
         />
-        <Text
-          style={{
-            fontSize: 20,
-            marginRight: 10,
-            color: "black",
-            marginLeft: 10
-          }}
-        >
-          {" "}
-          {this.state.counter}{" "}
-        </Text>
+        <Text style={styles.textStyles}> {this.state.counter} </Text>
         <CustomButton
           style={styles.buttonStyles}
           title="+"
           onPress={this.onPress}
+          color="#7a42f4"
+          disabled={this.state.counter == this.props.stock}
         />
       </View>
     );
@@ -67,8 +52,14 @@ const styles = StyleSheet.create({
   },
   textStyles: {
     fontSize: 20,
-    flex: 1,
+    marginRight: 10,
     color: "black",
     marginLeft: 10
+  },
+  containerStyles: {
+    flexDirection: "row",
+    flex: 1,
+    justifyContent: "flex-end",
+    padding: 10
   }
 });

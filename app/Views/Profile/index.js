@@ -1,8 +1,19 @@
 import React, { Component } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Button,
+  Alert
+} from "react-native";
 import Input from "../../Components/Input";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { userProfile } from "../HomeScreen/action";
+import CustomButton from "../../Components/CustomButton";
 
-export default class Profile extends Component {
+class Profile extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerTitle: "User Profile"
@@ -29,20 +40,24 @@ export default class Profile extends Component {
       return false;
     }
   }
-
-  state = {
-    name: "",
-    email: "",
-    DeliveryAddress: "",
-    MobileNumber: ""
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: "",
+      mailId: "",
+      DeliveryAddress: "",
+      MobileNumber: "",
+      Alert_Visibility: false
+    };
+  }
 
   handleName = text => {
     this.setState({ name: text });
+    console.log(name);
   };
 
-  handleEmail = text => {
-    this.setState({ email: text });
+  handleMailId = text => {
+    this.setState({ mailId: text });
   };
 
   handleDeliveryAddress = text => {
@@ -53,40 +68,90 @@ export default class Profile extends Component {
     this.setState({ MobileNumber: text });
   };
 
+  SuccessPage() {
+    this.props.navigation.navigate("SuccessFailure");
+  }
+
   render() {
+    isEnabled =
+      name.length > 0 &&
+      mailId.length > 0 &&
+      DeliveryAddress.length > 0 &&
+      MobileNumber.length > 0;
+
     return (
       <View style={styles.container}>
         <Input
           placeholder="Name"
           onChangeText={this.handleName}
-          autoCompleteType="name"
+          value={this.state.name}
         />
         <Input
-          placeholder="Email"
-          onChangeText={this.handleEmail}
-          autoCompleteType="email"
+          placeholder="mailId"
+          onChangeText={this.handleMailId}
+          value={this.state.mailId}
         />
         <Input
           placeholder="Delivery Address"
           onChangeText={this.handleDeliveryAddress}
-          autoCompleteType="street-address"
+          value={this.state.DeliveryAddress}
         />
         <Input
           placeholder="Mobile Number"
           onChangeText={this.handleMobileNumber}
-          autoCompleteType="tel"
+          value={this.state.MobileNumber}
         />
 
         <TouchableOpacity
           style={styles.submitButton}
-          onPress={() => this.login(this.state.email, this.state.mobileNumber)}
+          onPress={() =>
+            this.props.userProfile({
+              name: this.state.name,
+              mailId: this.state.mailId,
+              DeliveryAddress: this.state.DeliveryAddress,
+              MobileNumber: this.state.MobileNumber
+            })
+          }
         >
           <Text style={styles.submitButtonText}> Submit </Text>
         </TouchableOpacity>
+        <Button
+          title="Buy Now"
+          onPress={() => {
+            Alert.alert(
+              "Payment Information",
+              "User Profile Updated",
+              [
+                {
+                  text: "Success",
+                  onPress: () => this.SuccessPage()
+                },
+                {
+                  text: "Failure",
+                  onPress: () => this.SuccessPage()
+                }
+              ],
+              { cancelable: false }
+            );
+          }}
+        />
       </View>
     );
   }
 }
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      userProfile
+    },
+    dispatch
+  );
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Profile);
 
 const styles = StyleSheet.create({
   submitButton: {

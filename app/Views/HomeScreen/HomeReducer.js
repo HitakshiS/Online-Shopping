@@ -27,7 +27,7 @@ const INITIAL_STATE = {
       id: 3,
       name: "Cucumber",
       price: 32,
-      stock: 1,
+      stock: 7,
       image: Images.cucumber,
       showIncDec: false,
       description:
@@ -37,7 +37,7 @@ const INITIAL_STATE = {
       id: 4,
       name: "Capsicum",
       price: 35,
-      stock: 1,
+      stock: 12,
       image: Images.capsicum,
       showIncDec: false,
       description:
@@ -47,7 +47,7 @@ const INITIAL_STATE = {
       id: 5,
       name: "Tomato",
       price: 21,
-      stock: 1,
+      stock: 5,
       image: Images.tomato,
       showIncDec: false,
       description:
@@ -55,7 +55,9 @@ const INITIAL_STATE = {
     }
   ],
 
-  cartList: []
+  cartList: [],
+  userProfile: {},
+  purchaseList: []
 };
 
 export default (HomeReducer = (state = INITIAL_STATE, action) => {
@@ -144,6 +146,12 @@ export default (HomeReducer = (state = INITIAL_STATE, action) => {
             return data;
           }
         })
+      };
+    }
+    case ActionTypes.USER_PROFILE: {
+      return {
+        ...state,
+        userProfile: { ...action.payload }
       };
     }
 

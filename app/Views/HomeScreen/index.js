@@ -10,7 +10,7 @@ import CustomText from "../../Components/CustomText";
 import CustomButton from "../../Components/CustomButton";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { addCounterVal, subCounterVal, addToCart, hideCartBtn } from "./action";
+import { addToCart, hideCartBtn } from "./action";
 import ListItem from "../../Components/ListItem";
 
 class HomeScreen extends Component {
@@ -22,14 +22,14 @@ class HomeScreen extends Component {
           <CustomButton
             onPress={() => navigation.navigate("Cart")}
             title="Cart"
-            color="blue"
+            color="#7a42f4"
           />
         </View>
       )
     };
   };
 
-  actionOnRow(item) {
+  listDetailNavigation(item) {
     this.props.navigation.navigate("ListItemDetail", {
       itemValue: item
     });
@@ -37,14 +37,14 @@ class HomeScreen extends Component {
 
   renderItem = ({ item }) => {
     return (
-      <TouchableOpacity onPress={() => this.actionOnRow(item)}>
+      <TouchableOpacity onPress={() => this.listDetailNavigation(item)}>
         <ListItem
           item={item}
           hideCartBtn={id => {
             this.props.hideCartBtn(id);
           }}
           onValueUpdated={(id, qty) => {
-            this.props.addToCart(id, qty + 1);
+            this.props.addToCart(id, qty);
           }}
         />
       </TouchableOpacity>

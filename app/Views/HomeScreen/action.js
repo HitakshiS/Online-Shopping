@@ -31,3 +31,11 @@ export const hideCartBtn = id => {
     payload: id
   };
 };
+
+export const userProfile = userProfileDetails => {
+  return {
+    type: ActionTypes.USER_PROFILE,
+    payload: userProfileDetails
+  };
+};
+

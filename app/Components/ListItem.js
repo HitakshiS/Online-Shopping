@@ -7,17 +7,9 @@ import IncDec from "./IncDec";
 
 export default (ListItem = props => {
   const { item } = props;
+
   return (
-    <View
-      style={{
-        flexDirection: "row",
-        backgroundColor: "#BFEFFF",
-        margin: 10,
-        borderWidth: 1,
-        borderColor: "black",
-        padding: 20
-      }}
-    >
+    <View style={styles.containerStyles}>
       <Image style={{ flex: 1 }} source={item.image} />
       <View
         style={{
@@ -38,6 +30,7 @@ export default (ListItem = props => {
         {!item.showIncDec ? (
           <CustomButton
             title="Add To Cart"
+            color="#7a42f4"
             onPress={() => {
               props.onValueUpdated(item.id, 0);
               props.hideCartBtn(item.id);
@@ -45,6 +38,7 @@ export default (ListItem = props => {
           />
         ) : (
           <IncDec
+            stock={item.stock}
             value={item.qty}
             onValueUpdated={qtyValue => {
               props.onValueUpdated(item.id, qtyValue);
@@ -57,8 +51,16 @@ export default (ListItem = props => {
 });
 
 const styles = StyleSheet.create({
+  containerStyles: {
+    flexDirection: "row",
+    backgroundColor: "#BFEFFF",
+    margin: 10,
+    borderWidth: 3,
+    borderColor: "black",
+    padding: 20
+  },
   textStyles: {
-    fontSize: 16,
+    fontSize: 17,
     flex: 1,
     color: "black"
   }

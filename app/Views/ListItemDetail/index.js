@@ -17,17 +17,7 @@ class ListItemDetail extends Component {
   render() {
     const itemValue = this.props.navigation.getParam("itemValue");
     return (
-      <View
-        style={{
-          flexDirection: "column",
-          backgroundColor: "#BFEFFF",
-          margin: 10,
-          borderWidth: 1,
-          borderColor: "black",
-          padding: 20,
-          flex: 1
-        }}
-      >
+      <View style={styles.containerStyle}>
         <Image
           style={{ flex: 0.8, alignSelf: "center" }}
           source={itemValue.image}
@@ -93,6 +83,15 @@ export default connect(
 )(ListItemDetail);
 
 const styles = StyleSheet.create({
+  containerStyle: {
+    flexDirection: "column",
+    backgroundColor: "#BFEFFF",
+    margin: 10,
+    borderWidth: 3,
+    borderColor: "black",
+    padding: 20,
+    flex: 1
+  },
   textStyles: {
     fontSize: 16,
     flex: 0.5,

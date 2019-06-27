@@ -14,14 +14,14 @@ import { connect } from "react-redux";
 import { addToCart, reset } from "../HomeScreen/action";
 import { bindActionCreators } from "redux";
 import { NavigationActions, StackActions } from "react-navigation";
-import Profile from "../Profile";
 
 class Cart extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerTitle: "Cart",
-    headerLeft: (
+    headerRight: (
       <View style={{ padding: 10 }}>
         <CustomButton
+          color="#7a42f4"
           title="Back"
           onPress={() =>
             navigation.dispatch(
@@ -37,21 +37,13 @@ class Cart extends Component {
   });
 
   ProfilePage() {
+  
     this.props.navigation.navigate("Profile");
   }
 
   renderItem = ({ item, index }) => {
     return (
-      <View
-        style={{
-          marginTop: 10,
-          marginBottom: 10,
-          flex: 0.4,
-          backgroundColor: "#FFDAB9",
-          borderWidth: 1,
-          borderColor: "black"
-        }}
-      >
+      <View style={styles.containerStyles}>
         <View style={{ flexDirection: "row", flex: 1 }}>
           <CustomText
             style={styles.textStyles}
@@ -61,7 +53,7 @@ class Cart extends Component {
             <CustomButton
               onPress={() => this.props.reset(index)}
               style={styles.buttonStyles}
-              title="remove"
+              title="x"
               color="#ff0000"
             />
           </View>
@@ -69,13 +61,19 @@ class Cart extends Component {
         <View style={{ flexDirection: "row", flex: 1 }}>
           <CustomText
             style={styles.textStyles}
-            title={`Price: ${item.price * item.qty}`}
+            title={`Price: ${item.price}`}
           />
           <IncDec
             value={item.qty}
             onValueUpdated={qtyValue => {
               this.props.addToCart(item.id, qtyValue);
             }}
+          />
+        </View>
+        <View style={{ flex: 1 }}>
+          <CustomText
+            style={[styles.textStyles, { paddingBottom: 5 }]}
+            title={`Amount: ${item.price * item.qty}`}
           />
         </View>
       </View>
@@ -88,6 +86,13 @@ class Cart extends Component {
       ...itm
     }));
 
+  billingCost = b1 => b1.map(item => item.price * item.qty);
+
+  Amount = c1 =>
+    c1.reduce((total, currentValue) => {
+      return total + currentValue;
+    });
+
   render() {
     const cartData =
       this.props.reducer.cartList && this.props.reducer.cartList.length
@@ -95,6 +100,15 @@ class Cart extends Component {
             this.props.reducer.cartList,
             this.props.reducer.exampleData
           )
+        : null;
+    const billing =
+      this.props.reducer.cartList && this.props.reducer.cartList.length
+        ? this.billingCost(cartData)
+        : null;
+
+    const TotalAmount =
+      this.props.reducer.cartList && this.props.reducer.cartList.length
+        ? this.Amount(billing)
         : null;
     return (
       <View style={{ flex: 1, padding: 10 }}>
@@ -110,14 +124,19 @@ class Cart extends Component {
             <CustomText
               style={[
                 styles.textStyles,
-                { textAlign: "center", backgroundColor: "#E1BEE7" }
+                {
+                  textAlign: "center",
+                  fontSize: 24,
+                  backgroundColor: "#9370DB",
+                  marginBottom: 10
+                }
               ]}
-              title="Total amount"
+              title={`Total amount: ${TotalAmount}`}
             />
             <CustomButton
               style={[styles.buttonStyles, { flex: 0.1 }]}
               title="Place Your Order"
-              color="#FF8C00"
+              color="#7a42f4"
               onPress={() => this.ProfilePage()}
             />
           </View>
@@ -141,6 +160,14 @@ const styles = StyleSheet.create({
     color: "black",
     marginLeft: 10,
     marginRight: 10
+  },
+  containerStyles: {
+    marginTop: 10,
+    marginBottom: 10,
+    flex: 0.4,
+    backgroundColor: "#BFEFFF",
+    borderWidth: 3,
+    borderColor: "black"
   }
 });
 
