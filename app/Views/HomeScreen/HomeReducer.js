@@ -47,7 +47,7 @@ const INITIAL_STATE = {
       id: 5,
       name: "Tomato",
       price: 21,
-      stock: 5,
+      stock: 0,
       image: Images.tomato,
       showIncDec: false,
       description:
@@ -152,6 +152,14 @@ export default (HomeReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         userProfile: { ...action.payload }
+      };
+    }
+
+    case ActionTypes.EMPTY_CART_LIST: {
+      return {
+        ...state,
+        cartList: [],
+        purchaseList: [...state.cartList]
       };
     }
 

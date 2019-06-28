@@ -12,13 +12,19 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { addToCart, hideCartBtn } from "./action";
 import ListItem from "../../Components/ListItem";
+import PurchasedList from "../PurchasedList";
 
 class HomeScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerTitle: "Home",
       headerRight: (
-        <View style={{ margin: 10 }}>
+        <View style={{ margin: 10, flexDirection: "row" }}>
+          <CustomButton
+            title="drawer"
+            onPress={() => navigation.openDrawer()}
+            color="#7a42f4"
+          />
           <CustomButton
             onPress={() => navigation.navigate("Cart")}
             title="Cart"
@@ -54,6 +60,7 @@ class HomeScreen extends Component {
   render() {
     return this.props.reducer && this.props.reducer.exampleData ? (
       <View>
+        <PurchasedList horizontal={true} />
         <FlatList
           data={this.props.reducer.exampleData}
           renderItem={this.renderItem}
@@ -63,11 +70,11 @@ class HomeScreen extends Component {
   }
 }
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
   return {
     reducer: state.HomeReducer
   };
-}
+};
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(

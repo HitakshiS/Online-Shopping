@@ -4,7 +4,8 @@ import {
   View,
   StyleSheet,
   TouchableWithoutFeedback,
-  FlatList
+  FlatList,
+  Alert
 } from "react-native";
 import CustomText from "../../Components/CustomText";
 import CustomButton from "../../Components/CustomButton";
@@ -17,28 +18,19 @@ import { NavigationActions, StackActions } from "react-navigation";
 
 class Cart extends Component {
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: "Cart",
-    headerRight: (
-      <View style={{ padding: 10 }}>
-        <CustomButton
-          color="#7a42f4"
-          title="Back"
-          onPress={() =>
-            navigation.dispatch(
-              StackActions.reset({
-                index: 0,
-                actions: [NavigationActions.navigate({ routeName: "Home" })]
-              })
-            )
-          }
-        />
-      </View>
-    )
+    headerTitle: "Cart"
   });
 
   ProfilePage() {
-  
     this.props.navigation.navigate("Profile");
+  }
+
+  SuccessPage() {
+    this.props.navigation.navigate("Success");
+  }
+
+  FailurePage() {
+    this.props.navigation.navigate("Failure");
   }
 
   renderItem = ({ item, index }) => {
@@ -64,6 +56,7 @@ class Cart extends Component {
             title={`Price: ${item.price}`}
           />
           <IncDec
+            item={item}
             value={item.qty}
             onValueUpdated={qtyValue => {
               this.props.addToCart(item.id, qtyValue);
@@ -76,7 +69,28 @@ class Cart extends Component {
             title={`Amount: ${item.price * item.qty}`}
           />
         </View>
+        <View style={{ flex: 1 }}>
+          <CustomText
+            style={[styles.textStyles, { paddingBottom: 5 }]}
+            title={item.qty === item.stock ? "Out of stock" : "In stock"}
+          />
+        </View>
       </View>
+    );
+  };
+
+  alertBoxCustom = () => {
+    Alert.alert(
+      "Payment Information",
+      "User Profile Updated",
+      [
+        {
+          text: "Success",
+          onPress: () => this.SuccessPage()
+        },
+        { text: "Failure", onPress: () => this.FailurePage() }
+      ],
+      { cancelable: true }
     );
   };
 
@@ -112,11 +126,21 @@ class Cart extends Component {
         : null;
     return (
       <View style={{ flex: 1, padding: 10 }}>
-        {cartData && (
+        {cartData ? (
           <FlatList
             style={{ flex: 0.8 }}
             data={cartData}
             renderItem={this.renderItem}
+          />
+        ) : (
+          <CustomText
+            style={{
+              fontSize: 20,
+              color: "#7a42f4",
+              flex: 1,
+              textAlign: "center"
+            }}
+            title="Your shopping list is empty! Fill in your cart."
           />
         )}
         {cartData && (
@@ -137,7 +161,12 @@ class Cart extends Component {
               style={[styles.buttonStyles, { flex: 0.1 }]}
               title="Place Your Order"
               color="#7a42f4"
-              onPress={() => this.ProfilePage()}
+              onPress={() => {
+                Object.getOwnPropertyNames(this.props.reducer.userProfile)
+                  .length === 0
+                  ? this.ProfilePage()
+                  : this.alertBoxCustom();
+              }}
             />
           </View>
         )}
@@ -147,6 +176,14 @@ class Cart extends Component {
 }
 
 const styles = StyleSheet.create({
+  containerStyles: {
+    marginTop: 10,
+    marginBottom: 10,
+    flex: 0.4,
+    backgroundColor: "#BFEFFF",
+    borderWidth: 3,
+    borderColor: "black"
+  },
   buttonStyles: {
     flex: 1,
     marginRight: 10,
@@ -160,14 +197,6 @@ const styles = StyleSheet.create({
     color: "black",
     marginLeft: 10,
     marginRight: 10
-  },
-  containerStyles: {
-    marginTop: 10,
-    marginBottom: 10,
-    flex: 0.4,
-    backgroundColor: "#BFEFFF",
-    borderWidth: 3,
-    borderColor: "black"
   }
 });
 

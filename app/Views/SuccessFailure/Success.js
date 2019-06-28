@@ -12,14 +12,34 @@ import { bindActionCreators } from "redux";
 import CustomButton from "../../Components/CustomButton";
 import CustomText from "../../Components/CustomText";
 import { purchaseList } from "../HomeScreen/action";
+import { NavigationActions, StackActions } from "react-navigation";
+import { emptyCartList } from "../HomeScreen/action";
 
 class Success extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      headerTitle: "Successful Payment"
-    };
-  };
+  static navigationOptions = ({ navigation }) => ({
+    headerTitle: "Successful Payment",
+    headerLeft: (
+      <View style={{ padding: 10 }}>
+        <CustomButton
+          color="#7a42f4"
+          title="Back"
+          onPress={() =>
+            navigation.dispatch(
+              StackActions.reset({
+                index: 0,
+                actions: [NavigationActions.navigate({ routeName: "Cart" })]
+              })
+            )
+          }
+        />
+      </View>
+    )
+  });
 
+  homePage() {
+    this.props.emptyCartList();
+    this.props.navigation.navigate("Home");
+  }
   //   makeId = length => {
   //     result = "";
   //     characters =
@@ -38,28 +58,11 @@ class Success extends Component {
       ...itm
     }));
 
-  renderItem = ({ item, index }) => {
+  renderItem = ({ item }) => {
     return (
-      <View
-        style={{
-          flexDirection: "row",
-          backgroundColor: "#BFEFFF",
-          margin: 10,
-          borderWidth: 3,
-          borderColor: "black",
-          padding: 20,
-          flex: 1
-        }}
-      >
+      <View style={styles.flatlistContainerStyle}>
         <Image style={{ flex: 1 }} source={item.image} />
-        <View
-          style={{
-            flexDirection: "column",
-            flex: 1,
-            alignSelf: "center",
-            marginLeft: 10
-          }}
-        >
+        <View style={styles.flatlistSubContainerStyle}>
           <CustomText
             style={styles.textStyles}
             title={`Product: ${item.name}`}
@@ -91,19 +94,39 @@ class Success extends Component {
         : null;
     return (
       <View style={styles.containerStyle}>
-        <CustomText
-          style={[styles.textStyle, { color: "green" }]}
-          title="Congrats!! Your order has been successfully placed."
-        />
-        <CustomText
-          style={[styles.textStyle, { fontSize: 20 }]}
-          title={`Your Transaction Id: 1`}
-        />
-        <FlatList
-          style={{ flex: 0.8 }}
-          data={cartData}
-          renderItem={this.renderItem}
-        />
+        <View style={{ flex: 0.9 }}>
+          {cartData && (
+            <CustomText
+              style={[styles.textStyle, { color: "green", fontSize: 24 }]}
+              title="Congrats!! Your order has been successfully placed."
+            />
+          )}
+          {cartData && (
+            <CustomText
+              style={[styles.textStyle, { fontSize: 20 }]}
+              title={`Your Transaction Id: 1`}
+            />
+          )}
+
+          {cartData && (
+            <FlatList
+              style={{ flex: 0.8 }}
+              data={cartData}
+              renderItem={this.renderItem}
+            />
+          )}
+        </View>
+        <View style={{ flex: 0.1 }}>
+          {cartData && (
+            <CustomButton
+              title="Continue Shopping"
+              onPress={() => {
+                this.homePage()
+              }}
+              color="#7a42f4"
+            />
+          )}
+        </View>
       </View>
     );
   }
@@ -122,6 +145,21 @@ const styles = StyleSheet.create({
     fontSize: 16,
     flex: 0.5,
     color: "black"
+  },
+  flatlistContainerStyle: {
+    flexDirection: "row",
+    backgroundColor: "#BFEFFF",
+    margin: 10,
+    borderWidth: 3,
+    borderColor: "black",
+    padding: 20,
+    flex: 1
+  },
+  flatlistSubContainerStyle: {
+    flexDirection: "column",
+    flex: 1,
+    alignSelf: "center",
+    marginLeft: 10
   }
 });
 
@@ -131,4 +169,15 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Success);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      emptyCartList
+    },
+    dispatch
+  );
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Success);

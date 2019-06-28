@@ -6,7 +6,7 @@ import CustomButton from "./CustomButton";
 import IncDec from "./IncDec";
 
 export default (ListItem = props => {
-  const { item } = props;
+  const { item, isPurchaseList } = props;
 
   return (
     <View style={styles.containerStyles}>
@@ -23,29 +23,31 @@ export default (ListItem = props => {
         <CustomText style={styles.textStyles} title={`Price: ${item.price}`} />
         <CustomText
           style={[styles.textStyles, { color: "green" }]}
-          title="In stock"
+          title={item.qty === item.stock ? "Out of stock" : "In stock"}
         />
       </View>
-      <View style={{ flex: 1, alignSelf: "center" }}>
-        {!item.showIncDec ? (
-          <CustomButton
-            title="Add To Cart"
-            color="#7a42f4"
-            onPress={() => {
-              props.onValueUpdated(item.id, 0);
-              props.hideCartBtn(item.id);
-            }}
-          />
-        ) : (
-          <IncDec
-            stock={item.stock}
-            value={item.qty}
-            onValueUpdated={qtyValue => {
-              props.onValueUpdated(item.id, qtyValue);
-            }}
-          />
-        )}
-      </View>
+      {!isPurchaseList && (
+        <View style={{ flex: 1, alignSelf: "center" }}>
+          {!item.showIncDec ? (
+            <CustomButton
+              title="Add To Cart"
+              color="#7a42f4"
+              onPress={() => {
+                props.onValueUpdated(item.id, 1);
+                props.hideCartBtn(item.id);
+              }}
+            />
+          ) : (
+            <IncDec
+              stock={item.stock}
+              value={item.qty}
+              onValueUpdated={qtyValue => {
+                props.onValueUpdated(item.id, qtyValue);
+              }}
+            />
+          )}
+        </View>
+      )}
     </View>
   );
 });

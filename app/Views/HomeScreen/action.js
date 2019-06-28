@@ -39,3 +39,8 @@ export const userProfile = userProfileDetails => {
   };
 };
 
+export const emptyCartList = () => {
+  return {
+    type: ActionTypes.EMPTY_CART_LIST
+  };
+};

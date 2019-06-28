@@ -12,6 +12,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { userProfile } from "../HomeScreen/action";
 import CustomButton from "../../Components/CustomButton";
+import CustomText from "../../Components/CustomText";
 
 class Profile extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -50,6 +51,9 @@ class Profile extends Component {
       Alert_Visibility: false
     };
   }
+  CartPage = () => {
+    this.props.navigation.navigate("Cart");
+  };
 
   handleName = text => {
     this.setState({ name: text });
@@ -68,73 +72,68 @@ class Profile extends Component {
     this.setState({ MobileNumber: text });
   };
 
-  SuccessPage() {
-    this.props.navigation.navigate("SuccessFailure");
-  }
-
-  render() {
-    isEnabled =
+  isEnabled = () => {
+    if (
       name.length > 0 &&
       mailId.length > 0 &&
       DeliveryAddress.length > 0 &&
-      MobileNumber.length > 0;
+      MobileNumber.length > 0
+    )
+      return true;
+    else return false;
+  };
 
+  render() {
     return (
-      <View style={styles.container}>
-        <Input
-          placeholder="Name"
-          onChangeText={this.handleName}
-          value={this.state.name}
-        />
-        <Input
-          placeholder="mailId"
-          onChangeText={this.handleMailId}
-          value={this.state.mailId}
-        />
-        <Input
-          placeholder="Delivery Address"
-          onChangeText={this.handleDeliveryAddress}
-          value={this.state.DeliveryAddress}
-        />
-        <Input
-          placeholder="Mobile Number"
-          onChangeText={this.handleMobileNumber}
-          value={this.state.MobileNumber}
-        />
-
-        <TouchableOpacity
-          style={styles.submitButton}
-          onPress={() =>
-            this.props.userProfile({
-              name: this.state.name,
-              mailId: this.state.mailId,
-              DeliveryAddress: this.state.DeliveryAddress,
-              MobileNumber: this.state.MobileNumber
-            })
-          }
-        >
-          <Text style={styles.submitButtonText}> Submit </Text>
-        </TouchableOpacity>
-        <Button
-          title="Buy Now"
-          onPress={() => {
-            Alert.alert(
-              "Payment Information",
-              "User Profile Updated",
-              [
-                {
-                  text: "Success",
-                  onPress: () => this.SuccessPage()
-                },
-                {
-                  text: "Failure",
-                  onPress: () => this.SuccessPage()
-                }
-              ],
-              { cancelable: false }
-            );
-          }}
-        />
+      <View style={{ flex: 1 }}>
+        <View style={styles.container}>
+          <CustomText
+            style={styles.textStyles}
+            title="Please fill in the User Details"
+          />
+          <Input
+            placeholder="Name"
+            onChangeText={this.handleName}
+            value={this.state.name}
+          />
+          <Input
+            placeholder="mailId"
+            onChangeText={this.handleMailId}
+            value={this.state.mailId}
+          />
+          <Input
+            placeholder="Delivery Address"
+            onChangeText={this.handleDeliveryAddress}
+            value={this.state.DeliveryAddress}
+          />
+          <Input
+            placeholder="Mobile Number"
+            onChangeText={this.handleMobileNumber}
+            value={this.state.MobileNumber}
+          />
+        </View>
+        <View style={styles.submitButton}>
+          <CustomButton
+            title="Submit Details"
+            color="#7a42f4"
+            onPress={() => {
+              this.props.userProfile({
+                name: this.state.name,
+                mailId: this.state.mailId,
+                DeliveryAddress: this.state.DeliveryAddress,
+                MobileNumber: this.state.MobileNumber
+              }) && this.CartPage();
+            }}
+            disabled={
+              this.state.name.length > 0 &&
+              this.state.mailId.length > 0 &&
+              this.state.DeliveryAddress.length > 0 &&
+              this.state.MobileNumber.length > 0
+                ? false
+                : true
+            }
+          />
+        </View>
       </View>
     );
   }
@@ -154,8 +153,16 @@ export default connect(
 )(Profile);
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 0.9
+  },
+  textStyles: {
+    fontSize: 26,
+    color: "black",
+    textAlign: "center"
+  },
   submitButton: {
-    backgroundColor: "#7a42f4",
+    flex: 0.1,
     padding: 10,
     margin: 15,
     height: 40
