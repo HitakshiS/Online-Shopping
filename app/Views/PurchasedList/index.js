@@ -1,24 +1,11 @@
 import React, { Component } from "react";
-import {
-  View,
-  Button,
-  TouchableOpacity,
-  StyleSheet,
-  FlatList,
-  Image
-} from "react-native";
+import { View, StyleSheet, FlatList, CustomText } from "react-native";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import CustomButton from "../../Components/CustomButton";
-import CustomText from "../../Components/CustomText";
-import { purchaseList } from "../HomeScreen/action";
-import { NavigationActions, StackActions } from "react-navigation";
-import { emptyCartList } from "../HomeScreen/action";
 import ListItem from "../../Components/ListItem";
 
 class PurchasedList extends Component {
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: "Purchased List"
+    headerTitle: "Previous Orders"
   });
 
   renderItem = ({ item }) => {
@@ -37,11 +24,25 @@ class PurchasedList extends Component {
       this.props.reducer.exampleData
     );
     return (
-      <FlatList
-        data={purchaseData}
-        horizontal={this.props.horizontal}
-        renderItem={this.renderItem}
-      />
+      <View>
+        {purchaseData ? (
+          <FlatList
+            data={purchaseData}
+            horizontal={this.props.horizontal}
+            renderItem={this.renderItem}
+          />
+        ) : (
+          <CustomText
+            style={{
+              fontSize: 20,
+              color: "#7a42f4",
+              flex: 1,
+              textAlign: "center"
+            }}
+            title="You have not ordered anything yet!!"
+          />
+        )}
+      </View>
     );
   }
 }

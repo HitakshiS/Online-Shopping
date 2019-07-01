@@ -1,20 +1,11 @@
 import React, { Component } from "react";
-import {
-  Button,
-  View,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  FlatList,
-  Alert
-} from "react-native";
+import { View, StyleSheet, FlatList, Alert } from "react-native";
 import CustomText from "../../Components/CustomText";
 import CustomButton from "../../Components/CustomButton";
-import Images from "../../AppConfig/Images";
 import IncDec from "../../Components/IncDec";
 import { connect } from "react-redux";
 import { addToCart, reset } from "../HomeScreen/action";
 import { bindActionCreators } from "redux";
-import { NavigationActions, StackActions } from "react-navigation";
 
 class Cart extends Component {
   static navigationOptions = ({ navigation }) => ({

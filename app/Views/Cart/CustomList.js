@@ -1,17 +1,8 @@
 import React, { Component } from "react";
-import {
-  Button,
-  View,
-  StyleSheet,
-  Image,
-  FlatList,
-  TouchableHighlight
-} from "react-native";
+import { View, StyleSheet } from "react-native";
 import CustomText from "../../Components/CustomText";
 import CustomButton from "../../Components/CustomButton";
-import Images from "../../AppConfig/Images";
 import IncDec from "../../Components/IncDec";
-import { connect } from "react-redux";
 
 export default class CustomList extends Component {
   renderItem = ({ item }) => {

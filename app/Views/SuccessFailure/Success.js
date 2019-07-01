@@ -1,17 +1,9 @@
 import React, { Component } from "react";
-import {
-  View,
-  Button,
-  TouchableOpacity,
-  StyleSheet,
-  FlatList,
-  Image
-} from "react-native";
+import { View, StyleSheet, FlatList, Image } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import CustomButton from "../../Components/CustomButton";
 import CustomText from "../../Components/CustomText";
-import { purchaseList } from "../HomeScreen/action";
 import { NavigationActions, StackActions } from "react-navigation";
 import { emptyCartList } from "../HomeScreen/action";
 
@@ -121,7 +113,7 @@ class Success extends Component {
             <CustomButton
               title="Continue Shopping"
               onPress={() => {
-                this.homePage()
+                this.homePage();
               }}
               color="#7a42f4"
             />

@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { Button, View, Image, FlatList, StyleSheet } from "react-native";
+import { View, Image, StyleSheet } from "react-native";
 import CustomText from "../../Components/CustomText";
 import CustomButton from "../../Components/CustomButton";
-import Images from "../../AppConfig/Images";
 import { connect } from "react-redux";
 import { addToCart } from "../HomeScreen/action";
 import { bindActionCreators } from "redux";

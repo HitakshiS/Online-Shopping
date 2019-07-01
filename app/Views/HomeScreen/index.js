@@ -1,12 +1,5 @@
 import React, { Component } from "react";
-import {
-  View,
-  TouchableOpacity,
-  Image,
-  FlatList,
-  StyleSheet
-} from "react-native";
-import CustomText from "../../Components/CustomText";
+import { View, TouchableOpacity, FlatList, StyleSheet } from "react-native";
 import CustomButton from "../../Components/CustomButton";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";

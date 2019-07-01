@@ -1,12 +1,5 @@
 import React, { Component } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Button,
-  Alert
-} from "react-native";
+import { View, StyleSheet } from "react-native";
 import Input from "../../Components/Input";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";

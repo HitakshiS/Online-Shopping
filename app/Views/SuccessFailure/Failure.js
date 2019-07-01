@@ -1,17 +1,6 @@
 import React, { Component } from "react";
-import {
-  View,
-  Button,
-  TouchableOpacity,
-  StyleSheet,
-  FlatList,
-  Image
-} from "react-native";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import CustomButton from "../../Components/CustomButton";
+import { View, Button, StyleSheet } from "react-native";
 import CustomText from "../../Components/CustomText";
-import { purchaseList } from "../HomeScreen/action";
 
 export default class Failure extends Component {
   static navigationOptions = ({ navigation }) => {
