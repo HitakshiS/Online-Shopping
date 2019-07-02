@@ -32,17 +32,17 @@ class Success extends Component {
     this.props.emptyCartList();
     this.props.navigation.navigate("Home");
   }
-  //   makeId = length => {
-  //     result = "";
-  //     characters =
-  //       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  //     charactersLength = characters.length;
-  //     for (let i = 0; i < length; i++) {
-  //       result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  //     }
-  //     return result;
-  //   };
-  //   randomNumber = makeId(5);
+  // makeId = length => {
+  //   result = "";
+  //   characters =
+  //     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  //   charactersLength = characters.length;
+  //   for (let i = 0; i < length; i++) {
+  //     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  //   }
+  //   return result;
+  // };
+  // randomNumber = makeId(5);
 
   mergeById = (a1, a2) =>
     a1.map(itm => ({
@@ -77,6 +77,20 @@ class Success extends Component {
   };
 
   render() {
+    makeId = length => {
+      result = "";
+      characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      charactersLength = characters.length;
+      for (let i = 0; i < length; i++) {
+        result += characters.charAt(
+          Math.floor(Math.random() * charactersLength)
+        );
+      }
+      return result;
+    };
+    randomNumber = makeId(5);
+
     const cartData =
       this.props.reducer.cartList && this.props.reducer.cartList.length
         ? this.mergeById(
@@ -96,7 +110,7 @@ class Success extends Component {
           {cartData && (
             <CustomText
               style={[styles.textStyle, { fontSize: 20 }]}
-              title={`Your Transaction Id: 1`}
+              title={`Your Transaction Id: ${randomNumber}`}
             />
           )}
 

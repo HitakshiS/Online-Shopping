@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, Alert } from "react-native";
 import CustomText from "../../Components/CustomText";
 import CustomButton from "../../Components/CustomButton";
 import { connect } from "react-redux";
@@ -13,6 +13,25 @@ class ListItemDetail extends Component {
       headerTitle: "Item Description"
     };
   };
+
+  HomePage() {
+    this.props.navigation.navigate("Home");
+  }
+
+  alertBoxCustom = () => {
+    Alert.alert(
+      "An item is added in your cart.",
+      "To make the transaction move to your cart.",
+      [
+        {
+          text: "Ok",
+          onPress: () => this.HomePage()
+        }
+      ],
+      { cancelable: true }
+    );
+  };
+
   render() {
     const itemValue = this.props.navigation.getParam("itemValue");
     return (
@@ -26,7 +45,8 @@ class ListItemDetail extends Component {
             flexDirection: "column",
             flex: 0.8,
             alignSelf: "center",
-            marginLeft: 10
+            marginLeft: 10,
+            marginTop: 10
           }}
         >
           <CustomText
@@ -54,7 +74,9 @@ class ListItemDetail extends Component {
         >
           <CustomButton
             title="Add To Cart"
-            onPress={() => this.props.addToCart(itemValue.id, itemValue.qty)}
+            onPress={() => {
+              this.props.addToCart(itemValue.id, 1) && this.alertBoxCustom();
+            }}
             color="#FF8C00"
           />
         </View>
@@ -92,8 +114,9 @@ const styles = StyleSheet.create({
     flex: 1
   },
   textStyles: {
-    fontSize: 16,
+    fontSize: 18,
     flex: 0.5,
-    color: "black"
+    color: "black",
+    margin: 10
   }
 });

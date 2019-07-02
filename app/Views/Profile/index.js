@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import Input from "../../Components/Input";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -50,7 +50,6 @@ class Profile extends Component {
 
   handleName = text => {
     this.setState({ name: text });
-    console.log(name);
   };
 
   handleMailId = text => {
@@ -65,20 +64,21 @@ class Profile extends Component {
     this.setState({ MobileNumber: text });
   };
 
-  isEnabled = () => {
-    if (
-      name.length > 0 &&
-      mailId.length > 0 &&
-      DeliveryAddress.length > 0 &&
-      MobileNumber.length > 0
-    )
-      return true;
-    else return false;
+  onPress = () => {
+    this.props.userProfile({
+      name: this.state.name,
+      mailId: this.state.mailId,
+      DeliveryAddress: this.state.DeliveryAddress,
+      MobileNumber: this.state.MobileNumber
+    });
+    this.CartPage();
+    this.ValidateEmail(this.state.mailId);
+    this.phoneNumber(this.state.MobileNumber);
   };
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <ScrollView style={{ flex: 1 }}>
         <View style={styles.container}>
           <CustomText
             style={styles.textStyles}
@@ -86,23 +86,36 @@ class Profile extends Component {
           />
           <Input
             placeholder="Name"
-            onChangeText={this.handleName}
+            onChangeText={text => this.handleName(text)}
+            onEndEditing={() => this.mailEditing()}
             value={this.state.name}
+            autoCapitalize="characters"
+            keyboardType="default"
+            textContentType="none"
           />
           <Input
             placeholder="mailId"
             onChangeText={this.handleMailId}
             value={this.state.mailId}
+            autoCapitalize="none"
+            keyboardType="email-address"
+            textContentType="emailAddress"
           />
           <Input
             placeholder="Delivery Address"
             onChangeText={this.handleDeliveryAddress}
             value={this.state.DeliveryAddress}
+            autoCapitalize="none"
+            keyboardType="default"
+            textContentType="fullStreetAddress"
           />
           <Input
             placeholder="Mobile Number"
             onChangeText={this.handleMobileNumber}
             value={this.state.MobileNumber}
+            autoCapitalize="none"
+            keyboardType="numeric"
+            textContentType="none"
           />
         </View>
         <View style={styles.submitButton}>
@@ -127,7 +140,7 @@ class Profile extends Component {
             }
           />
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }

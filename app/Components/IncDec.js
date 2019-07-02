@@ -29,7 +29,7 @@ export default class IncDec extends Component {
           style={styles.buttonStyles}
           title="-"
           onPress={() => this.onPress(false)}
-          disabled={this.state.counter > 0 ? false : true}
+          disabled={this.state.counter > 1 ? false : true}
           color="#7a42f4"
         />
         <Text style={styles.textStyles}> {this.state.counter} </Text>

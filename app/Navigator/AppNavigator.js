@@ -10,8 +10,13 @@ import Profile from "../Views/Profile";
 import Success from "../Views/SuccessFailure/Success";
 import Failure from "../Views/SuccessFailure/Failure";
 import PurchasedList from "../Views/PurchasedList";
+import SignIn from "../Views/login/SignIn";
+import SignUp from "../Views/login/SignUp";
 
 const AppNavigatorOne = createStackNavigator({
+  SignIn: {
+    screen: SignIn
+  },
   Home: {
     screen: HomeScreen
   },
@@ -32,12 +37,20 @@ const AppNavigatorOne = createStackNavigator({
   },
   PurchasedList: {
     screen: PurchasedList
+  },
+  SignUp: {
+    screen: SignUp
   }
 });
-const MyDrawerNavigator = createDrawerNavigator({
-  AppNavigatorOne: AppNavigatorOne,
+
+const OrderPurchasedList = createStackNavigator({
   OrderPurchasedList: {
     screen: PurchasedList
   }
+});
+
+const MyDrawerNavigator = createDrawerNavigator({
+  AppNavigatorOne: AppNavigatorOne,
+  OrderPurchasedList: OrderPurchasedList
 });
 export default createAppContainer(MyDrawerNavigator);

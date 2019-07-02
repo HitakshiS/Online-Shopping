@@ -14,11 +14,13 @@ class HomeScreen extends Component {
       headerRight: (
         <View style={{ margin: 10, flexDirection: "row" }}>
           <CustomButton
+            style={styles.buttonStyles}
             title="drawer"
             onPress={() => navigation.openDrawer()}
             color="#7a42f4"
           />
           <CustomButton
+            style={styles.buttonStyles}
             onPress={() => navigation.navigate("Cart")}
             title="Cart"
             color="#7a42f4"
@@ -82,3 +84,11 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(HomeScreen);
+
+const styles = StyleSheet.create({
+  buttonStyles: {
+    flex: 1,
+    borderRadius: 30,
+    margin: 5
+  }
+});

@@ -4,9 +4,9 @@ import { connect } from "react-redux";
 import ListItem from "../../Components/ListItem";
 
 class PurchasedList extends Component {
-  static navigationOptions = ({ navigation }) => ({
-    headerTitle: "Previous Orders"
-  });
+  static navigationOptions = {
+    title: "Previous orders"
+  };
 
   renderItem = ({ item }) => {
     return <ListItem isPurchaseList={true} item={item} />;

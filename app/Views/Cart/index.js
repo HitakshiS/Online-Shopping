@@ -48,6 +48,7 @@ class Cart extends Component {
           />
           <IncDec
             item={item}
+            stock={item.stock}
             value={item.qty}
             onValueUpdated={qtyValue => {
               this.props.addToCart(item.id, qtyValue);
@@ -62,8 +63,14 @@ class Cart extends Component {
         </View>
         <View style={{ flex: 1 }}>
           <CustomText
-            style={[styles.textStyles, { paddingBottom: 5 }]}
-            title={item.qty === item.stock ? "Out of stock" : "In stock"}
+            style={[
+              styles.textStyles,
+              {
+                color: item.qty === item.stock ? "red" : "green",
+                paddingBottom: 5
+              }
+            ]}
+            title={item.qty >= item.stock ? "Out of stock" : "In stock"}
           />
         </View>
       </View>

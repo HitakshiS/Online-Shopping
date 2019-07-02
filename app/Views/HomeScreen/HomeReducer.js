@@ -121,7 +121,7 @@ export default (HomeReducer = (state = INITIAL_STATE, action) => {
           state.cartList.length > 0
             ? state.cartList.findIndex(item => item.id === action.payload.id) >
               -1
-              ? state.cartList.map(data => {
+              ? state.cartList.map(data => { 
                   if (data.id === action.payload.id) {
                     return { ...data, qty: action.payload.qty };
                   } else {

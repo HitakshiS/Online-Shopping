@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import { View, TextInput, StyleSheet } from "react-native";
 
 function Profile(props) {
   return (
@@ -10,10 +10,13 @@ function Profile(props) {
         underlineColorAndroid="transparent"
         placeholder={props.placeholder}
         placeholderTextColor="#7a42f4"
-        autoCapitalize="none"
+        autoCapitalize={props.autoCapitalize}
         onChangeText={props.onChangeText}
         value={this.value}
         autoCorrect={false}
+        keyboardType={props.keyboardType}
+        textContentType={props.textContentType}
+        secureTextEntry={props.secureTextEntry}
       />
     </View>
   );
