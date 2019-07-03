@@ -4,7 +4,7 @@ import CustomText from "../../Components/CustomText";
 import CustomButton from "../../Components/CustomButton";
 import IncDec from "../../Components/IncDec";
 import { connect } from "react-redux";
-import { addToCart, reset } from "../HomeScreen/action";
+import { addToCart, reset, emptyCartList } from "../HomeScreen/action";
 import { bindActionCreators } from "redux";
 
 class Cart extends Component {
@@ -80,11 +80,15 @@ class Cart extends Component {
   alertBoxCustom = () => {
     Alert.alert(
       "Payment Information",
-      "User Profile Updated",
+      `Congratulation!! ${
+        this.props.reducer.userProfile.name
+      } now choose Success for successful transaction`,
       [
         {
           text: "Success",
-          onPress: () => this.SuccessPage()
+          onPress: () => {
+            this.SuccessPage() && this.props.emptyCartList();
+          }
         },
         { text: "Failure", onPress: () => this.FailurePage() }
       ],
@@ -208,7 +212,8 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       addToCart,
-      reset
+      reset,
+      emptyCartList
     },
     dispatch
   );

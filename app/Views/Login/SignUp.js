@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, Alert } from "react-native";
 import Input from "../../Components/Input";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -21,7 +21,9 @@ export default class SignUp extends Component {
       name: "",
       email: "",
       password: "",
-      confirmPassword: ""
+      confirmPassword: "",
+      address: "",
+      mobile: ""
     };
   }
 
@@ -31,7 +33,6 @@ export default class SignUp extends Component {
 
   handleEmail = text => {
     this.setState({ email: text });
-    console.log(name);
   };
 
   handlePassword = text => {
@@ -42,7 +43,15 @@ export default class SignUp extends Component {
     this.setState({ confirmPassword: text });
   };
 
-  apiSignInCall = () => {
+  handleDeliveryAddress = text => {
+    this.setState({ address: text });
+  };
+
+  handleMobileNumber = text => {
+    this.setState({ mobile: text });
+  };
+
+  apiSignUpCall = () => {
     axios({
       method: "post",
       url: "http://192.168.254.223:3000/api/register",
@@ -50,12 +59,23 @@ export default class SignUp extends Component {
         name: this.state.name,
         email: this.state.email,
         password: this.state.password,
-        confirmPassword: this.state.password
+        address: this.state.address,
+        mobile: this.state.mobile
       }
     })
-      .then(function(response) {
+      .then(response => {
         if (response.data.code == 200) {
-          console.log(response);
+          Alert.alert(
+            "Congratulations!! you have Registered",
+            "Click on OK and SignIn to continue shopping",
+            [
+              {
+                text: "Ok",
+                onPress: () => this.props.navigation.navigate("SignIn")
+              }
+            ],
+            { cancelable: true }
+          );
         }
       })
       .catch(function(error) {
@@ -63,18 +83,47 @@ export default class SignUp extends Component {
       });
   };
 
-  componentDidMount() {
-    this.apiSignInCall();
-  }
-
   passwordValidation = () => {
     password = this.state.password;
     confirmPassword = this.state.confirmPassword;
-    if (password.localeCompare(confirmPassword)) return true;
+    if (password === confirmPassword) return true;
     else {
       alert("password and confirm password do not match.");
       return false;
     }
+  };
+
+  emailValidation() {
+    let EmailAdr = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const mail = this.state.email;
+    if (EmailAdr.test(mail) === false) {
+      alert("You have entered an invalid email address!");
+      return false;
+    } else {
+      return true;
+    }
+  }
+  phoneNumberValidation() {
+    let phoneNo = /^\d{10}$/;
+    const phoneNumber = this.state.mobile;
+    if (phoneNo.test(phoneNumber) === false) {
+      alert("You have entered an invalid mobile number!");
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  handleButtonPress = () => {
+    if (
+      this.passwordValidation() &&
+      this.emailValidation() &&
+      this.phoneNumberValidation()
+    ) {
+      this.apiSignUpCall();
+
+      return true;
+    } else return false;
   };
 
   render() {
@@ -122,31 +171,45 @@ export default class SignUp extends Component {
             textContentType="password"
             secureTextEntry={true}
           />
+          <Input
+            placeholder="Delivery Address"
+            onChangeText={this.handleDeliveryAddress}
+            value={this.state.address}
+            autoCapitalize="none"
+            keyboardType="default"
+            textContentType="fullStreetAddress"
+          />
+          <Input
+            placeholder="Mobile Number"
+            onChangeText={this.handleMobileNumber}
+            value={this.state.mobile}
+            autoCapitalize="none"
+            keyboardType="numeric"
+            textContentType="none"
+          />
         </View>
         <View style={styles.submitButton}>
           <CustomButton
             title="Submit Details"
             color="#7a42f4"
-            onPress={() => this.apiSignInCall()}
+            onPress={() => this.handleButtonPress()}
             disabled={
               this.state.name.length > 0 &&
               this.state.email.length > 0 &&
               this.state.password.length > 0 &&
-              this.state.confirmPassword.length > 0
+              this.state.confirmPassword.length > 0 &&
+              this.state.address.length > 0 &&
+              this.state.mobile.length > 0
                 ? false
                 : true
             }
           />
         </View>
-        <CustomButton
-          title="home"
-          color="#7a42f4"
-          onPress={() => this.props.navigation.navigate("Home")}
-        />
       </ScrollView>
     );
   }
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 0.9
