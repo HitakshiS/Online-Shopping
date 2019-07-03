@@ -34,6 +34,7 @@ class ListItemDetail extends Component {
 
   render() {
     const itemValue = this.props.navigation.getParam("itemValue");
+    const quantity = this.props.navigation.getParam("quantity");
     return (
       <View style={styles.containerStyle}>
         <Image
@@ -58,20 +59,18 @@ class ListItemDetail extends Component {
             title={`Price: ${itemValue.price}`}
           />
           <CustomText
-            style={[styles.textStyles, { color: "green" }]}
-            title="In stock"
+            style={[
+              styles.textStyles,
+              { color: quantity >= itemValue.stock ? "red" : "green" }
+            ]}
+            title={quantity >= itemValue.stock ? "Out of stock" : "In stock"}
           />
           <CustomText
             style={styles.textStyles}
             title={`Description: ${itemValue.description}`}
           />
         </ScrollView>
-        <View
-          style={{
-            flex: 0.1,
-            backgroundColor: "yellow"
-          }}
-        >
+        <View style={{ flex: 0.1 }}>
           <CustomButton
             title="Add To Cart"
             onPress={() => {

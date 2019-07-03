@@ -25,7 +25,7 @@ class PurchasedList extends Component {
     );
     return (
       <View>
-        {purchaseData ? (
+        {this.props.reducer.purchaseList.length > -1 ? (
           <FlatList
             data={purchaseData}
             horizontal={this.props.horizontal}

@@ -14,26 +14,6 @@ class Profile extends Component {
     };
   };
 
-  ValidateEmail(mail) {
-    let EmailAdr = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if (mail.value.match(EmailAdr)) {
-      return true;
-    } else {
-      alert("You have entered an invalid email address!");
-      return false;
-    }
-  }
-
-  phoneNumber(inputTxt) {
-    let phoneNo = /^\d{10}$/;
-
-    if (inputTxt.value.match(phoneNo)) {
-      return true;
-    } else {
-      alert("You have entered an invalid mobile number!");
-      return false;
-    }
-  }
   constructor(props) {
     super(props);
     this.state = {
@@ -64,16 +44,38 @@ class Profile extends Component {
     this.setState({ MobileNumber: text });
   };
 
-  onPress = () => {
-    this.props.userProfile({
-      name: this.state.name,
-      mailId: this.state.mailId,
-      DeliveryAddress: this.state.DeliveryAddress,
-      MobileNumber: this.state.MobileNumber
-    });
-    this.CartPage();
-    this.ValidateEmail(this.state.mailId);
-    this.phoneNumber(this.state.MobileNumber);
+  emailValidation() {
+    let EmailAdr = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const mailId = this.state.mailId;
+    if (EmailAdr.test(mailId) === false) {
+      alert("You have entered an invalid email address!");
+      return false;
+    } else {
+      return true;
+    }
+  }
+  phoneNumberValidation() {
+    let phoneNo = /^\d{10}$/;
+    const MobileNumber = this.state.MobileNumber;
+    if (phoneNo.test(MobileNumber) === false) {
+      alert("You have entered an invalid mobile number!");
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  handleButtonPress = () => {
+    if (this.emailValidation() && this.phoneNumberValidation()) {
+      this.props.userProfile({
+        name: this.state.name,
+        mailId: this.state.mailId,
+        DeliveryAddress: this.state.DeliveryAddress,
+        MobileNumber: this.state.MobileNumber
+      });
+      this.CartPage();
+      return true;
+    } else return false;
   };
 
   render() {
@@ -87,7 +89,6 @@ class Profile extends Component {
           <Input
             placeholder="Name"
             onChangeText={text => this.handleName(text)}
-            onEndEditing={() => this.mailEditing()}
             value={this.state.name}
             autoCapitalize="characters"
             keyboardType="default"
@@ -116,6 +117,7 @@ class Profile extends Component {
             autoCapitalize="none"
             keyboardType="numeric"
             textContentType="none"
+            maxLength={10}
           />
         </View>
         <View style={styles.submitButton}>
@@ -123,12 +125,7 @@ class Profile extends Component {
             title="Submit Details"
             color="#7a42f4"
             onPress={() => {
-              this.props.userProfile({
-                name: this.state.name,
-                mailId: this.state.mailId,
-                DeliveryAddress: this.state.DeliveryAddress,
-                MobileNumber: this.state.MobileNumber
-              }) && this.CartPage();
+              this.handleButtonPress();
             }}
             disabled={
               this.state.name.length > 0 &&

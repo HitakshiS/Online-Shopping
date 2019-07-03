@@ -65,8 +65,8 @@ const MyDrawerNavigator = createDrawerNavigator({
 });
 
 const MySwitchNavigator = createSwitchNavigator({
-  AppNavigatorTwo,
-  MyDrawerNavigator
+  MyDrawerNavigator,
+  AppNavigatorTwo
 });
 
 export default createAppContainer(MySwitchNavigator);

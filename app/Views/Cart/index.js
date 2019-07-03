@@ -4,7 +4,7 @@ import CustomText from "../../Components/CustomText";
 import CustomButton from "../../Components/CustomButton";
 import IncDec from "../../Components/IncDec";
 import { connect } from "react-redux";
-import { addToCart, reset, emptyCartList } from "../HomeScreen/action";
+import { addToCart, reset } from "../HomeScreen/action";
 import { bindActionCreators } from "redux";
 
 class Cart extends Component {
@@ -87,7 +87,7 @@ class Cart extends Component {
         {
           text: "Success",
           onPress: () => {
-            this.SuccessPage() && this.props.emptyCartList();
+            this.SuccessPage();
           }
         },
         { text: "Failure", onPress: () => this.FailurePage() }
@@ -212,8 +212,7 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       addToCart,
-      reset,
-      emptyCartList
+      reset
     },
     dispatch
   );

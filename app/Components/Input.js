@@ -5,18 +5,12 @@ function Profile(props) {
   return (
     <View style={styles.container}>
       <TextInput
-        type="submit"
         style={styles.input}
         underlineColorAndroid="transparent"
-        placeholder={props.placeholder}
         placeholderTextColor="#7a42f4"
-        autoCapitalize={props.autoCapitalize}
-        onChangeText={props.onChangeText}
-        value={this.value}
+        value={props.value}
         autoCorrect={false}
-        keyboardType={props.keyboardType}
-        textContentType={props.textContentType}
-        secureTextEntry={props.secureTextEntry}
+        {...props}
       />
     </View>
   );

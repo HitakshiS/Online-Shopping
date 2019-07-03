@@ -6,6 +6,7 @@ import { bindActionCreators } from "redux";
 import { addToCart, hideCartBtn } from "./action";
 import ListItem from "../../Components/ListItem";
 import PurchasedList from "../PurchasedList";
+import { ScrollView } from "react-native-gesture-handler";
 
 class HomeScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -30,37 +31,39 @@ class HomeScreen extends Component {
     };
   };
 
-  listDetailNavigation(item) {
+  listDetailNavigation(item, qty) {
     this.props.navigation.navigate("ListItemDetail", {
-      itemValue: item
+      itemValue: item,
+      quantity: qty
     });
   }
 
   renderItem = ({ item }) => {
     return (
-      <TouchableOpacity onPress={() => this.listDetailNavigation(item)}>
-        <ListItem
-          item={item}
-          hideCartBtn={id => {
-            this.props.hideCartBtn(id);
-          }}
-          onValueUpdated={(id, qty) => {
-            this.props.addToCart(id, qty);
-          }}
-        />
-      </TouchableOpacity>
+      <ListItem
+        item={item}
+        hideCartBtn={id => {
+          this.props.hideCartBtn(id);
+        }}
+        onValueUpdated={(id, qty) => {
+          this.props.addToCart(id, qty);
+        }}
+        listDetailNavigation={(item, qty) => {
+          this.listDetailNavigation(item, qty);
+        }}
+      />
     );
   };
 
   render() {
     return this.props.reducer && this.props.reducer.exampleData ? (
-      <View>
+      <ScrollView>
         <PurchasedList horizontal={true} />
         <FlatList
           data={this.props.reducer.exampleData}
           renderItem={this.renderItem}
         />
-      </View>
+      </ScrollView>
     ) : null;
   }
 }

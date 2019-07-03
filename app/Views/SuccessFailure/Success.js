@@ -9,40 +9,32 @@ import { emptyCartList } from "../HomeScreen/action";
 
 class Success extends Component {
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: "Successful Payment",
-    headerLeft: (
-      <View style={{ padding: 10 }}>
-        <CustomButton
-          color="#7a42f4"
-          title="Back"
-          onPress={() =>
-            navigation.dispatch(
-              StackActions.reset({
-                index: 0,
-                actions: [NavigationActions.navigate({ routeName: "Cart" })]
-              })
-            )
-          }
-        />
-      </View>
-    )
+    headerTitle: "Successful Payment"
+    // headerLeft: (
+    //   <View style={{ padding: 10 }}>
+    //     <CustomButton
+    //       color="#7a42f4"
+    //       title="Back"
+    //       onPress={() =>
+    //         navigation.dispatch(
+    //           StackActions.reset({
+    //             index: 0,
+    //             actions: [NavigationActions.navigate({ routeName: "Cart" })]
+    //           })
+    //         )
+    //       }
+    //     />
+    //   </View>
+    // )
   });
 
   homePage() {
-    this.props.emptyCartList();
     this.props.navigation.navigate("Home");
   }
-  // makeId = length => {
-  //   result = "";
-  //   characters =
-  //     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  //   charactersLength = characters.length;
-  //   for (let i = 0; i < length; i++) {
-  //     result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  //   }
-  //   return result;
-  // };
-  // randomNumber = makeId(5);
+
+  componentDidMount() {
+    this.props.emptyCartList();
+  }
 
   mergeById = (a1, a2) =>
     a1.map(itm => ({
@@ -92,9 +84,9 @@ class Success extends Component {
     randomNumber = makeId(5);
 
     const cartData =
-      this.props.reducer.cartList && this.props.reducer.cartList.length
+      this.props.reducer.purchaseList && this.props.reducer.purchaseList.length
         ? this.mergeById(
-            this.props.reducer.cartList,
+            this.props.reducer.purchaseList,
             this.props.reducer.exampleData
           )
         : null;
