@@ -93,7 +93,7 @@ class HomeScreen extends Component {
       .then(response => {
         if (response.data.code == 200) {
           console.log(response.data.stockData);
-
+          // const data = response.stockData;
           this.setState(() => ({
             data: response.data.stockData
           }));
