@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import CustomText from "./CustomText";
 import CustomButton from "./CustomButton";
-
 import IncDec from "./IncDec";
 
 export default class ListItem extends Component {
@@ -14,6 +13,26 @@ export default class ListItem extends Component {
     };
   }
 
+  // apiHomeDataCall = () => {
+  //   axios({
+  //     method: "post",
+  //     url: Constants.STOCK_API
+  //   })
+  //     .then(response => {
+  //       if (response.data.code == 200) {
+  //         console.log(response.stockData);
+  //         return response.stockData;
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // };
+
+  // componentDidMount() {
+  //   this.apiHomeDataCall();
+  // }
+
   render() {
     const {
       item,
@@ -22,6 +41,19 @@ export default class ListItem extends Component {
       hideCartBtn,
       listDetailNavigation
     } = this.props;
+
+    // dataSet = () =>
+    //   this.apiHomeDataCall().then(data => {
+    //     return (
+    //       (id = data.item.response.stockData.id),
+    //       (name = data.item.response.stockData.name),
+    //       (price = data.item.response.stockData.price),
+    //       (stockQty = data.item.response.stockData.stockQty),
+    //       (description = data.item.response.stockData.description),
+    //       (image = data.item.response.stockData.image),
+    //       (showIncDec = data.item.response.stockData.showIncDec)
+    //     );
+    //   });
 
     return (
       <TouchableOpacity
@@ -56,11 +88,13 @@ export default class ListItem extends Component {
                 styles.textStyles,
                 {
                   color:
-                    item.stock === 0 || this.state.stockCheck ? "red" : "green"
+                    item.stockQty === 0 || this.state.stockCheck
+                      ? "red"
+                      : "green"
                 }
               ]}
               title={
-                item.stock === 0 || this.state.stockCheck
+                item.stockQty === 0 || this.state.stockCheck
                   ? "Out of stock"
                   : "In stock"
               }
@@ -68,12 +102,12 @@ export default class ListItem extends Component {
           </View>
           {!isPurchaseList && (
             <View style={{ flex: 1, alignSelf: "center" }}>
-              {!item.showIncDec ? (
+              {item.showIncDec === 0 ? (
                 <CustomButton
                   title="Add To Cart"
                   color="#7a42f4"
                   onPress={() => {
-                    if (item.stock == 1) {
+                    if (item.stockQty == 1) {
                       this.setState({ stockCheck: true, qty: 1 });
                     } else {
                       this.setState({ stockCheck: false, qty: 1 });
@@ -81,15 +115,15 @@ export default class ListItem extends Component {
                     onValueUpdated(item.id, 1);
                     hideCartBtn(item.id);
                   }}
-                  disabled={item.stock === 0 ? true : false}
+                  disabled={item.stockQty === 0 ? true : false}
                 />
               ) : (
                 <IncDec
                   item={item}
-                  stock={item.stock}
+                  stockQty={item.stockQty}
                   value={item.qty}
                   onValueUpdated={qtyValue => {
-                    if (item.stock == qtyValue) {
+                    if (item.stockQty == qtyValue) {
                       this.setState({ stockCheck: true, qty: qtyValue });
                     } else {
                       this.setState({ stockCheck: false, qty: qtyValue });

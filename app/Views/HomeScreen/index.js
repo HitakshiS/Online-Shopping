@@ -7,6 +7,8 @@ import { addToCart, hideCartBtn } from "./action";
 import ListItem from "../../Components/ListItem";
 import PurchasedList from "../PurchasedList";
 import { ScrollView } from "react-native-gesture-handler";
+import { Constants } from "../../AppConfig/Constants";
+import axios from "axios";
 
 class HomeScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -17,7 +19,7 @@ class HomeScreen extends Component {
           <CustomButton
             style={styles.buttonStyles}
             title="drawer"
-            onPress={() => navigation.openDrawer()}
+            onPress={() => navigation.toggleDrawer()}
             color="#7a42f4"
           />
           <CustomButton
@@ -30,6 +32,16 @@ class HomeScreen extends Component {
       )
     };
   };
+  constructor() {
+    super();
+    this.state = {
+      data: []
+    };
+  }
+
+  // state = {
+  //   data: []
+  // };
 
   listDetailNavigation(item, qty) {
     this.props.navigation.navigate("ListItemDetail", {
@@ -55,16 +67,50 @@ class HomeScreen extends Component {
     );
   };
 
+  // apiHomeDataCall = () => {
+  //   axios({
+  //     method: "post",
+  //     url: Constants.STOCK_API
+  //   })
+  //     .then(response => {
+  //       if (response.data.code == 200) {
+  //         console.log(response.data.stockData);
+  //         // const data = response.stockData;
+  //         this.setState(() => ({
+  //           data: response.data.stockData
+  //         }));
+  //         // this.setState({ data });
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // };
+
+  componentDidMount() {
+    axios
+      .get(Constants.STOCK_API)
+      .then(response => {
+        if (response.data.code == 200) {
+          console.log(response.data.stockData);
+
+          this.setState(() => ({
+            data: response.data.stockData
+          }));
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
   render() {
-    return this.props.reducer && this.props.reducer.exampleData ? (
+    return (
       <ScrollView>
         <PurchasedList horizontal={true} />
-        <FlatList
-          data={this.props.reducer.exampleData}
-          renderItem={this.renderItem}
-        />
+        <FlatList data={this.state.data} renderItem={this.renderItem} />
       </ScrollView>
-    ) : null;
+    );
   }
 }
 

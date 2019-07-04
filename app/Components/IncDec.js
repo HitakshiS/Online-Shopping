@@ -38,7 +38,7 @@ export default class IncDec extends Component {
           title="+"
           onPress={this.onPress}
           color="#7a42f4"
-          disabled={this.state.counter == this.props.stock}
+          disabled={this.state.counter == this.props.stockQty}
         />
       </View>
     );
