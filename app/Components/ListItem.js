@@ -70,13 +70,13 @@ export default class ListItem extends Component {
                 styles.textStyles,
                 {
                   color:
-                    item.stockQty === 0 || this.state.stockCheck
+                    item.stock_qty === 0 || this.state.stockCheck
                       ? "red"
                       : "green"
                 }
               ]}
               title={
-                item.stockQty === 0 || this.state.stockCheck
+                item.stock_qty === 0 || this.state.stockCheck
                   ? "Out of stock"
                   : "In stock"
               }
@@ -89,33 +89,33 @@ export default class ListItem extends Component {
                   title="Add To Cart"
                   color="#7a42f4"
                   onPress={() => {
-                    if (item.stockQty == 1) {
+                    if (item.stock_qty == 1) {
                       this.setState({ stockCheck: true, qty: 1 });
                     } else {
                       this.setState({ stockCheck: false, qty: 1 });
                     }
-                    ApiCartUpdateCall(2, item.id, 1);
-                    onValueUpdated(item.id, 1);
+                    ApiCartUpdateCall(1, item.product_id, 1);
+                    onValueUpdated(item.product_id, 1);
                     this.setState(() => ({
                       showIncDec: true
                     }));
                   }}
-                  disabled={item.stockQty === 0 ? true : false}
+                  disabled={item.stock_qty === 0 ? true : false}
                 />
               )}
               {this.state.showIncDec && (
                 <IncDec
                   item={item}
-                  stockQty={item.stockQty}
+                  stock_qty={item.stock_qty}
                   value={item.qty}
-                  id={item.id}
+                  product_id={item.product_id}
                   onValueUpdated={qtyValue => {
-                    if (item.stockQty == qtyValue) {
+                    if (item.stock_qty == qtyValue) {
                       this.setState({ stockCheck: true, qty: qtyValue });
                     } else {
                       this.setState({ stockCheck: false, qty: qtyValue });
                     }
-                    onValueUpdated(item.id, qtyValue);
+                    onValueUpdated(item.product_id, qtyValue);
                   }}
                 />
               )}

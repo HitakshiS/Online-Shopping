@@ -87,14 +87,14 @@ class HomeScreen extends Component {
       .get(Constants.STOCK_API)
       .then(response => {
         if (response.data.code == 200) {
-          this.props.exampleData({
-            id: response.data.stockData.id,
-            name: response.data.stockData.name,
-            stockQty: response.data.stockData.stockQty,
-            price: response.data.stockData.price,
-            description: response.data.stockData.description,
-            image: response.data.stockData.image
-          });
+          this.props.exampleData(
+            response.data.stockData.id,
+            response.data.stockData.name,
+            response.data.stockData.stockQty,
+            response.data.stockData.price,
+            response.data.stockData.description,
+            response.data.stockData.image
+          );
           console.log(response.data.stockData);
           this.setState(() => ({
             data: response.data.stockData

@@ -30,14 +30,13 @@ class Cart extends Component {
   constructor() {
     super();
     this.state = {
-      cart: [],
-      home: []
+      cart: []
     };
   }
 
-  ApiCartRemoveItem = (userId, id, index) => {
+  ApiCartRemoveItem = (user_id, product_id, index) => {
     axios
-      .post(Constants.REMOVE_ITEM, { userId, id })
+      .post(Constants.REMOVE_ITEM, { user_id, product_id })
       .then(response => {
         if (response.data.code == 200) {
           console.log(response.data);
@@ -64,7 +63,7 @@ class Cart extends Component {
           <View styles={{ paddingRight: 10 }}>
             <CustomButton
               onPress={() => {
-                this.ApiCartRemoveItem(2, item.id, index);
+                this.ApiCartRemoveItem(1, item.product_id, index);
               }}
               style={styles.buttonStyles}
               title="x"
@@ -79,11 +78,11 @@ class Cart extends Component {
           />
           <IncDec
             item={item}
-            stock={item.stock}
+            stock_qty={item.stock_qty}
             value={item.qty}
             // id={item.id}
             onValueUpdated={qtyValue => {
-              this.props.addToCart(item.id, qtyValue);
+              this.props.addToCart(item.product_id, qtyValue);
             }}
           />
         </View>
@@ -98,11 +97,11 @@ class Cart extends Component {
             style={[
               styles.textStyles,
               {
-                color: item.qty === item.stock ? "red" : "green",
+                color: item.qty === item.stock_qty ? "red" : "green",
                 paddingBottom: 5
               }
             ]}
-            title={item.qty >= item.stock ? "Out of stock" : "In stock"}
+            title={item.qty >= item.stock_qty ? "Out of stock" : "In stock"}
           />
         </View>
       </View>
@@ -128,23 +127,16 @@ class Cart extends Component {
     );
   };
 
+  billingCost = b1 => b1.map(item => item.price * item.qty);
+
+  Amount = c1 =>
+    c1.reduce((total, currentValue) => {
+      return total + currentValue;
+    });
+
   componentDidMount() {
     axios
-      .get(Constants.STOCK_API)
-      .then(response => {
-        if (response.data.code == 200) {
-          console.log(response.data.stockData);
-          // const data = response.stockData;
-          this.setState(() => ({
-            home: response.data.stockData
-          }));
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-    axios
-      .post(Constants.CART_API, { userId })
+      .get(Constants.CART_API, { params: { user_id: 1 } })
       .then(response => {
         if (response.data.code == 200) {
           console.log(response.data.cartData);
@@ -159,37 +151,19 @@ class Cart extends Component {
       });
   }
 
-  mergeById = (a1, a2) =>
-    a1.map(itm => ({
-      ...a2.find(item => item.id === itm.id && item),
-      ...itm
-    }));
-
-  billingCost = b1 => b1.map(item => item.price * item.qty);
-
-  Amount = c1 =>
-    c1.reduce((total, currentValue) => {
-      return total + currentValue;
-    });
-
   render() {
-    userId = 2;
-    const cartValues = this.state.cart.length
-      ? this.mergeById(this.state.cart, this.state.home)
-      : null;
-
     const billing = this.state.cart.length
-      ? this.billingCost(cartValues)
+      ? this.billingCost(this.state.cart)
       : null;
 
     const TotalAmount = this.state.cart.length ? this.Amount(billing) : null;
 
     return (
       <View style={{ flex: 1, padding: 10 }}>
-        {cartValues ? (
+        {this.state.cart ? (
           <FlatList
             style={{ flex: 0.8 }}
-            data={cartValues}
+            data={this.state.cart}
             renderItem={this.renderItem}
           />
         ) : (
@@ -198,7 +172,7 @@ class Cart extends Component {
             title="Your shopping list is empty! Fill in your cart."
           />
         )}
-        {cartValues && (
+        {this.state.cart && (
           <View style={{ flex: 0.2 }}>
             <CustomText
               style={[
@@ -261,11 +235,11 @@ const styles = StyleSheet.create({
   }
 });
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
   return {
     reducer: state.HomeReducer
   };
-}
+};
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(

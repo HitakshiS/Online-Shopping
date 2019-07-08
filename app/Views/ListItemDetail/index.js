@@ -54,9 +54,11 @@ class ListItemDetail extends Component {
           <CustomText
             style={[
               styles.textStyles,
-              { color: quantity >= itemValue.stock ? "red" : "green" }
+              { color: quantity >= itemValue.stock_qty ? "red" : "green" }
             ]}
-            title={quantity >= itemValue.stock ? "Out of stock" : "In stock"}
+            title={
+              quantity >= itemValue.stock_qty ? "Out of stock" : "In stock"
+            }
           />
           <CustomText
             style={styles.textStyles}
@@ -67,8 +69,8 @@ class ListItemDetail extends Component {
           <CustomButton
             title="Add To Cart"
             onPress={() => {
-              ApiCartUpdateCall(2, itemValue.id, 1);
-              this.props.addToCart(itemValue.id, 1);
+              ApiCartUpdateCall(1, itemValue.product_id, 1);
+              this.props.addToCart(itemValue.product_id, 1);
               this.alertBoxCustom();
             }}
             color="#FF8C00"

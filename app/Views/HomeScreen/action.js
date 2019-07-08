@@ -45,9 +45,9 @@ export const emptyCartList = () => {
   };
 };
 
-export const exampleData = exampleDataDetails => {
+export const exampleData = (id, name, stockQty, price, description, image) => {
   return {
     type: ActionTypes.EXAMPLE_DATA,
-    payload: exampleDataDetails
+    payload: { id, name, stockQty, price, description, image }
   };
 };

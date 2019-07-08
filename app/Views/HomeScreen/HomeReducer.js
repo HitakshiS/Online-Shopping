@@ -117,7 +117,22 @@ export default (HomeReducer = (state = INITIAL_STATE, action) => {
     case ActionTypes.EXAMPLE_DATA: {
       return {
         ...state,
-        exampleData: { ...action.payload }
+        exampleData: state.exampleData.map(data => {
+          if (data.id === action.payload.id) {
+            return {
+              ...data,
+              // ...action.payload
+              id: action.payload.id,
+              name: action.payload.name,
+              stockQty: action.payload.stockQty,
+              price: action.payload.price,
+              description: action.payload.description,
+              image: action.payload.image
+            };
+          } else {
+            return data;
+          }
+        })
       };
     }
 

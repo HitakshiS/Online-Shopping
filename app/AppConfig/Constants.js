@@ -4,5 +4,6 @@ export const Constants = {
   STOCK_API: BASE_URL + "api/getStock",
   CART_API: BASE_URL + "api/getCart",
   CART_UPDATE: BASE_URL + "api/updateCart",
-  REMOVE_ITEM: BASE_URL + "api/removeItem"
+  REMOVE_ITEM: BASE_URL + "api/removeItem",
+  USER_PROFILE: BASE_URL + "api/getUserProfile"
 };
