@@ -3,13 +3,15 @@ import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import CustomText from "./CustomText";
 import CustomButton from "./CustomButton";
 import IncDec from "./IncDec";
+import { ApiCartUpdateCall } from "./ApiCartUpdateCall";
 
 export default class ListItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
       stockCheck: false,
-      qty: 0
+      qty: 0,
+      showIncDec: false
     };
   }
 
@@ -42,19 +44,6 @@ export default class ListItem extends Component {
       listDetailNavigation
     } = this.props;
 
-    // dataSet = () =>
-    //   this.apiHomeDataCall().then(data => {
-    //     return (
-    //       (id = data.item.response.stockData.id),
-    //       (name = data.item.response.stockData.name),
-    //       (price = data.item.response.stockData.price),
-    //       (stockQty = data.item.response.stockData.stockQty),
-    //       (description = data.item.response.stockData.description),
-    //       (image = data.item.response.stockData.image),
-    //       (showIncDec = data.item.response.stockData.showIncDec)
-    //     );
-    //   });
-
     return (
       <TouchableOpacity
         onPress={() =>
@@ -63,14 +52,7 @@ export default class ListItem extends Component {
       >
         <View style={styles.containerStyles}>
           <Image style={{ flex: 1 }} source={item.image} />
-          <View
-            style={{
-              flexDirection: "column",
-              flex: 1,
-              alignSelf: "center",
-              marginLeft: 10
-            }}
-          >
+          <View style={styles.listSubContainer}>
             <CustomText
               style={styles.textStyles}
               title={`Product: ${item.name}`}
@@ -101,8 +83,8 @@ export default class ListItem extends Component {
             />
           </View>
           {!isPurchaseList && (
-            <View style={{ flex: 1, alignSelf: "center" }}>
-              {item.showIncDec === 0 ? (
+            <View style={styles.buttonContainer}>
+              {!this.state.showIncDec && (
                 <CustomButton
                   title="Add To Cart"
                   color="#7a42f4"
@@ -112,16 +94,21 @@ export default class ListItem extends Component {
                     } else {
                       this.setState({ stockCheck: false, qty: 1 });
                     }
+                    ApiCartUpdateCall(2, item.id, 1);
                     onValueUpdated(item.id, 1);
-                    hideCartBtn(item.id);
+                    this.setState(() => ({
+                      showIncDec: true
+                    }));
                   }}
                   disabled={item.stockQty === 0 ? true : false}
                 />
-              ) : (
+              )}
+              {this.state.showIncDec && (
                 <IncDec
                   item={item}
                   stockQty={item.stockQty}
                   value={item.qty}
+                  id={item.id}
                   onValueUpdated={qtyValue => {
                     if (item.stockQty == qtyValue) {
                       this.setState({ stockCheck: true, qty: qtyValue });
@@ -153,5 +140,15 @@ const styles = StyleSheet.create({
     fontSize: 17,
     flex: 1,
     color: "black"
+  },
+  buttonContainer: {
+    flex: 1,
+    alignSelf: "center"
+  },
+  listSubContainer: {
+    flexDirection: "column",
+    flex: 1,
+    alignSelf: "center",
+    marginLeft: 10
   }
 });

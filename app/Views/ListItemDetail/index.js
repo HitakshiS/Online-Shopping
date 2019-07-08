@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { addToCart } from "../HomeScreen/action";
 import { bindActionCreators } from "redux";
 import { ScrollView } from "react-native-gesture-handler";
+import { ApiCartUpdateCall } from "../../Components/ApiCartUpdateCall";
 
 class ListItemDetail extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -41,15 +42,7 @@ class ListItemDetail extends Component {
           style={{ flex: 0.8, alignSelf: "center" }}
           source={itemValue.image}
         />
-        <ScrollView
-          style={{
-            flexDirection: "column",
-            flex: 0.8,
-            alignSelf: "center",
-            marginLeft: 10,
-            marginTop: 10
-          }}
-        >
+        <ScrollView style={styles.scrollViewStyle}>
           <CustomText
             style={styles.textStyles}
             title={`Product: ${itemValue.name}`}
@@ -74,7 +67,9 @@ class ListItemDetail extends Component {
           <CustomButton
             title="Add To Cart"
             onPress={() => {
-              this.props.addToCart(itemValue.id, 1) && this.alertBoxCustom();
+              ApiCartUpdateCall(2, itemValue.id, 1);
+              this.props.addToCart(itemValue.id, 1);
+              this.alertBoxCustom();
             }}
             color="#FF8C00"
           />
@@ -117,5 +112,12 @@ const styles = StyleSheet.create({
     flex: 0.5,
     color: "black",
     margin: 10
+  },
+  scrollViewStyle: {
+    flexDirection: "column",
+    flex: 0.8,
+    alignSelf: "center",
+    marginLeft: 10,
+    marginTop: 10
   }
 });

@@ -3,7 +3,7 @@ import { View, TouchableOpacity, FlatList, StyleSheet } from "react-native";
 import CustomButton from "../../Components/CustomButton";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { addToCart, hideCartBtn } from "./action";
+import { addToCart, hideCartBtn, exampleData } from "./action";
 import ListItem from "../../Components/ListItem";
 import PurchasedList from "../PurchasedList";
 import { ScrollView } from "react-native-gesture-handler";
@@ -39,10 +39,6 @@ class HomeScreen extends Component {
     };
   }
 
-  // state = {
-  //   data: []
-  // };
-
   listDetailNavigation(item, qty) {
     this.props.navigation.navigate("ListItemDetail", {
       itemValue: item,
@@ -54,9 +50,9 @@ class HomeScreen extends Component {
     return (
       <ListItem
         item={item}
-        hideCartBtn={id => {
-          this.props.hideCartBtn(id);
-        }}
+        // hideCartBtn={id => {
+        //   this.props.hideCartBtn(id);
+        // }}
         onValueUpdated={(id, qty) => {
           this.props.addToCart(id, qty);
         }}
@@ -79,7 +75,6 @@ class HomeScreen extends Component {
   //         this.setState(() => ({
   //           data: response.data.stockData
   //         }));
-  //         // this.setState({ data });
   //       }
   //     })
   //     .catch(error => {
@@ -92,8 +87,15 @@ class HomeScreen extends Component {
       .get(Constants.STOCK_API)
       .then(response => {
         if (response.data.code == 200) {
+          this.props.exampleData({
+            id: response.data.stockData.id,
+            name: response.data.stockData.name,
+            stockQty: response.data.stockData.stockQty,
+            price: response.data.stockData.price,
+            description: response.data.stockData.description,
+            image: response.data.stockData.image
+          });
           console.log(response.data.stockData);
-          // const data = response.stockData;
           this.setState(() => ({
             data: response.data.stockData
           }));
@@ -124,7 +126,8 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       addToCart,
-      hideCartBtn
+      hideCartBtn,
+      exampleData
     },
     dispatch
   );

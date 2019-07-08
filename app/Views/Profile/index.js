@@ -18,9 +18,10 @@ class Profile extends Component {
     super(props);
     this.state = {
       name: "",
-      mailId: "",
-      DeliveryAddress: "",
-      MobileNumber: "",
+      email: "",
+      address: "",
+      mobile: "",
+      textInput: [],
       Alert_Visibility: false
     };
   }
@@ -28,26 +29,26 @@ class Profile extends Component {
     this.props.navigation.navigate("Cart");
   };
 
-  handleName = text => {
-    this.setState({ name: text });
+  handleName = () => {
+    this.setState({ name: this.props.userProfile.name });
   };
 
-  handleMailId = text => {
-    this.setState({ mailId: text });
+  handleEmail = () => {
+    this.setState({ email: this.props.userProfile.email });
   };
 
-  handleDeliveryAddress = text => {
-    this.setState({ DeliveryAddress: text });
+  handleDeliveryAddress = () => {
+    this.setState({ address: this.props.userProfile.address });
   };
 
-  handleMobileNumber = text => {
-    this.setState({ MobileNumber: text });
+  handleMobileNumber = () => {
+    this.setState({ mobile: this.props.userProfile.mobile });
   };
 
   emailValidation() {
     let EmailAdr = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    const mailId = this.state.mailId;
-    if (EmailAdr.test(mailId) === false) {
+    const email = this.state.email;
+    if (EmailAdr.test(email) === false) {
       alert("You have entered an invalid email address!");
       return false;
     } else {
@@ -56,8 +57,8 @@ class Profile extends Component {
   }
   phoneNumberValidation() {
     let phoneNo = /^\d{10}$/;
-    const MobileNumber = this.state.MobileNumber;
-    if (phoneNo.test(MobileNumber) === false) {
+    const mobile = this.state.MobileNumber;
+    if (phoneNo.test(mobile) === false) {
       alert("You have entered an invalid mobile number!");
       return false;
     } else {
@@ -65,13 +66,29 @@ class Profile extends Component {
     }
   }
 
+  addTextInput = key => {
+    let textInput = this.state.textInput;
+    textInput.push(
+      <Input
+        placeholder="Delivery Address"
+        onChangeText={() => this.handleDeliveryAddress()}
+        value={this.state.address}
+        autoCapitalize="none"
+        keyboardType="default"
+        textContentType="fullStreetAddress"
+        editable={false}
+      />
+    );
+    this.setState({ textInput });
+  };
+
   handleButtonPress = () => {
     if (this.emailValidation() && this.phoneNumberValidation()) {
       this.props.userProfile({
         name: this.state.name,
-        mailId: this.state.mailId,
-        DeliveryAddress: this.state.DeliveryAddress,
-        MobileNumber: this.state.MobileNumber
+        mailId: this.state.email,
+        address: this.state.address,
+        mobile: this.state.mobile
       });
       this.CartPage();
       return true;
@@ -88,39 +105,50 @@ class Profile extends Component {
           />
           <Input
             placeholder="Name"
-            onChangeText={text => this.handleName(text)}
+            onChangeText={() => this.handleName()}
             value={this.state.name}
             autoCapitalize="characters"
             keyboardType="default"
             textContentType="none"
+            editable={false}
           />
           <Input
-            placeholder="mailId"
-            onChangeText={this.handleMailId}
-            value={this.state.mailId}
+            placeholder="email"
+            onChangeText={() => this.handleEmail()}
+            value={this.state.email}
             autoCapitalize="none"
             keyboardType="email-address"
             textContentType="emailAddress"
+            editable={false}
           />
           <Input
             placeholder="Delivery Address"
-            onChangeText={this.handleDeliveryAddress}
-            value={this.state.DeliveryAddress}
+            onChangeText={() => this.handleDeliveryAddress()}
+            value={this.state.address}
             autoCapitalize="none"
             keyboardType="default"
             textContentType="fullStreetAddress"
+            editable={false}
           />
           <Input
             placeholder="Mobile Number"
-            onChangeText={this.handleMobileNumber}
-            value={this.state.MobileNumber}
+            onChangeText={() => this.handleMobileNumber()}
+            value={this.state.mobile}
             autoCapitalize="none"
             keyboardType="numeric"
             textContentType="none"
             maxLength={10}
+            editable={false}
           />
         </View>
         <View style={styles.submitButton}>
+          <CustomButton
+            title="add  another address"
+            onPress={() => this.addTextInput(this.state.textInput.length)}
+          />
+          {this.state.textInput.map((value, index) => {
+            return value;
+          })}
           <CustomButton
             title="Submit Details"
             color="#7a42f4"
@@ -129,9 +157,9 @@ class Profile extends Component {
             }}
             disabled={
               this.state.name.length > 0 &&
-              this.state.mailId.length > 0 &&
-              this.state.DeliveryAddress.length > 0 &&
-              this.state.MobileNumber.length > 0
+              this.state.email.length > 0 &&
+              this.state.address.length > 0 &&
+              this.state.mobile.length > 0
                 ? false
                 : true
             }

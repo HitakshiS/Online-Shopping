@@ -15,6 +15,7 @@ import PurchasedList from "../Views/PurchasedList";
 import SignIn from "../Views/Login/SignIn";
 import SignUp from "../Views/Login/SignUp";
 import Login from "../Views/Login";
+import Authentication from "../Views/Login/Authentication";
 
 const AppNavigatorOne = createStackNavigator(
   {
@@ -38,6 +39,9 @@ const AppNavigatorOne = createStackNavigator(
     },
     PurchasedList: {
       screen: PurchasedList
+    },
+    Authentication: {
+      screen: Authentication
     }
   },
   { initialRouteName: "Home" }
@@ -64,9 +68,15 @@ const MyDrawerNavigator = createDrawerNavigator({
   OrderPurchasedList: OrderPurchasedList
 });
 
-const MySwitchNavigator = createSwitchNavigator({
-  MyDrawerNavigator,
-  AppNavigatorTwo
-});
+const MySwitchNavigator = createSwitchNavigator(
+  {
+    Authentication: Authentication,
+    MyDrawerNavigator: MyDrawerNavigator,
+    AppNavigatorTwo: AppNavigatorTwo
+  }
+  // {
+  //   initialRouteName: "Authentication"
+  // }
+);
 
 export default createAppContainer(MySwitchNavigator);

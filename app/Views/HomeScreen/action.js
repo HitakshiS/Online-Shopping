@@ -44,3 +44,10 @@ export const emptyCartList = () => {
     type: ActionTypes.EMPTY_CART_LIST
   };
 };
+
+export const exampleData = exampleDataDetails => {
+  return {
+    type: ActionTypes.EXAMPLE_DATA,
+    payload: exampleDataDetails
+  };
+};

@@ -6,6 +6,9 @@ import IncDec from "../../Components/IncDec";
 import { connect } from "react-redux";
 import { addToCart, reset } from "../HomeScreen/action";
 import { bindActionCreators } from "redux";
+import axios from "axios";
+import { Constants } from "../../AppConfig/Constants";
+import { ApiCartUpdateCall } from "../../Components/ApiCartUpdateCall";
 
 class Cart extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -24,6 +27,32 @@ class Cart extends Component {
     this.props.navigation.navigate("Failure");
   }
 
+  constructor() {
+    super();
+    this.state = {
+      cart: [],
+      home: []
+    };
+  }
+
+  ApiCartRemoveItem = (userId, id, index) => {
+    axios
+      .post(Constants.REMOVE_ITEM, { userId, id })
+      .then(response => {
+        if (response.data.code == 200) {
+          console.log(response.data);
+          let cardTemp = [...this.state.cart];
+          cardTemp.splice(index, 1);
+          this.setState({
+            cart: [...cardTemp]
+          });
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   renderItem = ({ item, index }) => {
     return (
       <View style={styles.containerStyles}>
@@ -34,7 +63,9 @@ class Cart extends Component {
           />
           <View styles={{ paddingRight: 10 }}>
             <CustomButton
-              onPress={() => this.props.reset(index)}
+              onPress={() => {
+                this.ApiCartRemoveItem(2, item.id, index);
+              }}
               style={styles.buttonStyles}
               title="x"
               color="#ff0000"
@@ -50,6 +81,7 @@ class Cart extends Component {
             item={item}
             stock={item.stock}
             value={item.qty}
+            // id={item.id}
             onValueUpdated={qtyValue => {
               this.props.addToCart(item.id, qtyValue);
             }}
@@ -96,6 +128,37 @@ class Cart extends Component {
     );
   };
 
+  componentDidMount() {
+    axios
+      .get(Constants.STOCK_API)
+      .then(response => {
+        if (response.data.code == 200) {
+          console.log(response.data.stockData);
+          // const data = response.stockData;
+          this.setState(() => ({
+            home: response.data.stockData
+          }));
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    axios
+      .post(Constants.CART_API, { userId })
+      .then(response => {
+        if (response.data.code == 200) {
+          console.log(response.data.cartData);
+
+          this.setState(() => ({
+            cart: response.data.cartData
+          }));
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
   mergeById = (a1, a2) =>
     a1.map(itm => ({
       ...a2.find(item => item.id === itm.id && item),
@@ -110,42 +173,32 @@ class Cart extends Component {
     });
 
   render() {
-    const cartData =
-      this.props.reducer.cartList && this.props.reducer.cartList.length
-        ? this.mergeById(
-            this.props.reducer.cartList,
-            this.props.reducer.exampleData
-          )
-        : null;
-    const billing =
-      this.props.reducer.cartList && this.props.reducer.cartList.length
-        ? this.billingCost(cartData)
-        : null;
+    userId = 2;
+    const cartValues = this.state.cart.length
+      ? this.mergeById(this.state.cart, this.state.home)
+      : null;
 
-    const TotalAmount =
-      this.props.reducer.cartList && this.props.reducer.cartList.length
-        ? this.Amount(billing)
-        : null;
+    const billing = this.state.cart.length
+      ? this.billingCost(cartValues)
+      : null;
+
+    const TotalAmount = this.state.cart.length ? this.Amount(billing) : null;
+
     return (
       <View style={{ flex: 1, padding: 10 }}>
-        {cartData ? (
+        {cartValues ? (
           <FlatList
             style={{ flex: 0.8 }}
-            data={cartData}
+            data={cartValues}
             renderItem={this.renderItem}
           />
         ) : (
           <CustomText
-            style={{
-              fontSize: 20,
-              color: "#7a42f4",
-              flex: 1,
-              textAlign: "center"
-            }}
+            style={styles.emptyTextStyle}
             title="Your shopping list is empty! Fill in your cart."
           />
         )}
-        {cartData && (
+        {cartValues && (
           <View style={{ flex: 0.2 }}>
             <CustomText
               style={[
@@ -199,6 +252,12 @@ const styles = StyleSheet.create({
     color: "black",
     marginLeft: 10,
     marginRight: 10
+  },
+  emptyTextStyle: {
+    fontSize: 20,
+    color: "#7a42f4",
+    flex: 1,
+    textAlign: "center"
   }
 });
 

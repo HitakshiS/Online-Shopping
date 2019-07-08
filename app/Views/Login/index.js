@@ -14,6 +14,14 @@ export default class Login extends Component {
     };
   };
 
+  async saveItem(item, selectedValue) {
+    try {
+      await AsyncStorage.setItem(item, selectedValue);
+    } catch (error) {
+      console.error("AsyncStorage error: " + error.message);
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>

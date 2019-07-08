@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, StyleSheet, ScrollView, Alert } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Alert,
+  AsyncStorage
+} from "react-native";
 import Input from "../../Components/Input";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -58,7 +64,7 @@ class SignIn extends Component {
     );
   };
 
-  apiSignInCall = () => {
+  apiSignInCall = setItemInStorage => {
     axios({
       method: "post",
       url: "http://192.168.254.223:3000/api/login",
@@ -69,36 +75,13 @@ class SignIn extends Component {
     })
       .then(response => {
         if (response.data.code == 200) {
-          this.props.userProfile({
-            name: response.data.profileData.name,
-            email: response.data.profileData.email,
-            address: response.data.profileData.address,
-            mobile: response.data.profileData.mobile
-          });
-          Alert.alert(
-            "congratulations!! you have Logged In continue shoppings",
-            "click on OK to continue shopping",
-            [
-              {
-                text: "Ok",
-                onPress: () => this.HomePage()
-              },
-              {
-                text: "cancel",
-                onPress: () => this.SignInPage()
-              }
-            ],
-            { cancelable: true }
-          );
+          setItemInStorage(response.data.profileData);
         }
         if (response.data.code == 410 || response.data.code == 420) {
           alert("you are not registered please Sign Up");
         }
       })
       .catch(error => {
-        // if (error.data.code == 410 || error.data.code == 420) {
-        //   alert("you are not registered please Sign Up");
-        // }
         console.log(error);
       });
   };
@@ -120,7 +103,32 @@ class SignIn extends Component {
 
   handleButtonPress = () => {
     if (this.emailValidation()) {
-      this.apiSignInCall();
+      this.apiSignInCall(async profileData => {
+        console.log("profileData====>", profileData);
+        await AsyncStorage.setItem("userExist", JSON.stringify(true));
+
+        this.props.userProfile({
+          name: profileData.name,
+          email: profileData.email,
+          address: profileData.address,
+          mobile: profileData.mobile
+        });
+        Alert.alert(
+          "congratulations!! you have Logged In continue shoppings",
+          "click on OK to continue shopping",
+          [
+            {
+              text: "Ok",
+              onPress: () => this.HomePage()
+            },
+            {
+              text: "cancel",
+              onPress: () => this.SignInPage()
+            }
+          ],
+          { cancelable: true }
+        );
+      });
 
       return true;
     } else return false;
