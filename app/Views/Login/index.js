@@ -1,11 +1,8 @@
 import React, { Component } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
-import Input from "../../Components/Input";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { userProfile } from "../HomeScreen/action";
 import CustomButton from "../../Components/CustomButton";
 import CustomText from "../../Components/CustomText";
+import ErrorBoundary from "../../Components/ErrorBoundary";
 
 export default class Login extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -29,10 +26,12 @@ export default class Login extends Component {
           style={[styles.textStyles, { fontSize: 30, color: "#7a42f4" }]}
           title="Welcome"
         />
-        <CustomText
-          style={styles.textStyles}
-          title="Sign In if you are already registered"
-        />
+        <ErrorBoundary>
+          <CustomText
+            style={styles.textStyles}
+            title="Sign In if you are already registered"
+          />
+        </ErrorBoundary>
         <CustomButton
           title="sign in"
           onPress={() => this.props.navigation.navigate("SignIn")}

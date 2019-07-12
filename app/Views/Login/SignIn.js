@@ -13,6 +13,7 @@ import { userProfile } from "../HomeScreen/action";
 import CustomButton from "../../Components/CustomButton";
 import CustomText from "../../Components/CustomText";
 import axios from "axios";
+import ErrorBoundary from "../../Components/ErrorBoundary";
 
 class SignIn extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -38,7 +39,6 @@ class SignIn extends Component {
   };
 
   HomePage() {
-    console.log("homepage");
     this.props.navigation.navigate("Home");
   }
 
@@ -76,8 +76,9 @@ class SignIn extends Component {
       .then(response => {
         if (response.data.code == 200) {
           setItemInStorage(response.data.profileData);
+          console.log("ProfileData=====>>>>>", response.data.profileData);
         }
-        if (response.data.code == 410 || response.data.code == 420) {
+        if (response.data.code == 410 || response.data.code == 400) {
           alert("you are not registered please Sign Up");
         }
       })
@@ -85,10 +86,6 @@ class SignIn extends Component {
         console.log(error);
       });
   };
-
-  // componentDidMount() {
-  //   this.apiSignInCall();
-  // }
 
   emailValidation() {
     let EmailAdr = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -104,10 +101,10 @@ class SignIn extends Component {
   handleButtonPress = () => {
     if (this.emailValidation()) {
       this.apiSignInCall(async profileData => {
-        console.log("profileData====>", profileData);
         await AsyncStorage.setItem("userExist", JSON.stringify(true));
 
         this.props.userProfile({
+          user_id: profileData.user_id,
           name: profileData.name,
           email: profileData.email,
           address: profileData.address,
@@ -135,11 +132,10 @@ class SignIn extends Component {
   };
 
   render() {
-    console.log(this.state.password);
-    console.log(this.state.email);
     return (
       <ScrollView style={{ flex: 1 }}>
         <View style={styles.container}>
+          {/* <ErrorBoundary> */}
           <CustomText style={styles.textStyles} title="Sign In Your Account" />
           <Input
             placeholder="email"
@@ -159,6 +155,7 @@ class SignIn extends Component {
             textContentType="password"
             secureTextEntry={true}
           />
+          {/* </ErrorBoundary> */}
         </View>
         <View style={styles.submitButton}>
           <CustomButton
@@ -172,13 +169,15 @@ class SignIn extends Component {
             }
           />
         </View>
-        <View style={styles.submitButton}>
-          <CustomButton
-            title="Sign Up"
-            color="#7a42f4"
-            onPress={() => this.props.navigation.navigate("SignUp")}
-          />
-        </View>
+        <ErrorBoundary>
+          <View style={styles.submitButton}>
+            <CustomButton
+              title="Sign Up"
+              color="#7a42f4"
+              onPress={() => this.props.navigation.navigate("SignUp")}
+            />
+          </View>
+        </ErrorBoundary>
       </ScrollView>
     );
   }

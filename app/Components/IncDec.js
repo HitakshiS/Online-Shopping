@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import { Text, View, Button, StyleSheet } from "react-native";
 import CustomButton from "./CustomButton";
 import { ApiCartUpdateCall } from "./ApiCartUpdateCall";
+import { connect } from "react-redux";
 
-export default class IncDec extends Component {
+class IncDec extends Component {
   constructor(props) {
     super(props);
 
@@ -18,11 +19,35 @@ export default class IncDec extends Component {
         counter: isAdd ? this.state.counter + 1 : this.state.counter - 1
       },
       () => {
-        ApiCartUpdateCall(1, this.props.product_id, isAdd);
+        ApiCartUpdateCall(
+          this.props.reducer.userProfile.user_id,
+          this.props.product_id,
+          isAdd
+        );
+        // ApiGetCart(this.props.reducer.userProfile.user_id);
         this.props.onValueUpdated(this.state.counter);
       }
     );
   };
+
+  // ApiGetCart = user_id => {
+  //   axios
+  //     .get(Constants.CART_API, {
+  //       params: { user_id: this.props.reducer.userProfile.user_id }
+  //     })
+  //     .then(response => {
+  //       if (response.data.code == 200) {
+  //         console.log(response.data.cartData);
+
+  //         this.setState(() => ({
+  //           cart: response.data.cartData
+  //         }));
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // };
 
   render() {
     return (
@@ -32,20 +57,28 @@ export default class IncDec extends Component {
           title="-"
           onPress={() => this.onPress(false)}
           disabled={this.state.counter > 1 ? false : true}
-          color="#7a42f4"
+          color="#E9967A"
         />
         <Text style={styles.textStyles}> {this.state.counter} </Text>
         <CustomButton
           style={styles.buttonStyles}
           title="+"
           onPress={() => this.onPress()}
-          color="#7a42f4"
+          color="#E9967A"
           disabled={this.state.counter == this.props.stock_qty}
         />
       </View>
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    reducer: state.HomeReducer
+  };
+};
+
+export default connect(mapStateToProps)(IncDec);
 
 const styles = StyleSheet.create({
   buttonStyles: {

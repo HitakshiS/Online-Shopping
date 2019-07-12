@@ -8,20 +8,78 @@ import { addToCart, reset } from "../HomeScreen/action";
 import { bindActionCreators } from "redux";
 import axios from "axios";
 import { Constants } from "../../AppConfig/Constants";
-import { ApiCartUpdateCall } from "../../Components/ApiCartUpdateCall";
+import { NavigationActions, StackActions } from "react-navigation";
+import ErrorBoundary from "../../Components/ErrorBoundary";
 
 class Cart extends Component {
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: "Cart"
+    headerStyle: {
+      backgroundColor: "#F4A460"
+    },
+    headerTitle: "Cart",
+    headerLeft: (
+      <View style={{ padding: 10 }}>
+        <CustomButton
+          color="#E9967A"
+          title="Back"
+          onPress={() =>
+            navigation.dispatch(
+              StackActions.reset({
+                index: 0,
+                actions: [NavigationActions.navigate({ routeName: "Home" })]
+              })
+            )
+          }
+        />
+      </View>
+    )
   });
 
   ProfilePage() {
     this.props.navigation.navigate("Profile");
   }
 
-  SuccessPage() {
-    this.props.navigation.navigate("Success");
-  }
+  SuccessPage = () => {
+    this.ApiSuccessfulPaymentAll(
+      this.props.reducer.userProfile.user_id,
+      this.props.navigation.getParam("addressId")
+    );
+    this.props.navigation.navigate("Success", {
+      cartData: this.state.cart
+    });
+  };
+
+  ApiSuccessfulPaymentAll = (user_id, address_id) => {
+    axios
+      .post(Constants.SUCCESSFUL_PAYMENT_ALL, { user_id, address_id })
+      .then(response => {
+        console.log(response.data);
+        if (response.data.code == 200) {
+          console.log(response.data);
+          this.props.navigation.navigate("Success", {
+            cartData: this.state.cart
+          });
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  ApiStockRead = product_id => {
+    axios
+      .get(Constants.STOCK_READ, { params: { product_id } })
+      .then(response => {
+        console.log(response.data);
+        if (response.data.code == 200) {
+          console.log(response.data);
+          this.setState({ stock_qty: response.data.productData.stock_qty });
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   FailurePage() {
     this.props.navigation.navigate("Failure");
@@ -30,7 +88,8 @@ class Cart extends Component {
   constructor() {
     super();
     this.state = {
-      cart: []
+      cart: [],
+      stock_qty: ""
     };
   }
 
@@ -53,7 +112,9 @@ class Cart extends Component {
   };
 
   renderItem = ({ item, index }) => {
+    this.ApiStockRead(item.product_id);
     return (
+      // <ErrorBoundary>
       <View style={styles.containerStyles}>
         <View style={{ flexDirection: "row", flex: 1 }}>
           <CustomText
@@ -63,7 +124,11 @@ class Cart extends Component {
           <View styles={{ paddingRight: 10 }}>
             <CustomButton
               onPress={() => {
-                this.ApiCartRemoveItem(1, item.product_id, index);
+                this.ApiCartRemoveItem(
+                  this.props.reducer.userProfile.user_id,
+                  item.product_id,
+                  index
+                );
               }}
               style={styles.buttonStyles}
               title="x"
@@ -78,9 +143,9 @@ class Cart extends Component {
           />
           <IncDec
             item={item}
-            stock_qty={item.stock_qty}
+            stock_qty={this.state.stock_qty}
             value={item.qty}
-            // id={item.id}
+            product_id={item.product_id}
             onValueUpdated={qtyValue => {
               this.props.addToCart(item.product_id, qtyValue);
             }}
@@ -97,14 +162,17 @@ class Cart extends Component {
             style={[
               styles.textStyles,
               {
-                color: item.qty === item.stock_qty ? "red" : "green",
+                color: item.qty === this.state.stock_qty ? "red" : "green",
                 paddingBottom: 5
               }
             ]}
-            title={item.qty >= item.stock_qty ? "Out of stock" : "In stock"}
+            title={
+              item.qty >= this.state.stock_qty ? "Out of stock" : "In stock"
+            }
           />
         </View>
       </View>
+      // </ErrorBoundary>
     );
   };
 
@@ -136,7 +204,9 @@ class Cart extends Component {
 
   componentDidMount() {
     axios
-      .get(Constants.CART_API, { params: { user_id: 1 } })
+      .get(Constants.CART_API, {
+        params: { user_id: this.props.reducer.userProfile.user_id }
+      })
       .then(response => {
         if (response.data.code == 200) {
           console.log(response.data.cartData);
@@ -159,10 +229,11 @@ class Cart extends Component {
     const TotalAmount = this.state.cart.length ? this.Amount(billing) : null;
 
     return (
-      <View style={{ flex: 1, padding: 10 }}>
-        {this.state.cart ? (
+      // <ErrorBoundary>
+      <View style={{ flex: 1, padding: 10, backgroundColor: "#FFEFD5" }}>
+        {this.state.cart.length > 0 ? (
           <FlatList
-            style={{ flex: 0.8 }}
+            style={{ flex: 0.8, marginBottom: 20 }}
             data={this.state.cart}
             renderItem={this.renderItem}
           />
@@ -172,7 +243,7 @@ class Cart extends Component {
             title="Your shopping list is empty! Fill in your cart."
           />
         )}
-        {this.state.cart && (
+        {this.state.cart.length > 0 && (
           <View style={{ flex: 0.2 }}>
             <CustomText
               style={[
@@ -180,7 +251,7 @@ class Cart extends Component {
                 {
                   textAlign: "center",
                   fontSize: 24,
-                  backgroundColor: "#9370DB",
+                  backgroundColor: "#FFA07A",
                   marginBottom: 10
                 }
               ]}
@@ -189,10 +260,9 @@ class Cart extends Component {
             <CustomButton
               style={[styles.buttonStyles, { flex: 0.1 }]}
               title="Place Your Order"
-              color="#7a42f4"
+              color="#E9967A"
               onPress={() => {
-                Object.getOwnPropertyNames(this.props.reducer.userProfile)
-                  .length === 0
+                !this.props.navigation.getParam("addressId")
                   ? this.ProfilePage()
                   : this.alertBoxCustom();
               }}
@@ -200,6 +270,7 @@ class Cart extends Component {
           </View>
         )}
       </View>
+      // </ErrorBoundary>
     );
   }
 }
@@ -209,9 +280,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     flex: 0.4,
-    backgroundColor: "#BFEFFF",
-    borderWidth: 3,
-    borderColor: "black"
+    backgroundColor: "white",
+    elevation: 30
   },
   buttonStyles: {
     flex: 1,

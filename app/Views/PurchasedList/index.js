@@ -3,6 +3,7 @@ import { View, StyleSheet, FlatList } from "react-native";
 import { connect } from "react-redux";
 import ListItem from "../../Components/ListItem";
 import CustomText from "../../Components/CustomText";
+import ErrorBoundary from "../../Components/ErrorBoundary";
 
 class PurchasedList extends Component {
   static navigationOptions = {
@@ -27,6 +28,7 @@ class PurchasedList extends Component {
 
     console.log(purchaseData);
     return (
+      // <ErrorBoundary>
       <View style={{ flex: 1 }}>
         {purchaseData && purchaseData.length > 0 ? (
           <FlatList

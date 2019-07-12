@@ -1,11 +1,17 @@
 import React, { Component } from "react";
-import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Image,
+  StyleSheet,
+  TouchableWithoutFeedback
+} from "react-native";
 import CustomText from "./CustomText";
 import CustomButton from "./CustomButton";
 import IncDec from "./IncDec";
 import { ApiCartUpdateCall } from "./ApiCartUpdateCall";
+import { connect } from "react-redux";
 
-export default class ListItem extends Component {
+class ListItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -40,12 +46,11 @@ export default class ListItem extends Component {
       item,
       isPurchaseList,
       onValueUpdated,
-      hideCartBtn,
       listDetailNavigation
     } = this.props;
 
     return (
-      <TouchableOpacity
+      <TouchableWithoutFeedback
         onPress={() =>
           listDetailNavigation && listDetailNavigation(item, this.state.qty)
         }
@@ -72,7 +77,8 @@ export default class ListItem extends Component {
                   color:
                     item.stock_qty === 0 || this.state.stockCheck
                       ? "red"
-                      : "green"
+                      : "green",
+                  fontSize: 20
                 }
               ]}
               title={
@@ -87,14 +93,18 @@ export default class ListItem extends Component {
               {!this.state.showIncDec && (
                 <CustomButton
                   title="Add To Cart"
-                  color="#7a42f4"
+                  color="#E9967A"
                   onPress={() => {
                     if (item.stock_qty == 1) {
                       this.setState({ stockCheck: true, qty: 1 });
                     } else {
                       this.setState({ stockCheck: false, qty: 1 });
                     }
-                    ApiCartUpdateCall(1, item.product_id, 1);
+                    ApiCartUpdateCall(
+                      this.props.reducer.userProfile.user_id,
+                      item.product_id,
+                      1
+                    );
                     onValueUpdated(item.product_id, 1);
                     this.setState(() => ({
                       showIncDec: true
@@ -122,19 +132,26 @@ export default class ListItem extends Component {
             </View>
           )}
         </View>
-      </TouchableOpacity>
+      </TouchableWithoutFeedback>
     );
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    reducer: state.HomeReducer
+  };
+};
+
+export default connect(mapStateToProps)(ListItem);
+
 const styles = StyleSheet.create({
   containerStyles: {
     flexDirection: "row",
-    backgroundColor: "#BFEFFF",
-    margin: 10,
-    borderWidth: 3,
-    borderColor: "black",
-    padding: 20
+    backgroundColor: "white",
+    margin: 20,
+    elevation: 30,
+    padding: 30
   },
   textStyles: {
     fontSize: 17,

@@ -7,14 +7,25 @@ import { addToCart } from "../HomeScreen/action";
 import { bindActionCreators } from "redux";
 import { ScrollView } from "react-native-gesture-handler";
 import { ApiCartUpdateCall } from "../../Components/ApiCartUpdateCall";
+import IncDec from "../../Components/IncDec";
+import ErrorBoundary from "../../Components/ErrorBoundary";
 
 class ListItemDetail extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
+      headerStyle: {
+        backgroundColor: "#F4A460"
+      },
       headerTitle: "Item Description"
     };
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      stockCheck: false
+    };
+  }
   HomePage() {
     this.props.navigation.navigate("Home");
   }
@@ -36,45 +47,77 @@ class ListItemDetail extends Component {
   render() {
     const itemValue = this.props.navigation.getParam("itemValue");
     const quantity = this.props.navigation.getParam("quantity");
+    const { onValueUpdated } = this.props;
     return (
-      <View style={styles.containerStyle}>
-        <Image
-          style={{ flex: 0.8, alignSelf: "center" }}
-          source={itemValue.image}
-        />
-        <ScrollView style={styles.scrollViewStyle}>
-          <CustomText
-            style={styles.textStyles}
-            title={`Product: ${itemValue.name}`}
+      <View style={{ flex: 1, backgroundColor: "#FFEFD5" }}>
+        <View style={styles.containerStyle}>
+          <Image
+            style={{ flex: 0.8, alignSelf: "center" }}
+            source={itemValue.image}
           />
-          <CustomText
-            style={styles.textStyles}
-            title={`Price: ${itemValue.price}`}
-          />
-          <CustomText
-            style={[
-              styles.textStyles,
-              { color: quantity >= itemValue.stock_qty ? "red" : "green" }
-            ]}
-            title={
-              quantity >= itemValue.stock_qty ? "Out of stock" : "In stock"
-            }
-          />
-          <CustomText
-            style={styles.textStyles}
-            title={`Description: ${itemValue.description}`}
-          />
-        </ScrollView>
-        <View style={{ flex: 0.1 }}>
-          <CustomButton
-            title="Add To Cart"
-            onPress={() => {
-              ApiCartUpdateCall(1, itemValue.product_id, 1);
-              this.props.addToCart(itemValue.product_id, 1);
-              this.alertBoxCustom();
-            }}
-            color="#FF8C00"
-          />
+          <ScrollView style={styles.scrollViewStyle}>
+            <CustomText
+              style={styles.textStyles}
+              title={`Product: ${itemValue.name}`}
+            />
+            <CustomText
+              style={styles.textStyles}
+              title={`Price: ${itemValue.price}`}
+            />
+            <CustomText
+              style={[
+                styles.textStyles,
+                { color: quantity >= itemValue.stock_qty ? "red" : "green" }
+              ]}
+              title={
+                quantity >= itemValue.stock_qty ? "Out of stock" : "In stock"
+              }
+            />
+            <CustomText
+              style={styles.textStyles}
+              title={`Description: ${itemValue.description}`}
+            />
+          </ScrollView>
+          <View style={{ flex: 0.1 }}>
+            {!this.state.showIncDec && (
+              <CustomButton
+                title="Add To Cart"
+                color="#E9967A"
+                onPress={() => {
+                  if (itemValue.stock_qty == 1) {
+                    this.setState({ stockCheck: true, qty: 1 });
+                  } else {
+                    this.setState({ stockCheck: false, qty: 1 });
+                  }
+                  ApiCartUpdateCall(
+                    this.props.reducer.userProfile.user_id,
+                    itemValue.product_id,
+                    1
+                  );
+                  this.setState(() => ({
+                    showIncDec: true
+                  }));
+                }}
+                disabled={itemValue.stock_qty === 0 ? true : false}
+              />
+            )}
+            {this.state.showIncDec && (
+              <IncDec
+                item={itemValue}
+                stock_qty={itemValue.stock_qty}
+                value={itemValue.qty}
+                product_id={itemValue.product_id}
+                onValueUpdated={qtyValue => {
+                  if (itemValue.stock_qty == qtyValue) {
+                    this.setState({ stockCheck: true, qty: qtyValue });
+                  } else {
+                    this.setState({ stockCheck: false, qty: qtyValue });
+                  }
+                  onValueUpdated(itemValue.product_id, qtyValue);
+                }}
+              />
+            )}
+          </View>
         </View>
       </View>
     );
@@ -102,11 +145,10 @@ export default connect(
 const styles = StyleSheet.create({
   containerStyle: {
     flexDirection: "column",
-    backgroundColor: "#BFEFFF",
-    margin: 10,
-    borderWidth: 3,
-    borderColor: "black",
-    padding: 20,
+    backgroundColor: "white",
+    margin: 20,
+    elevation: 30,
+    padding: 30,
     flex: 1
   },
   textStyles: {

@@ -15,7 +15,7 @@ export default class Authentication extends Component {
           // boolean false
           console.log("userExist=======>", JSON.parse(value));
           this.props.navigation.navigate(
-            JSON.parse(value) ? "MyDrawerNavigator" : "AppNavigatorTwo"
+            JSON.parse(value) ? "AppNavigatorTwo" : "MyDrawerNavigator"
           );
         } else {
           this.props.navigation.navigate("AppNavigatorTwo");

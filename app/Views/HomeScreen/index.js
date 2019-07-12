@@ -9,10 +9,14 @@ import PurchasedList from "../PurchasedList";
 import { ScrollView } from "react-native-gesture-handler";
 import { Constants } from "../../AppConfig/Constants";
 import axios from "axios";
+import ErrorBoundary from "../../Components/ErrorBoundary";
 
 class HomeScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
+      headerStyle: {
+        backgroundColor: "#F4A460"
+      },
       headerTitle: "Home",
       headerRight: (
         <View style={{ margin: 10, flexDirection: "row" }}>
@@ -36,6 +40,7 @@ class HomeScreen extends Component {
     super();
     this.state = {
       data: []
+      //cart: []
     };
   }
 
@@ -48,18 +53,18 @@ class HomeScreen extends Component {
 
   renderItem = ({ item }) => {
     return (
-      <ListItem
-        item={item}
-        // hideCartBtn={id => {
-        //   this.props.hideCartBtn(id);
-        // }}
-        onValueUpdated={(id, qty) => {
-          this.props.addToCart(id, qty);
-        }}
-        listDetailNavigation={(item, qty) => {
-          this.listDetailNavigation(item, qty);
-        }}
-      />
+      <ErrorBoundary>
+        <ListItem
+          item={item}
+          stock_qty={item.stock_qty}
+          onValueUpdated={(id, qty) => {
+            this.props.addToCart(id, qty);
+          }}
+          listDetailNavigation={(item, qty) => {
+            this.listDetailNavigation(item, qty);
+          }}
+        />
+      </ErrorBoundary>
     );
   };
 
@@ -108,7 +113,7 @@ class HomeScreen extends Component {
 
   render() {
     return (
-      <ScrollView>
+      <ScrollView style={{ backgroundColor: "#FFEFD5" }}>
         <PurchasedList horizontal={true} />
         <FlatList data={this.state.data} renderItem={this.renderItem} />
       </ScrollView>
@@ -141,6 +146,7 @@ const styles = StyleSheet.create({
   buttonStyles: {
     flex: 1,
     borderRadius: 30,
-    margin: 5
+    margin: 5,
+    backgroundColor: "#7a42f4"
   }
 });

@@ -7,6 +7,8 @@ import { userProfile } from "../HomeScreen/action";
 import CustomButton from "../../Components/CustomButton";
 import CustomText from "../../Components/CustomText";
 import axios from "axios";
+import { Constants } from "../../AppConfig/Constants";
+import ErrorBoundary from "../../Components/ErrorBoundary";
 
 export default class SignUp extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -110,6 +112,7 @@ export default class SignUp extends Component {
       alert("You have entered an invalid mobile number!");
       return false;
     } else {
+      <ErrorBoundary />;
       return true;
     }
   }
@@ -135,59 +138,63 @@ export default class SignUp extends Component {
             style={styles.textStyles}
             title="Fill in the following user details"
           />
-          <Input
-            placeholder="name"
-            onChangeText={text => this.handleName(text)}
-            value={this.state.name}
-            autoCapitalize="characters"
-            keyboardType="default"
-            textContentType="username"
-            secureTextEntry={false}
-          />
-          <Input
-            placeholder="email"
-            onChangeText={text => this.handleEmail(text)}
-            value={this.state.email}
-            autoCapitalize="none"
-            keyboardType="email-address"
-            textContentType="emailAddress"
-            secureTextEntry={false}
-          />
-          <Input
-            placeholder="password"
-            onChangeText={text => this.handlePassword(text)}
-            value={this.state.password}
-            autoCapitalize="none"
-            keyboardType="default"
-            textContentType="password"
-            secureTextEntry={true}
-          />
-          <Input
-            placeholder="confirm password"
-            onChangeText={text => this.handleConfirmPassword(text)}
-            value={this.state.confirmPassword}
-            autoCapitalize="none"
-            keyboardType="default"
-            textContentType="password"
-            secureTextEntry={true}
-          />
-          <Input
-            placeholder="Delivery Address"
-            onChangeText={this.handleDeliveryAddress}
-            value={this.state.address}
-            autoCapitalize="none"
-            keyboardType="default"
-            textContentType="fullStreetAddress"
-          />
-          <Input
-            placeholder="Mobile Number"
-            onChangeText={this.handleMobileNumber}
-            value={this.state.mobile}
-            autoCapitalize="none"
-            keyboardType="numeric"
-            textContentType="none"
-          />
+          <ErrorBoundary>
+            <Input
+              placeholder="name"
+              onChangeText={text => this.handleName(text)}
+              value={this.state.name}
+              autoCapitalize="characters"
+              keyboardType="default"
+              textContentType="username"
+              secureTextEntry={false}
+            />
+            <Input
+              placeholder="email"
+              onChangeText={text => this.handleEmail(text)}
+              value={this.state.email}
+              autoCapitalize="none"
+              keyboardType="email-address"
+              textContentType="emailAddress"
+              secureTextEntry={false}
+            />
+            <Input
+              placeholder="password"
+              onChangeText={text => this.handlePassword(text)}
+              value={this.state.password}
+              autoCapitalize="none"
+              keyboardType="default"
+              textContentType="password"
+              secureTextEntry={true}
+            />
+            <Input
+              placeholder="confirm password"
+              onChangeText={text => this.handleConfirmPassword(text)}
+              value={this.state.confirmPassword}
+              autoCapitalize="none"
+              keyboardType="default"
+              textContentType="password"
+              secureTextEntry={true}
+            />
+            <Input
+              placeholder="Delivery Address"
+              onChangeText={this.handleDeliveryAddress}
+              value={this.state.address}
+              autoCapitalize="none"
+              keyboardType="default"
+              textContentType="fullStreetAddress"
+            />
+            <Input
+              placeholder="Mobile Number"
+              onChangeText={this.handleMobileNumber}
+              value={this.state.mobile}
+              autoCapitalize="none"
+              keyboardType="numeric"
+              textContentType="none"
+              maxLength={10}
+            />
+          </ErrorBoundary>
         </View>
+
         <View style={styles.submitButton}>
           <CustomButton
             title="Submit Details"
