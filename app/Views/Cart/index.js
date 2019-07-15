@@ -66,20 +66,22 @@ class Cart extends Component {
       });
   };
 
-  ApiStockRead = product_id => {
-    axios
-      .get(Constants.STOCK_READ, { params: { product_id } })
-      .then(response => {
-        console.log(response.data);
-        if (response.data.code == 200) {
-          console.log(response.data);
-          this.setState({ stock_qty: response.data.productData.stock_qty });
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
+  // ApiStockRead = product_id => {
+  //   axios
+  //     .get(Constants.STOCK_READ, { params: { product_id } })
+  //     .then(response => {
+  //       console.log(response.data);
+  //       if (response.data.code == 200) {
+  //         console.log(response.data);
+  //         this.setState(() => ({
+  //           stock_qty: response.data.productData.stock_qty
+  //         }));
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // };
 
   FailurePage() {
     this.props.navigation.navigate("Failure");
@@ -89,7 +91,7 @@ class Cart extends Component {
     super();
     this.state = {
       cart: [],
-      stock_qty: ""
+      Quantity: 0
     };
   }
 
@@ -112,15 +114,17 @@ class Cart extends Component {
   };
 
   renderItem = ({ item, index }) => {
-    this.ApiStockRead(item.product_id);
+    const quantity = !this.state.Quantity ? item.qty : this.state.Quantity;
     return (
       // <ErrorBoundary>
       <View style={styles.containerStyles}>
         <View style={{ flexDirection: "row", flex: 1 }}>
-          <CustomText
-            style={styles.textStyles}
-            title={`Product: ${item.name}`}
-          />
+          <ErrorBoundary>
+            <CustomText
+              style={styles.textStyles}
+              title={`Product: ${item.name}`}
+            />
+          </ErrorBoundary>
           <View styles={{ paddingRight: 10 }}>
             <CustomButton
               onPress={() => {
@@ -137,42 +141,48 @@ class Cart extends Component {
           </View>
         </View>
         <View style={{ flexDirection: "row", flex: 1 }}>
-          <CustomText
-            style={styles.textStyles}
-            title={`Price: ${item.price}`}
-          />
+          <ErrorBoundary>
+            <CustomText
+              style={styles.textStyles}
+              title={`Price: ${item.price}`}
+            />
+          </ErrorBoundary>
           <IncDec
             item={item}
-            stock_qty={this.state.stock_qty}
+            // stock_qty={this.state.stock_qty}
             value={item.qty}
             product_id={item.product_id}
             onValueUpdated={qtyValue => {
+              this.setState({
+                Quantity: qtyValue ? qtyValue : item.qty
+              });
               this.props.addToCart(item.product_id, qtyValue);
             }}
           />
         </View>
         <View style={{ flex: 1 }}>
-          <CustomText
-            style={[styles.textStyles, { paddingBottom: 5 }]}
-            title={`Amount: ${item.price * item.qty}`}
-          />
+          <ErrorBoundary>
+            <CustomText
+              style={[styles.textStyles, { paddingBottom: 5 }]}
+              title={`Amount: ${item.price * quantity}`}
+            />
+          </ErrorBoundary>
         </View>
         <View style={{ flex: 1 }}>
-          <CustomText
-            style={[
-              styles.textStyles,
-              {
-                color: item.qty === this.state.stock_qty ? "red" : "green",
-                paddingBottom: 5
-              }
-            ]}
-            title={
-              item.qty >= this.state.stock_qty ? "Out of stock" : "In stock"
-            }
-          />
+          <ErrorBoundary>
+            <CustomText
+              style={[
+                styles.textStyles,
+                {
+                  color: item.qty === item.stock_qty ? "red" : "green",
+                  paddingBottom: 5
+                }
+              ]}
+              title={item.qty >= item.stock_qty ? "Out of stock" : "In stock"}
+            />
+          </ErrorBoundary>
         </View>
       </View>
-      // </ErrorBoundary>
     );
   };
 
@@ -195,7 +205,7 @@ class Cart extends Component {
     );
   };
 
-  billingCost = b1 => b1.map(item => item.price * item.qty);
+  billingCost = b1 => b1.map(item => item.price * this.state.Quantity);
 
   Amount = c1 =>
     c1.reduce((total, currentValue) => {
@@ -236,6 +246,7 @@ class Cart extends Component {
             style={{ flex: 0.8, marginBottom: 20 }}
             data={this.state.cart}
             renderItem={this.renderItem}
+            extraData={this.state.Quantity}
           />
         ) : (
           <CustomText

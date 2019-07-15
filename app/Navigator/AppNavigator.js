@@ -12,6 +12,7 @@ import Profile from "../Views/Profile";
 import Success from "../Views/SuccessFailure/Success";
 import Failure from "../Views/SuccessFailure/Failure";
 import PurchasedList from "../Views/PurchasedList";
+import Order from "../Views/PurchasedList/Order";
 import SignIn from "../Views/Login/SignIn";
 import SignUp from "../Views/Login/SignUp";
 import Login from "../Views/Login";
@@ -39,6 +40,9 @@ const AppNavigatorOne = createStackNavigator(
     },
     PurchasedList: {
       screen: PurchasedList
+    },
+    Order: {
+      screen: Order
     },
     Authentication: {
       screen: Authentication

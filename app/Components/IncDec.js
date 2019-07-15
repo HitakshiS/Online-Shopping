@@ -3,13 +3,16 @@ import { Text, View, Button, StyleSheet } from "react-native";
 import CustomButton from "./CustomButton";
 import { ApiCartUpdateCall } from "./ApiCartUpdateCall";
 import { connect } from "react-redux";
+import axios from "axios";
+import { Constants } from "../AppConfig/Constants";
 
 class IncDec extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      counter: props.value ? props.value : 1
+      counter: props.value ? props.value : 1,
+      stock_qty: 0
     };
   }
 
@@ -24,30 +27,28 @@ class IncDec extends Component {
           this.props.product_id,
           isAdd
         );
-        // ApiGetCart(this.props.reducer.userProfile.user_id);
+        this.ApiStockRead(this.props.product_id);
         this.props.onValueUpdated(this.state.counter);
       }
     );
   };
 
-  // ApiGetCart = user_id => {
-  //   axios
-  //     .get(Constants.CART_API, {
-  //       params: { user_id: this.props.reducer.userProfile.user_id }
-  //     })
-  //     .then(response => {
-  //       if (response.data.code == 200) {
-  //         console.log(response.data.cartData);
-
-  //         this.setState(() => ({
-  //           cart: response.data.cartData
-  //         }));
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // };
+  ApiStockRead = product_id => {
+    axios
+      .get(Constants.STOCK_READ, { params: { product_id } })
+      .then(response => {
+        console.log(response.data);
+        if (response.data.code == 200) {
+          console.log(response.data);
+          this.setState(() => ({
+            stock_qty: response.data.productData.stock_qty
+          }));
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   render() {
     return (
@@ -65,7 +66,7 @@ class IncDec extends Component {
           title="+"
           onPress={() => this.onPress()}
           color="#E9967A"
-          disabled={this.state.counter == this.props.stock_qty}
+          disabled={this.state.counter == this.state.stock_qty}
         />
       </View>
     );

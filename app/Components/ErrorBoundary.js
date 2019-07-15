@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Alert, BackHandler, View } from "react-native";
+import CustomText from "./CustomText";
 
 export default class ErrorBoundary extends Component {
   constructor(props) {
@@ -7,25 +8,22 @@ export default class ErrorBoundary extends Component {
     this.state = { hasError: false, errorInfo: "" };
   }
 
-  getDerivedStateFromError = error => {
+  componentDidCatch = (error, info) => {
     this.setState({
       hasError: true,
       errorInfo: error
     });
-  };
-
-  componentDidCatch = (error, info) => {
     logErrorToMyService(error, info);
   };
 
   render() {
     return (
       <View>
-        {this.state.hasError
-          ? alert(
-              "An unexpected error has occurred. Please restart to continue."
-            )
-          : this.props.children}
+        {this.state.hasError ? (
+          <CustomText title="some ERROR is spotted here." />
+        ) : (
+          this.props.children
+        )}
       </View>
     );
   }

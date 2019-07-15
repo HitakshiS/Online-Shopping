@@ -24,13 +24,13 @@ class HomeScreen extends Component {
             style={styles.buttonStyles}
             title="drawer"
             onPress={() => navigation.toggleDrawer()}
-            color="#7a42f4"
+            color="#E9967A"
           />
           <CustomButton
             style={styles.buttonStyles}
             onPress={() => navigation.navigate("Cart")}
             title="Cart"
-            color="#7a42f4"
+            color="#E9967A"
           />
         </View>
       )
@@ -53,18 +53,16 @@ class HomeScreen extends Component {
 
   renderItem = ({ item }) => {
     return (
-      <ErrorBoundary>
-        <ListItem
-          item={item}
-          stock_qty={item.stock_qty}
-          onValueUpdated={(id, qty) => {
-            this.props.addToCart(id, qty);
-          }}
-          listDetailNavigation={(item, qty) => {
-            this.listDetailNavigation(item, qty);
-          }}
-        />
-      </ErrorBoundary>
+      <ListItem
+        item={item}
+        stock_qty={item.stock_qty}
+        onValueUpdated={(id, qty) => {
+          this.props.addToCart(id, qty);
+        }}
+        listDetailNavigation={(item, qty) => {
+          this.listDetailNavigation(item, qty);
+        }}
+      />
     );
   };
 

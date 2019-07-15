@@ -7,7 +7,7 @@ function Profile(props) {
       <TextInput
         style={styles.input}
         underlineColorAndroid="transparent"
-        placeholderTextColor="#7a42f4"
+        placeholderTextColor="#F4A460"
         value={props.value}
         autoCorrect={false}
         {...props}
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   input: {
     margin: 15,
     height: 40,
-    borderColor: "#7a42f4",
+    borderColor: "#F4A460",
     borderWidth: 1
   }
 });

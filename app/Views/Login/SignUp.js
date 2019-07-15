@@ -13,6 +13,9 @@ import ErrorBoundary from "../../Components/ErrorBoundary";
 export default class SignUp extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
+      headerStyle: {
+        backgroundColor: "#F4A460"
+      },
       headerTitle: "Sign Up"
     };
   };
@@ -198,7 +201,7 @@ export default class SignUp extends Component {
         <View style={styles.submitButton}>
           <CustomButton
             title="Submit Details"
-            color="#7a42f4"
+            color="#E9967A"
             onPress={() => this.handleButtonPress()}
             disabled={
               this.state.name.length > 0 &&

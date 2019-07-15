@@ -10,6 +10,7 @@ import CustomButton from "./CustomButton";
 import IncDec from "./IncDec";
 import { ApiCartUpdateCall } from "./ApiCartUpdateCall";
 import { connect } from "react-redux";
+import ErrorBoundary from "./ErrorBoundary";
 
 class ListItem extends Component {
   constructor(props) {
@@ -56,37 +57,47 @@ class ListItem extends Component {
         }
       >
         <View style={styles.containerStyles}>
-          <Image style={{ flex: 1 }} source={item.image} />
+          <ErrorBoundary>
+            <Image style={{ flex: 1 }} source={item.image} />
+          </ErrorBoundary>
           <View style={styles.listSubContainer}>
-            <CustomText
-              style={styles.textStyles}
-              title={`Product: ${item.name}`}
-            />
-            <CustomText
-              style={styles.textStyles}
-              title={`Quantity: ${item.qty ? item.qty : this.state.qty}`}
-            />
-            <CustomText
-              style={styles.textStyles}
-              title={`Price: ${item.price}`}
-            />
-            <CustomText
-              style={[
-                styles.textStyles,
-                {
-                  color:
-                    item.stock_qty === 0 || this.state.stockCheck
-                      ? "red"
-                      : "green",
-                  fontSize: 20
+            <ErrorBoundary>
+              <CustomText
+                style={styles.textStyles}
+                title={`Product: ${item.name}`}
+              />
+            </ErrorBoundary>
+            <ErrorBoundary>
+              <CustomText
+                style={styles.textStyles}
+                title={`Quantity: ${item.qty ? item.qty : this.state.qty}`}
+              />
+            </ErrorBoundary>
+            <ErrorBoundary>
+              <CustomText
+                style={styles.textStyles}
+                title={`Price: ${item.price}`}
+              />
+            </ErrorBoundary>
+            {!isPurchaseList && (
+              <CustomText
+                style={[
+                  styles.textStyles,
+                  {
+                    color:
+                      item.stock_qty === 0 || this.state.stockCheck
+                        ? "red"
+                        : "green",
+                    fontSize: 20
+                  }
+                ]}
+                title={
+                  item.stock_qty === 0 || this.state.stockCheck
+                    ? "Out of stock"
+                    : "In stock"
                 }
-              ]}
-              title={
-                item.stock_qty === 0 || this.state.stockCheck
-                  ? "Out of stock"
-                  : "In stock"
-              }
-            />
+              />
+            )}
           </View>
           {!isPurchaseList && (
             <View style={styles.buttonContainer}>

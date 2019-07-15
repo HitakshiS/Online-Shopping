@@ -7,6 +7,9 @@ import ErrorBoundary from "../../Components/ErrorBoundary";
 export default class Login extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
+      headerStyle: {
+        backgroundColor: "#F4A460"
+      },
       headerTitle: "Online Shopping"
     };
   };
@@ -23,7 +26,7 @@ export default class Login extends Component {
     return (
       <View style={styles.container}>
         <CustomText
-          style={[styles.textStyles, { fontSize: 30, color: "#7a42f4" }]}
+          style={[styles.textStyles, { fontSize: 30, color: "#E9967A" }]}
           title="Welcome"
         />
         <ErrorBoundary>
@@ -35,13 +38,13 @@ export default class Login extends Component {
         <CustomButton
           title="sign in"
           onPress={() => this.props.navigation.navigate("SignIn")}
-          color="#7a42f4"
+          color="#E9967A"
         />
         <CustomText style={styles.textStyles} title="Sign Up for new user" />
         <CustomButton
           title="sign up"
           onPress={() => this.props.navigation.navigate("SignUp")}
-          color="#7a42f4"
+          color="#E9967A"
         />
       </View>
     );

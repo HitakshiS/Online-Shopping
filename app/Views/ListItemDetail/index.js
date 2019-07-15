@@ -9,6 +9,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { ApiCartUpdateCall } from "../../Components/ApiCartUpdateCall";
 import IncDec from "../../Components/IncDec";
 import ErrorBoundary from "../../Components/ErrorBoundary";
+import { NavigationActions, StackActions } from "react-navigation";
 
 class ListItemDetail extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -16,14 +17,41 @@ class ListItemDetail extends Component {
       headerStyle: {
         backgroundColor: "#F4A460"
       },
-      headerTitle: "Item Description"
+      headerTitle: "Item Description",
+      headerRight: (
+        <View style={{ margin: 10, flexDirection: "row" }}>
+          <CustomButton
+            style={styles.buttonStyles}
+            onPress={() => navigation.navigate("Cart")}
+            title="Cart"
+            color="#E9967A"
+          />
+        </View>
+      ),
+      headerLeft: (
+        <View style={{ padding: 10 }}>
+          <CustomButton
+            color="#E9967A"
+            title="Back"
+            onPress={() =>
+              navigation.dispatch(
+                StackActions.reset({
+                  index: 0,
+                  actions: [NavigationActions.navigate({ routeName: "Home" })]
+                })
+              )
+            }
+          />
+        </View>
+      )
     };
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      stockCheck: false
+      stockCheck: false,
+      qty: 0
     };
   }
   HomePage() {
@@ -47,39 +75,59 @@ class ListItemDetail extends Component {
   render() {
     const itemValue = this.props.navigation.getParam("itemValue");
     const quantity = this.props.navigation.getParam("quantity");
-    const { onValueUpdated } = this.props;
+
     return (
       <View style={{ flex: 1, backgroundColor: "#FFEFD5" }}>
         <View style={styles.containerStyle}>
-          <Image
-            style={{ flex: 0.8, alignSelf: "center" }}
-            source={itemValue.image}
-          />
+          <ErrorBoundary>
+            <Image
+              style={{ flex: 0.8, alignSelf: "center" }}
+              source={{
+                uri:
+                  "https://facebook.github.io/react-native/docs/assets/favicon.png"
+              }}
+            />
+          </ErrorBoundary>
+
           <ScrollView style={styles.scrollViewStyle}>
-            <CustomText
-              style={styles.textStyles}
-              title={`Product: ${itemValue.name}`}
-            />
-            <CustomText
-              style={styles.textStyles}
-              title={`Price: ${itemValue.price}`}
-            />
-            <CustomText
-              style={[
-                styles.textStyles,
-                { color: quantity >= itemValue.stock_qty ? "red" : "green" }
-              ]}
-              title={
-                quantity >= itemValue.stock_qty ? "Out of stock" : "In stock"
-              }
-            />
-            <CustomText
-              style={styles.textStyles}
-              title={`Description: ${itemValue.description}`}
-            />
+            <ErrorBoundary>
+              <CustomText
+                style={styles.textStyles}
+                title={`Product: ${itemValue.name}`}
+              />
+            </ErrorBoundary>
+            <ErrorBoundary>
+              <CustomText
+                style={styles.textStyles}
+                title={`Price: ${itemValue.price}`}
+              />
+            </ErrorBoundary>
+            <ErrorBoundary>
+              <CustomText
+                style={styles.textStyles}
+                title={`Quantity: ${quantity}`}
+              />
+            </ErrorBoundary>
+            <ErrorBoundary>
+              <CustomText
+                style={[
+                  styles.textStyles,
+                  { color: quantity >= itemValue.stock_qty ? "red" : "green" }
+                ]}
+                title={
+                  quantity >= itemValue.stock_qty ? "Out of stock" : "In stock"
+                }
+              />
+            </ErrorBoundary>
+            <ErrorBoundary>
+              <CustomText
+                style={styles.textStyles}
+                title={`Description: ${itemValue.description}`}
+              />
+            </ErrorBoundary>
           </ScrollView>
           <View style={{ flex: 0.1 }}>
-            {!this.state.showIncDec && (
+            {!this.state.showIncDec && quantity === 0 ? (
               <CustomButton
                 title="Add To Cart"
                 color="#E9967A"
@@ -100,12 +148,11 @@ class ListItemDetail extends Component {
                 }}
                 disabled={itemValue.stock_qty === 0 ? true : false}
               />
-            )}
-            {this.state.showIncDec && (
+            ) : (
               <IncDec
                 item={itemValue}
                 stock_qty={itemValue.stock_qty}
-                value={itemValue.qty}
+                value={quantity}
                 product_id={itemValue.product_id}
                 onValueUpdated={qtyValue => {
                   if (itemValue.stock_qty == qtyValue) {
@@ -113,7 +160,7 @@ class ListItemDetail extends Component {
                   } else {
                     this.setState({ stockCheck: false, qty: qtyValue });
                   }
-                  onValueUpdated(itemValue.product_id, qtyValue);
+                  this.props.addToCart(itemValue.product_id, qtyValue);
                 }}
               />
             )}

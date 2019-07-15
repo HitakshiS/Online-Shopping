@@ -18,6 +18,9 @@ import ErrorBoundary from "../../Components/ErrorBoundary";
 class SignIn extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
+      headerStyle: {
+        backgroundColor: "#F4A460"
+      },
       headerTitle: "Sign In"
     };
   };
@@ -76,7 +79,7 @@ class SignIn extends Component {
       .then(response => {
         if (response.data.code == 200) {
           setItemInStorage(response.data.profileData);
-          console.log("ProfileData=====>>>>>", response.data.profileData);
+          // console.log("ProfileData=====>>>>>", response.data.profileData);
         }
         if (response.data.code == 410 || response.data.code == 400) {
           alert("you are not registered please Sign Up");
@@ -160,7 +163,7 @@ class SignIn extends Component {
         <View style={styles.submitButton}>
           <CustomButton
             title="Submit Details"
-            color="#7a42f4"
+            color="#E9967A"
             onPress={() => this.handleButtonPress()}
             disabled={
               this.state.email.length > 0 && this.state.password.length > 0
@@ -173,7 +176,7 @@ class SignIn extends Component {
           <View style={styles.submitButton}>
             <CustomButton
               title="Sign Up"
-              color="#7a42f4"
+              color="#E9967A"
               onPress={() => this.props.navigation.navigate("SignUp")}
             />
           </View>
