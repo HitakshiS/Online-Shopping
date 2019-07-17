@@ -1,17 +1,21 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 
 import { View, StyleSheet } from "react-native";
 import CustomText from "../../Components/CustomText";
 import CustomButton from "../../Components/CustomButton";
 import IncDec from "../../Components/IncDec";
 
-export default class CartItem extends PureComponent {
+export default class CartItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
       Quantity: props.item.qty
     };
   }
+
+  selectedQuantity = () => {
+    this.props.onSelectedQuantity(this.state.Quantity);
+  };
 
   render() {
     const { item, onRemovePress, onValueUpdated } = this.props;

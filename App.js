@@ -12,7 +12,13 @@ import AppNavigator from "./app/Navigator/AppNavigator";
 const store = createStore(RootReducer, applyMiddleware(logger));
 //sagaMiddleware.run(rootSaga);
 export default class App extends Component {
+  constructor(props) {
+    console.disableYellowBox = true;
+    super();
+  }
+
   render() {
+    console.ignoredYellowBox = ["Warning:"];
     return (
       <Provider store={store}>
         <AppNavigator />

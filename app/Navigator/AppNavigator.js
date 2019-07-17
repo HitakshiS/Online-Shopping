@@ -46,6 +46,9 @@ const AppNavigatorOne = createStackNavigator(
     },
     Authentication: {
       screen: Authentication
+    },
+    SignIn: {
+      screen: SignIn
     }
   },
   { initialRouteName: "Home" }

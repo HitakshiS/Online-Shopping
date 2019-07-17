@@ -104,14 +104,10 @@ class SignIn extends Component {
   handleButtonPress = () => {
     if (this.emailValidation()) {
       this.apiSignInCall(async profileData => {
-        await AsyncStorage.setItem("userExist", JSON.stringify(true));
+        await AsyncStorage.setItem("userExist", JSON.stringify(profileData));
 
         this.props.userProfile({
-          user_id: profileData.user_id,
-          name: profileData.name,
-          email: profileData.email,
-          address: profileData.address,
-          mobile: profileData.mobile
+          ...profileData
         });
         Alert.alert(
           "congratulations!! you have Logged In continue shoppings",

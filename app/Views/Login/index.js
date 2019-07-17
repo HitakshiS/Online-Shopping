@@ -26,7 +26,7 @@ export default class Login extends Component {
     return (
       <View style={styles.container}>
         <CustomText
-          style={[styles.textStyles, { fontSize: 30, color: "#E9967A" }]}
+          style={[styles.textStyles, { fontSize: 30, color: "#F4A460" }]}
           title="Welcome"
         />
         <ErrorBoundary>
@@ -38,13 +38,13 @@ export default class Login extends Component {
         <CustomButton
           title="sign in"
           onPress={() => this.props.navigation.navigate("SignIn")}
-          color="#E9967A"
+          color="#F4A460"
         />
         <CustomText style={styles.textStyles} title="Sign Up for new user" />
         <CustomButton
           title="sign up"
           onPress={() => this.props.navigation.navigate("SignUp")}
-          color="#E9967A"
+          color="#F4A460"
         />
       </View>
     );

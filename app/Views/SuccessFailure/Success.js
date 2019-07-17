@@ -71,14 +71,14 @@ class Success extends Component {
     };
   }
 
-  homePage() {
+  homePage = () => {
     return this.props.navigation.dispatch(
       StackActions.reset({
         index: 0,
         actions: [NavigationActions.navigate({ routeName: "Home" })]
       })
     );
-  }
+  };
 
   renderItem = ({ item }) => {
     return (
@@ -125,30 +125,24 @@ class Success extends Component {
   //     });
   // };
 
-  // componentDidMount() {
-  //   this.ApiSuccessfulPaymentAll(
-  //     this.props.reducer.userProfile.user_id,
-  //     this.props.navigation.getParam("addressId")
-  //   );
-  //   this.setState({ cart: this.props.navigation.getParam("cartData") });
-  // BackHandler.addEventListener("hardwareBackPress", () => {
-  //   this.props.navigation.dispatch(
-  //     NavigationActions.reset({
-  //       index: 0,
-  //       actions: [NavigationActions.navigate({ routeName: "Home" })]
-  //     })
-  //   );
-  // });
-  //}
+  componentDidMount() {
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      this.homePage();
+      return true;
+    });
+  }
 
-  // componentWillUnmount() {
-  //   BackHandler.removeEventListener("hardwareBackPress");
-  // }
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress");
+  }
 
   render() {
     const response = this.props.navigation.getParam("response", "not recieved");
     console.log("success response", response);
-    if (response.notPurchasedItems.length > 0) {
+    if (
+      (response.code === 400 || response.code === 210) &&
+      response.notPurchasedItems.length > 0
+    ) {
       response.notPurchasedItems.map(item =>
         alert(
           `This items are OUT OF STOCK therefore cannot be purchased ${item}`

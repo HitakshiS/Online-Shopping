@@ -138,8 +138,7 @@ export default (HomeReducer = (state = INITIAL_STATE, action) => {
 
     case ActionTypes.LOG_OUT: {
       return {
-        ...state,
-        userProfile: {}
+        ...INITIAL_STATE
       };
     }
 

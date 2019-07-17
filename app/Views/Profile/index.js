@@ -36,7 +36,7 @@ class Profile extends Component {
       addresses: [],
       mobile: "",
       showAddAddressInput: false,
-      selectedAddress: -1,
+      selectedAddress: 0,
       newAddress: ""
     };
   }
@@ -152,7 +152,7 @@ class Profile extends Component {
           }}
         >
           <CustomText
-            style={[styles.textStyles, { fontSize: 18 }]}
+            style={[styles.textStyles, { fontSize: 18, paddingVertical: 10 }]}
             title={item.address}
           />
         </View>

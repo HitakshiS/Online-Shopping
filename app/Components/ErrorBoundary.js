@@ -8,17 +8,22 @@ export default class ErrorBoundary extends Component {
     this.state = { hasError: false, errorInfo: "" };
   }
 
+  static getDerivedStateFromError = error => {
+    this.setState({
+      hasError: true
+    });
+    return { hasError: true };
+  };
+
   componentDidCatch = (error, info) => {
     this.setState({
-      hasError: true,
       errorInfo: error
     });
-    logErrorToMyService(error, info);
   };
 
   render() {
     return (
-      <View>
+      <View style={{ flex: 1, backgroundColor: "green" }}>
         {this.state.hasError ? (
           <CustomText title="some ERROR is spotted here." />
         ) : (

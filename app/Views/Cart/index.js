@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StyleSheet, FlatList, Alert } from "react-native";
+import { View, StyleSheet, FlatList, Alert, AsyncStorage } from "react-native";
 import CustomText from "../../Components/CustomText";
 import CustomButton from "../../Components/CustomButton";
 import IncDec from "../../Components/IncDec";
@@ -38,25 +38,37 @@ class Cart extends Component {
       <View style={{ padding: 10 }}>
         <CustomButton
           title="LogOut"
-          onPress={navigation.getParam("logOutFn")}
+          onPress={() => {
+            const logOutFn = navigation.getParam("logOutFn");
+
+            logOutFn();
+          }}
           color="#F4A460"
         />
       </View>
     )
   });
 
-  logOutFn = () => {
+  logOutFn = async () => {
     console.log("=====>");
+
     Alert.alert(
+      null,
       "Are you sure you want to LogOut",
       [
         {
-          text: "Ok",
-          onPress: () => {
-            this.props.logOut();
-          }
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
         },
-        { text: "Cancel" }
+        {
+          text: "OK",
+          onPress: async () => {
+            this.props.logOut();
+            await AsyncStorage.removeItem("userExist");
+            this.props.navigation.navigate("SignIn");
+          }
+        }
       ],
       { cancelable: true }
     );
@@ -83,22 +95,6 @@ class Cart extends Component {
             response: response.data
           });
           console.log(response.data);
-          this.setState(
-            {
-              success: response.data.products,
-              order_id: response.data.order_id,
-              delivery_address: response.data.delivery_address,
-              total_bill: response.data.total_bill
-            },
-            () => {
-              this.props.navigation.navigate("Success", {
-                success: response.data.products,
-                order_id: response.data.order_id,
-                delivery_address: response.data.delivery_address,
-                total_bill: response.data.total_bill
-              });
-            }
-          );
         }
       })
       .catch(error => {
@@ -114,32 +110,45 @@ class Cart extends Component {
     super();
     this.state = {
       cart: [],
-      Quantity: "",
-      success: [],
-      order_id: 0,
-      delivery_address: "",
-      total_bill: 0
+      Quantity: ""
     };
   }
 
+  quantitySelect = Qty => {
+    this.setState({ Quantity: Qty });
+  };
+
   ApiCartRemoveItem = (user_id, product_id, index) => {
-    axios
-      .post(Constants.REMOVE_ITEM, { user_id, product_id })
-      .then(response => {
-        if (response.data.code == 200) {
-          console.log(response.data);
-          console.log("Prod_id Remove======>", product_id);
-          console.log("index Remove======>>>>", index);
-          let cardTemp = [...this.state.cart];
-          cardTemp.splice(index, 1);
-          this.setState({
-            cart: [...cardTemp]
-          });
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    console.log("this.state.cart", index, this.state.cart);
+
+    let cardTemp = [...this.state.cart];
+
+    console.log(cardTemp);
+
+    cardTemp.splice(index, 1);
+
+    console.log(cardTemp);
+
+    this.setState({
+      cart: [...cardTemp]
+    });
+    // axios
+    //   .post(Constants.REMOVE_ITEM, { user_id, product_id })
+    //   .then(response => {
+    //     if (response.data.code == 200) {
+    //       console.log(response.data);
+    //       console.log("Prod_id Remove======>", product_id);
+    //       console.log("index Remove======>>>>", index);
+    //       let cardTemp = [...this.state.cart];
+    //       cardTemp.splice(index, 1);
+    //       this.setState({
+    //         cart: [...cardTemp]
+    //       });
+    //     }
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
   };
 
   calculateAmount = () => {
@@ -162,6 +171,7 @@ class Cart extends Component {
             index
           );
         }}
+        onSelectedQuantity={this.quantitySelect}
         onValueUpdated={qtyValue => {
           // // let a = this.state.Quantity.splice();
           // // a[index] = qtyValue ? qtyValue : item.qty;
@@ -230,11 +240,14 @@ class Cart extends Component {
             style={{ flex: 0.8, marginBottom: 20 }}
             data={this.state.cart}
             renderItem={this.renderItem}
-            extraData={this.state.Quantity}
+            extraData={this.state}
           />
         ) : (
           <CustomText
-            style={styles.emptyTextStyle}
+            style={[
+              styles.emptyTextStyle,
+              { flex: 1, backgroundColor: "#FFEFD5" }
+            ]}
             title="Your shopping list is empty! Fill in your cart."
           />
         )}
