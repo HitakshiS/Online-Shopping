@@ -21,6 +21,9 @@ import ErrorBoundary from "../../Components/ErrorBoundary";
 class Profile extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
+      headerStyle: {
+        backgroundColor: "#F4A460"
+      },
       headerTitle: "User Profile"
     };
   };
@@ -51,14 +54,6 @@ class Profile extends Component {
     this.setState({ email: this.props.userProfile.email });
   };
 
-  // handleDeliveryAddress = () => {
-  //   this.setState({ address: this.props.userProfile.address });
-  // };
-
-  // handleMobileNumber = () => {
-  //   this.setState({ mobile: this.props.userProfile.mobile });
-  // };
-
   emailValidation() {
     let EmailAdr = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     const email = this.state.email;
@@ -88,6 +83,7 @@ class Profile extends Component {
   };
 
   componentDidMount() {
+    alert("Please select delivery address");
     axios
       .get(Constants.USER_PROFILE, {
         params: { user_id: this.props.reducer.userProfile.user_id }
@@ -152,7 +148,7 @@ class Profile extends Component {
           style={{
             flex: 1,
             backgroundColor:
-              this.state.selectedAddress == index ? "#E9967A" : "transparent"
+              this.state.selectedAddress == index ? "#F4A460" : "transparent"
           }}
         >
           <CustomText
@@ -191,7 +187,7 @@ class Profile extends Component {
                 styles.textStyles,
                 {
                   fontSize: 18,
-                  color: "#7a42f4"
+                  color: "black"
                 }
               ]}
               title={`Name: ${this.state.name}`}
@@ -201,7 +197,7 @@ class Profile extends Component {
                 styles.textStyles,
                 {
                   fontSize: 18,
-                  color: "#7a42f4"
+                  color: "black"
                 }
               ]}
               title={`Email: ${this.state.email}`}
@@ -211,7 +207,7 @@ class Profile extends Component {
                 styles.textStyles,
                 {
                   fontSize: 18,
-                  color: "#7a42f4",
+                  color: "black",
                   paddingBottom: 20
                 }
               ]}
@@ -251,8 +247,8 @@ class Profile extends Component {
           )}
 
           <CustomButton
-            color="#E9967A"
-            style={styles.submitButton}
+            color="#F4A460"
+            style={[styles.submitButton, { paddingBottom: 5 }]}
             title={
               this.state.showAddAddressInput
                 ? "Submit Address"
@@ -266,17 +262,13 @@ class Profile extends Component {
           />
 
           <CustomButton
-            style={styles.submitButton}
+            style={[styles.submitButton, { paddingTop: 5 }]}
             title="Submit Details"
-            color="#E9967A"
+            color="#F4A460"
             onPress={() => {
               this.handleButtonPress();
             }}
-            disabled={
-              this.state.selectedAddress === -1
-                ? true && alert("Select delivery address")
-                : false
-            }
+            disabled={this.state.selectedAddress === -1 ? true : false}
           />
         </View>
       </ScrollView>

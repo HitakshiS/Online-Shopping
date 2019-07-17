@@ -13,6 +13,7 @@ class IncDec extends Component {
     this.state = {
       counter: props.value ? props.value : 1,
       stock_qty: 0
+      //quantity: 0
     };
   }
 
@@ -22,7 +23,7 @@ class IncDec extends Component {
         counter: isAdd ? this.state.counter + 1 : this.state.counter - 1
       },
       () => {
-        ApiCartUpdateCall(
+        this.ApiCartUpdateCall(
           this.props.reducer.userProfile.user_id,
           this.props.product_id,
           isAdd
@@ -31,6 +32,26 @@ class IncDec extends Component {
         this.props.onValueUpdated(this.state.counter);
       }
     );
+    // this.props.navigation.navigate("Cart", {
+    //   quantity: this.state.quantity
+    // });
+    // this.props.navigation.navigate("Home", {
+    //   quantity: this.state.quantity
+    // });
+  };
+
+  ApiCartUpdateCall = (user_id, product_id, addSub) => {
+    axios
+      .post(Constants.CART_UPDATE, { user_id, product_id, addSub })
+      .then(response => {
+        if (response.data.code == 200) {
+          this.setState({ quantity: response.data.quantity });
+          console.log("prod_id IncDec====>>>>", product_id);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   ApiStockRead = product_id => {
@@ -58,14 +79,14 @@ class IncDec extends Component {
           title="-"
           onPress={() => this.onPress(false)}
           disabled={this.state.counter > 1 ? false : true}
-          color="#E9967A"
+          color="#F4A460"
         />
         <Text style={styles.textStyles}> {this.state.counter} </Text>
         <CustomButton
           style={styles.buttonStyles}
           title="+"
           onPress={() => this.onPress()}
-          color="#E9967A"
+          color="#F4A460"
           disabled={this.state.counter == this.state.stock_qty}
         />
       </View>

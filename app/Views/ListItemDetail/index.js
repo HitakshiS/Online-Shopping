@@ -24,14 +24,14 @@ class ListItemDetail extends Component {
             style={styles.buttonStyles}
             onPress={() => navigation.navigate("Cart")}
             title="Cart"
-            color="#E9967A"
+            color="#F4A460"
           />
         </View>
       ),
       headerLeft: (
         <View style={{ padding: 10 }}>
           <CustomButton
-            color="#E9967A"
+            color="#F4A460"
             title="Back"
             onPress={() =>
               navigation.dispatch(
@@ -130,7 +130,7 @@ class ListItemDetail extends Component {
             {!this.state.showIncDec && quantity === 0 ? (
               <CustomButton
                 title="Add To Cart"
-                color="#E9967A"
+                color="#F4A460"
                 onPress={() => {
                   if (itemValue.stock_qty == 1) {
                     this.setState({ stockCheck: true, qty: 1 });

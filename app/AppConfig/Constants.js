@@ -13,5 +13,5 @@ export const Constants = {
   SUCCESSFUL_PAYMENT_ALL: BASE_URL + "api/successfulPaymentAll",
   REGISTER: BASE_URL + "api/register",
   STOCK_READ: BASE_URL + "api/stockRead",
-  GET_ORDER: BASE_URL + "api/getOrders" 
+  GET_ORDER: BASE_URL + "api/getOrder"
 };

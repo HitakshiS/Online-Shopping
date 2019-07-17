@@ -5,6 +5,9 @@ import CustomText from "../../Components/CustomText";
 export default class Failure extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
+      headerStyle: {
+        backgroundColor: "#F4A460"
+      },
       headerTitle: "Payment Failed"
     };
   };
@@ -26,7 +29,7 @@ export default class Failure extends Component {
         />
         <Button
           style={{ margin: 20 }}
-          color="#7a42f4"
+          color="#F4A460"
           title="Try again"
           onPress={() => this.cartNavigation()}
         />
@@ -38,7 +41,7 @@ export default class Failure extends Component {
 const styles = StyleSheet.create({
   containerStyles: {
     flex: 1,
-    backgroundColor: "#BFEFFF",
+    backgroundColor: "#FFEFD5",
     padding: 20,
     justifyContent: "space-between"
   }

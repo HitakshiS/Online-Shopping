@@ -2,7 +2,6 @@ import { Constants } from "../AppConfig/Constants";
 import axios from "axios";
 
 export const ApiCartUpdateCall = (user_id, product_id, addSub) => {
-  console.log("apiUpdate called");
   axios
     .post(Constants.CART_UPDATE, { user_id, product_id, addSub })
     .then(response => {

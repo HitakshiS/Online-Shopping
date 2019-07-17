@@ -163,7 +163,7 @@ class SignIn extends Component {
         <View style={styles.submitButton}>
           <CustomButton
             title="Submit Details"
-            color="#E9967A"
+            color="#F4A460"
             onPress={() => this.handleButtonPress()}
             disabled={
               this.state.email.length > 0 && this.state.password.length > 0
@@ -176,7 +176,7 @@ class SignIn extends Component {
           <View style={styles.submitButton}>
             <CustomButton
               title="Sign Up"
-              color="#E9967A"
+              color="#F4A460"
               onPress={() => this.props.navigation.navigate("SignUp")}
             />
           </View>

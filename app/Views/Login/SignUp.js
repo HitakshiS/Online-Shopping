@@ -201,7 +201,7 @@ export default class SignUp extends Component {
         <View style={styles.submitButton}>
           <CustomButton
             title="Submit Details"
-            color="#E9967A"
+            color="#F4A460"
             onPress={() => this.handleButtonPress()}
             disabled={
               this.state.name.length > 0 &&

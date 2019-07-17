@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { addToCart, hideCartBtn, exampleData } from "./action";
 import ListItem from "../../Components/ListItem";
-import PurchasedList from "../PurchasedList";
+import PurchasedList from "../PurchasedList/PurchasedList";
 import { ScrollView } from "react-native-gesture-handler";
 import { Constants } from "../../AppConfig/Constants";
 import axios from "axios";
@@ -24,13 +24,13 @@ class HomeScreen extends Component {
             style={styles.buttonStyles}
             title="drawer"
             onPress={() => navigation.toggleDrawer()}
-            color="#E9967A"
+            color="#F4A460"
           />
           <CustomButton
             style={styles.buttonStyles}
             onPress={() => navigation.navigate("Cart")}
             title="Cart"
-            color="#E9967A"
+            color="#F4A460"
           />
         </View>
       )
@@ -66,25 +66,6 @@ class HomeScreen extends Component {
     );
   };
 
-  // apiHomeDataCall = () => {
-  //   axios({
-  //     method: "post",
-  //     url: Constants.STOCK_API
-  //   })
-  //     .then(response => {
-  //       if (response.data.code == 200) {
-  //         console.log(response.data.stockData);
-  //         // const data = response.stockData;
-  //         this.setState(() => ({
-  //           data: response.data.stockData
-  //         }));
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // };
-
   componentDidMount() {
     axios
       .get(Constants.STOCK_API)
@@ -112,7 +93,7 @@ class HomeScreen extends Component {
   render() {
     return (
       <ScrollView style={{ backgroundColor: "#FFEFD5" }}>
-        <PurchasedList horizontal={true} />
+        {/* <PurchasedList horizontal={true} /> */}
         <FlatList data={this.state.data} renderItem={this.renderItem} />
       </ScrollView>
     );

@@ -51,3 +51,9 @@ export const exampleData = (id, name, stockQty, price, description, image) => {
     payload: { id, name, stockQty, price, description, image }
   };
 };
+
+export const logOut = () => {
+  return {
+    type: ActionTypes.LOG_OUT
+  };
+};

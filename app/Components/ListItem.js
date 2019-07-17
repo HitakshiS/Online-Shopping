@@ -11,6 +11,7 @@ import IncDec from "./IncDec";
 import { ApiCartUpdateCall } from "./ApiCartUpdateCall";
 import { connect } from "react-redux";
 import ErrorBoundary from "./ErrorBoundary";
+import axios from "axios";
 
 class ListItem extends Component {
   constructor(props) {
@@ -49,7 +50,6 @@ class ListItem extends Component {
       onValueUpdated,
       listDetailNavigation
     } = this.props;
-
     return (
       <TouchableWithoutFeedback
         onPress={() =>
@@ -71,6 +71,7 @@ class ListItem extends Component {
               <CustomText
                 style={styles.textStyles}
                 title={`Quantity: ${item.qty ? item.qty : this.state.qty}`}
+                //
               />
             </ErrorBoundary>
             <ErrorBoundary>
@@ -104,7 +105,7 @@ class ListItem extends Component {
               {!this.state.showIncDec && (
                 <CustomButton
                   title="Add To Cart"
-                  color="#E9967A"
+                  color="#F4A460"
                   onPress={() => {
                     if (item.stock_qty == 1) {
                       this.setState({ stockCheck: true, qty: 1 });

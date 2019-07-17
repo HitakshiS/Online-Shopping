@@ -11,7 +11,7 @@ import ListItemDetail from "../Views/ListItemDetail";
 import Profile from "../Views/Profile";
 import Success from "../Views/SuccessFailure/Success";
 import Failure from "../Views/SuccessFailure/Failure";
-import PurchasedList from "../Views/PurchasedList";
+import PurchasedList from "../Views/PurchasedList/PurchasedList";
 import Order from "../Views/PurchasedList/Order";
 import SignIn from "../Views/Login/SignIn";
 import SignUp from "../Views/Login/SignUp";
@@ -60,16 +60,17 @@ const AppNavigatorTwo = createStackNavigator(
   { initialRouteName: "Login" }
 );
 
-const OrderPurchasedList = createStackNavigator(
+const MyOrders = createStackNavigator(
   {
+    Order: Order,
     PurchasedList: PurchasedList
   },
-  { initialRouteName: "PurchasedList" }
+  { initialRouteName: "Order" }
 );
 
 const MyDrawerNavigator = createDrawerNavigator({
   AppNavigatorOne,
-  OrderPurchasedList: OrderPurchasedList
+  MyOrders: MyOrders
 });
 
 const MySwitchNavigator = createSwitchNavigator(
@@ -77,10 +78,10 @@ const MySwitchNavigator = createSwitchNavigator(
     Authentication: Authentication,
     MyDrawerNavigator: MyDrawerNavigator,
     AppNavigatorTwo: AppNavigatorTwo
+  },
+  {
+    initialRouteName: "Authentication"
   }
-  // {
-  //   initialRouteName: "Authentication"
-  // }
 );
 
 export default createAppContainer(MySwitchNavigator);

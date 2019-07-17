@@ -7,33 +7,49 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import CustomText from "../../Components/CustomText";
+import CustomButton from "../../Components/CustomButton";
 import ErrorBoundary from "../../Components/ErrorBoundary";
 import axios from "axios";
 import { Constants } from "../../AppConfig/Constants";
 
 class Order extends Component {
-  static navigationOptions = {
-    title: "Previous orders"
-  };
+  static navigationOptions = ({ navigation }) => ({
+    headerStyle: {
+      backgroundColor: "#F4A460"
+    },
+    headerTitle: "Previous orders"
+  });
 
   renderItem = ({ item }) => {
     return (
       <TouchableWithoutFeedback
-        onPress={() => PurchasedListNavigation(item, bill)}
+        onPress={() => this.PurchasedListNavigation(item, item.total_bill)}
       >
-        <View style={{ flex: 1 }}>
-          <CustomText
-            style={styles.textStyles}
-            title={`Purchase Details: ${item.creation_time_stamp}`}
-          />
-          <CustomText
-            style={styles.textStyles}
-            title={`Total Bill: ${item.total_bill}`}
-          />
-          <CustomText
-            style={styles.textStyles}
-            title={`Total Distinct Items: ${item.total_items}`}
-          />
+        <View style={styles.containerStyles}>
+          <ErrorBoundary>
+            <CustomText
+              style={styles.textStyles}
+              title={`Purchase Details: ${item.creation_time_stamp}`}
+            />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <CustomText
+              style={styles.textStyles}
+              title={`Total Bill: ${item.total_bill}`}
+            />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <CustomText
+              style={styles.textStyles}
+              title={`Total Distinct Items: ${item.total_items}`}
+            />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <CustomText
+              style={styles.textStyles}
+              title={`Transaction Id: ${item.id}`}
+            />
+          </ErrorBoundary>
         </View>
       </TouchableWithoutFeedback>
     );
@@ -46,12 +62,14 @@ class Order extends Component {
     };
   }
 
-  PurchasedListNavigation(item, bill) {
+  PurchasedListNavigation = item => {
     this.props.navigation.navigate("PurchasedList", {
       itemValue: item.products,
-      bill: this.state.order.total_bill
+      total_bill: item.total_bill,
+      id: item.id,
+      delivery_address: item.delivery_address
     });
-  }
+  };
 
   componentDidMount = () => {
     axios
@@ -75,7 +93,11 @@ class Order extends Component {
     return (
       <View style={{ flex: 1, padding: 10, backgroundColor: "#FFEFD5" }}>
         {this.state.order && this.state.order.length > 0 ? (
-          <FlatList data={this.state.order} renderItem={this.renderItem} />
+          <FlatList
+            style={{ margin: 10 }}
+            data={this.state.order}
+            renderItem={this.renderItem}
+          />
         ) : (
           <CustomText
             style={{
@@ -107,17 +129,12 @@ const styles = StyleSheet.create({
     borderRadius: 30
   },
   textStyles: {
-    fontSize: 20,
+    fontSize: 17,
     flex: 1,
     color: "black",
     marginLeft: 10,
-    marginRight: 10
-  },
-  emptyTextStyle: {
-    fontSize: 20,
-    color: "#7a42f4",
-    flex: 1,
-    textAlign: "center"
+    marginRight: 10,
+    padding: 10
   }
 });
 
