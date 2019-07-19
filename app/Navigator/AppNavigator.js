@@ -66,7 +66,8 @@ const AppNavigatorTwo = createStackNavigator(
 const MyOrders = createStackNavigator(
   {
     Order: Order,
-    PurchasedList: PurchasedList
+    PurchasedList: PurchasedList,
+    Home: HomeScreen
   },
   { initialRouteName: "Order" }
 );

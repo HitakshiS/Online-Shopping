@@ -102,6 +102,23 @@ class Cart extends Component {
       });
   };
 
+  // ApiStockRead = product_id => {
+  //   axios
+  //     .get(Constants.STOCK_READ, { params: { product_id } })
+  //     .then(response => {
+  //       console.log(response.data);
+  //       if (response.data.code == 200) {
+  //         console.log(response.data);
+  //         this.setState(() => ({
+  //           stock_qty: response.data.productData.stock_qty
+  //         }));
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // };
+
   FailurePage() {
     this.props.navigation.navigate("Failure");
   }
@@ -111,7 +128,8 @@ class Cart extends Component {
     this.state = {
       cart: [],
       Quantity: "",
-      price: 0
+      price: 0,
+      stock_qty: 0
     };
   }
 
@@ -120,19 +138,6 @@ class Cart extends Component {
   };
 
   ApiCartRemoveItem = (user_id, product_id, index) => {
-    // console.log("this.state.cart", index, this.state.cart);
-
-    // let cardTemp = [...this.state.cart];
-
-    // console.log(cardTemp);
-
-    // cardTemp.splice(index, 1);
-
-    // console.log(cardTemp);
-
-    // this.setState({
-    //   cart: [...cardTemp]
-    // });
     axios
       .post(Constants.REMOVE_ITEM, { user_id, product_id })
       .then(response => {
@@ -174,14 +179,9 @@ class Cart extends Component {
             item.product_id,
             index
           );
-          //this.props.cop(this.state.cart);
         }}
-        onSelectedQuantity={this.quantitySelect}
         onValueUpdated={qtyValue => {
-          // // let a = this.state.Quantity.splice();
-          // // a[index] = qtyValue ? qtyValue : item.qty;
           this.props.addToCart(item.product_id, qtyValue);
-          //this.props.cop(this.state.cart);
         }}
       />
     );
@@ -242,7 +242,6 @@ class Cart extends Component {
   }
 
   render() {
-    console.log("Products apicall======", this.state.success);
     const cartItemQuantity = this.cartItemQty(this.state.cart);
     const cartItemPrice = this.cartItemPrc(this.state.cart);
     console.log("cartItemQty", cartItemQuantity);

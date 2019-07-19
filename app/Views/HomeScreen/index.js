@@ -58,7 +58,6 @@ class HomeScreen extends Component {
         stock_qty={item.stock_qty}
         onValueUpdated={(id, qty) => {
           this.props.addToCart(id, qty);
-          //this.props.cop(this.state.cart);
         }}
         listDetailNavigation={(item, qty) => {
           addToCart;
@@ -119,12 +118,11 @@ class HomeScreen extends Component {
 
   mergeById = (a1, a2) =>
     a1.map(itm => ({
-      ...a2.find(item => item.id === itm.id && item),
+      ...a2.find(item => item.product_id === itm.product_id && item),
       ...itm
     }));
 
   render() {
-    console.log("homedata is here", homedata);
     const homeData = this.mergeById(this.state.data, this.state.cart);
     return (
       <ScrollView style={{ backgroundColor: "#FFEFD5" }}>

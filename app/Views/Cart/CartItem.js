@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 import CustomText from "../../Components/CustomText";
 import CustomButton from "../../Components/CustomButton";
 import IncDec from "../../Components/IncDec";
@@ -35,23 +34,23 @@ export default class CartItem extends Component {
     // // a[index] = qtyValue ? qtyValue : item.qty;
   };
 
-  // mergeById = a1 =>
-  //   a1.map(itm => {
-  //     if (itm.id === product_id) return itm.qty;
-  //   });
-
   render() {
     const { item, onRemovePress, onValueUpdated } = this.props;
     amount = item.price * this.state.Quantity;
     //const finalValue = this.mergeById(this.state.cart);
-    console.log(
-      "prod_id, cart quantity incDec ",
-      item.product_id,
-      this.state.Quantity
-    );
+    console.log("stock in cart", item.stock_qty);
     return (
       <View style={styles.containerStyles}>
         <View style={{ flex: 1, flexDirection: "row" }}>
+          <Image
+            style={{
+              width: 80,
+              height: 80
+            }}
+            source={{
+              uri: item.image
+            }}
+          />
           <View style={styles.listSubContainer}>
             <ErrorBoundary>
               <CustomText
@@ -75,12 +74,12 @@ export default class CartItem extends Component {
               style={[
                 styles.textStyles,
                 {
-                  color: item.qty === item.stock_qty ? "red" : "green",
+                  color: item.qty >= item.stock_qty ? "red" : "green",
                   paddingBottom: 5,
                   fontSize: 20
                 }
               ]}
-              title={item.qty === item.stock_qty ? "Out of stock" : "In stock"}
+              title={item.qty >= item.stock_qty ? "Out of stock" : "In stock"}
             />
           </View>
           <View style={styles.buttonContainer}>
@@ -95,14 +94,12 @@ export default class CartItem extends Component {
         <View style={{ flex: 0.2 }}>
           <IncDec
             item={item}
-            //stock_qty={item.stock_qty}
             value={item.qty}
             product_id={item.product_id}
             onValueUpdated={qtyValue => {
               this.setState({
                 Quantity: qtyValue
               });
-              //this.state.Quantity.push(qtyValue);
               onValueUpdated(qtyValue);
             }}
           />

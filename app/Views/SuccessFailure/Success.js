@@ -1,5 +1,13 @@
 import React, { Component } from "react";
-import { View, StyleSheet, FlatList, Image, BackHandler } from "react-native";
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  Image,
+  BackHandler,
+  Alert,
+  AsyncStorage
+} from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import CustomButton from "../../Components/CustomButton";
@@ -36,26 +44,39 @@ class Success extends Component {
       headerRight: (
         <View style={{ padding: 10 }}>
           <CustomButton
-            color="#F4A460"
             title="LogOut"
-            onPress={() => this.logOut()}
+            onPress={() => {
+              const logOutFn = navigation.getParam("logOutFn");
+
+              logOutFn();
+            }}
+            color="#F4A460"
           />
         </View>
       )
     };
   };
 
-  logOut = () => {
+  logOutFn = async () => {
+    console.log("=====>");
+
     Alert.alert(
+      null,
       "Are you sure you want to LogOut",
       [
         {
-          text: "Ok",
-          onPress: () => {
-            this.props.logOut();
-          }
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
         },
-        { text: "Cancel" }
+        {
+          text: "OK",
+          onPress: async () => {
+            this.props.logOut();
+            await AsyncStorage.removeItem("userExist");
+            this.props.navigation.navigate("SignIn");
+          }
+        }
       ],
       { cancelable: true }
     );
@@ -77,6 +98,31 @@ class Success extends Component {
         index: 0,
         actions: [NavigationActions.navigate({ routeName: "Home" })]
       })
+    );
+  };
+
+  logOutFn = async () => {
+    console.log("=====>");
+
+    Alert.alert(
+      null,
+      "Are you sure you want to LogOut",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        {
+          text: "OK",
+          onPress: async () => {
+            this.props.logOut();
+            await AsyncStorage.removeItem("userExist");
+            this.props.navigation.navigate("SignIn");
+          }
+        }
+      ],
+      { cancelable: true }
     );
   };
 
@@ -130,6 +176,7 @@ class Success extends Component {
       this.homePage();
       return true;
     });
+    this.props.navigation.setParams({ logOutFn: this.logOutFn });
   }
 
   componentWillUnmount() {
@@ -176,7 +223,19 @@ class Success extends Component {
               title={`Delivery Address: ${response.delivery_address}`}
             />
             <FlatList
-              style={{ flex: 1, marginBottom: 20 }}
+              style={{
+                flex: 1,
+                marginTop: 20,
+                paddingTop: 20,
+                marginTop: 20,
+                paddingTop: 20,
+                marginBottom: 20,
+                paddingBottom: 20,
+                marginLeft: 10,
+                paddingLeft: 10,
+                marginRight: 10,
+                paddingRight: 10
+              }}
               data={response.products}
               renderItem={this.renderItem}
             />

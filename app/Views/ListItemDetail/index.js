@@ -10,6 +10,8 @@ import { ApiCartUpdateCall } from "../../Components/ApiCartUpdateCall";
 import IncDec from "../../Components/IncDec";
 import ErrorBoundary from "../../Components/ErrorBoundary";
 import { NavigationActions, StackActions } from "react-navigation";
+import axios from "axios";
+import { Constants } from "../../AppConfig/Constants";
 
 class ListItemDetail extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -51,12 +53,33 @@ class ListItemDetail extends Component {
     super(props);
     this.state = {
       stockCheck: false,
-      qty: 0
+      qty: 0,
+      stock_qty: 0,
+      cart: []
     };
   }
   HomePage() {
     this.props.navigation.navigate("Home");
   }
+
+  componentDidMount = () => {
+    axios
+      .get(Constants.CART_API, {
+        params: { user_id: this.props.reducer.userProfile.user_id }
+      })
+      .then(response => {
+        if (response.data.code == 200) {
+          console.log(response.data.cartData);
+
+          this.setState(() => ({
+            cart: response.data.cartData
+          }));
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   alertBoxCustom = () => {
     Alert.alert(
@@ -72,24 +95,48 @@ class ListItemDetail extends Component {
     );
   };
 
+  ApiStockRead = product_id => {
+    axios
+      .get(Constants.STOCK_READ, { params: { product_id } })
+      .then(response => {
+        console.log(response.data);
+        if (response.data.code == 200) {
+          console.log(response.data);
+          this.setState(() => ({
+            stock_qty: response.data.productData.stock_qty
+          }));
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   render() {
     const itemValue = this.props.navigation.getParam("itemValue");
     const quantity = this.props.navigation.getParam("quantity");
+    console.log("listDetail stock", itemValue.stock_qty);
+    console.log("listDetail quantity", quantity);
+    console.log("listDetail quantity and id array", itemValue.product_id);
+    // const cartItemQuantity = this.cartItemQty(this.state.cart);
+    cartItemQty = () =>
+      this.state.cart.map(item => {
+        if (item.product_id === itemValue.product_id) return item.qty;
+      });
 
     return (
       <View style={{ flex: 1, backgroundColor: "#FFEFD5" }}>
         <View style={styles.containerStyle}>
-          <ErrorBoundary>
+          <ScrollView style={styles.scrollViewStyle}>
             <Image
-              style={{ flex: 0.8, alignSelf: "center" }}
+              style={{
+                width: 100,
+                height: 100
+              }}
               source={{
-                uri:
-                  "https://facebook.github.io/react-native/docs/assets/favicon.png"
+                uri: itemValue.image
               }}
             />
-          </ErrorBoundary>
-
-          <ScrollView style={styles.scrollViewStyle}>
             <ErrorBoundary>
               <CustomText
                 style={styles.textStyles}
@@ -104,18 +151,17 @@ class ListItemDetail extends Component {
             </ErrorBoundary>
             <ErrorBoundary>
               <CustomText
-                style={styles.textStyles}
-                title={`Quantity: ${quantity}`}
-              />
-            </ErrorBoundary>
-            <ErrorBoundary>
-              <CustomText
                 style={[
                   styles.textStyles,
-                  { color: quantity >= itemValue.stock_qty ? "red" : "green" }
+                  {
+                    color:
+                      this.state.qty === itemValue.stock_qty ? "red" : "green"
+                  }
                 ]}
                 title={
-                  quantity >= itemValue.stock_qty ? "Out of stock" : "In stock"
+                  this.state.qty === itemValue.stock_qty
+                    ? "Out of stock"
+                    : "In stock"
                 }
               />
             </ErrorBoundary>
@@ -127,15 +173,15 @@ class ListItemDetail extends Component {
             </ErrorBoundary>
           </ScrollView>
           <View style={{ flex: 0.2 }}>
-            {!this.state.showIncDec && quantity === 0 ? (
+            {!this.state.showIncDec ? (
               <CustomButton
                 title="Add To Cart"
                 color="#F4A460"
                 onPress={() => {
                   if (itemValue.stock_qty == 1) {
-                    this.setState({ stockCheck: true, qty: 1 });
+                    this.setState({ stockCheck: true, qty: quantity + 1 });
                   } else {
-                    this.setState({ stockCheck: false, qty: 1 });
+                    this.setState({ stockCheck: false, qty: quantity + 1 });
                   }
                   ApiCartUpdateCall(
                     this.props.reducer.userProfile.user_id,
@@ -146,19 +192,29 @@ class ListItemDetail extends Component {
                     showIncDec: true
                   }));
                 }}
-                disabled={itemValue.stock_qty === 0 ? true : false}
+                disabled={
+                  itemValue.stock_qty === 0 || itemValue.stock_qty === quantity
+                    ? true
+                    : false
+                }
               />
             ) : (
               <IncDec
                 item={itemValue}
                 stock_qty={itemValue.stock_qty}
-                value={quantity}
+                value={quantity + 1}
                 product_id={itemValue.product_id}
                 onValueUpdated={qtyValue => {
                   if (itemValue.stock_qty == qtyValue) {
-                    this.setState({ stockCheck: true, qty: qtyValue });
+                    this.setState({
+                      stockCheck: true,
+                      qty: qtyValue
+                    });
                   } else {
-                    this.setState({ stockCheck: false, qty: qtyValue });
+                    this.setState({
+                      stockCheck: false,
+                      qty: qtyValue
+                    });
                   }
                   this.props.addToCart(itemValue.product_id, qtyValue);
                 }}
@@ -207,8 +263,8 @@ const styles = StyleSheet.create({
   scrollViewStyle: {
     flexDirection: "column",
     flex: 0.8,
-    alignSelf: "center",
     marginLeft: 10,
-    marginTop: 10
+    marginTop: 10,
+    marginBottom: 10
   }
 });

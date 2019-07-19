@@ -52,12 +52,6 @@ class ListItem extends Component {
       listDetailNavigation
     } = this.props;
 
-    const cartValues = this.state.cart.map(id => ({
-      ...a2.find(item => item.id === id.id && item),
-      ...id
-    }));
-    console.log("home addtocart");
-    //console.log("In home=======>name,item.qty", item.name, item.qty);
     return (
       <TouchableWithoutFeedback
         onPress={() =>
@@ -65,10 +59,16 @@ class ListItem extends Component {
         }
       >
         <View style={[styles.containerStyles, { flexDirection: "column" }]}>
-          <View style={{ flex: 1 }}>
-            <ErrorBoundary>
-              <Image style={{ flex: 1 }} source={item.image} />
-            </ErrorBoundary>
+          <View style={{ flex: 1, flexDirection: "row" }}>
+            <Image
+              style={{
+                width: 100,
+                height: 100
+              }}
+              source={{
+                uri: item.image
+              }}
+            />
             <View style={styles.listSubContainer}>
               <ErrorBoundary>
                 <CustomText
@@ -76,13 +76,15 @@ class ListItem extends Component {
                   title={`Product: ${item.name}`}
                 />
               </ErrorBoundary>
-              <ErrorBoundary>
+              {/* <ErrorBoundary>
                 <CustomText
                   style={styles.textStyles}
-                  title={`Quantity: ${item.qty ? item.qty : this.state.qty}`}
+                  title={`Quantity: ${
+                    item.qty ? item.qty : this.state.qty ? this.state.qty : 1
+                  }`}
                   //
                 />
-              </ErrorBoundary>
+              </ErrorBoundary> */}
               <ErrorBoundary>
                 <CustomText
                   style={styles.textStyles}
@@ -95,14 +97,18 @@ class ListItem extends Component {
                     styles.textStyles,
                     {
                       color:
-                        item.stock_qty === 0 || this.state.stockCheck
+                        item.stock_qty === 0 ||
+                        this.state.stockCheck ||
+                        item.stock_qty === item.qty
                           ? "red"
                           : "green",
                       fontSize: 20
                     }
                   ]}
                   title={
-                    item.stock_qty === 0 || this.state.stockCheck
+                    item.stock_qty === 0 ||
+                    this.state.stockCheck ||
+                    item.stock_qty === item.qty
                       ? "Out of stock"
                       : "In stock"
                   }
@@ -118,9 +124,15 @@ class ListItem extends Component {
                   color="#F4A460"
                   onPress={() => {
                     if (item.stock_qty == 1) {
-                      this.setState({ stockCheck: true, qty: 1 });
+                      this.setState({
+                        stockCheck: true,
+                        qty: 1
+                      });
                     } else {
-                      this.setState({ stockCheck: false, qty: 1 });
+                      this.setState({
+                        stockCheck: false,
+                        qty: 1
+                      });
                     }
                     ApiCartUpdateCall(
                       this.props.reducer.userProfile.user_id,
@@ -128,7 +140,7 @@ class ListItem extends Component {
                       1
                     );
 
-                    onValueUpdated(item.product_id, item.qty);
+                    onValueUpdated(item.product_id, 1);
                     this.setState(() => ({
                       showIncDec: true
                     }));
@@ -144,13 +156,19 @@ class ListItem extends Component {
                 <IncDec
                   item={item}
                   stock_qty={item.stock_qty}
-                  value={item.qty}
+                  value={item.qty + 1}
                   product_id={item.product_id}
                   onValueUpdated={qtyValue => {
                     if (item.stock_qty == qtyValue) {
-                      this.setState({ stockCheck: true, qty: qtyValue });
+                      this.setState({
+                        stockCheck: true,
+                        qty: qtyValue
+                      });
                     } else {
-                      this.setState({ stockCheck: false, qty: qtyValue });
+                      this.setState({
+                        stockCheck: false,
+                        qty: qtyValue
+                      });
                     }
                     onValueUpdated(item.product_id, qtyValue);
                   }}
