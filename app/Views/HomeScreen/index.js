@@ -3,7 +3,7 @@ import { View, TouchableOpacity, FlatList, StyleSheet } from "react-native";
 import CustomButton from "../../Components/CustomButton";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { addToCart, hideCartBtn, exampleData } from "./action";
+import { addToCart, hideCartBtn, exampleData, cop } from "./action";
 import ListItem from "../../Components/ListItem";
 import PurchasedList from "../PurchasedList/PurchasedList";
 import { ScrollView } from "react-native-gesture-handler";
@@ -39,8 +39,8 @@ class HomeScreen extends Component {
   constructor() {
     super();
     this.state = {
-      data: []
-      //cart: []
+      data: [],
+      cart: []
     };
   }
 
@@ -58,8 +58,10 @@ class HomeScreen extends Component {
         stock_qty={item.stock_qty}
         onValueUpdated={(id, qty) => {
           this.props.addToCart(id, qty);
+          //this.props.cop(this.state.cart);
         }}
         listDetailNavigation={(item, qty) => {
+          addToCart;
           this.listDetailNavigation(item, qty);
         }}
       />
@@ -88,13 +90,46 @@ class HomeScreen extends Component {
       .catch(error => {
         console.log(error);
       });
+    axios
+      .get(Constants.CART_API, {
+        params: { user_id: this.props.reducer.userProfile.user_id }
+      })
+      .then(response => {
+        if (response.data.code == 200) {
+          console.log(response.data.cartData);
+
+          this.setState(
+            {
+              cart: response.data.cartData
+            },
+            () => {
+              if (
+                this.props.reducer.cartList &&
+                this.props.reducer.cartList.length === 0
+              )
+                this.props.cop(this.state.cart);
+            }
+          );
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
+  mergeById = (a1, a2) =>
+    a1.map(itm => ({
+      ...a2.find(item => item.id === itm.id && item),
+      ...itm
+    }));
+
   render() {
+    console.log("homedata is here", homedata);
+    const homeData = this.mergeById(this.state.data, this.state.cart);
     return (
       <ScrollView style={{ backgroundColor: "#FFEFD5" }}>
         {/* <PurchasedList horizontal={true} /> */}
-        <FlatList data={this.state.data} renderItem={this.renderItem} />
+        <FlatList data={homeData} renderItem={this.renderItem} />
       </ScrollView>
     );
   }
@@ -111,7 +146,8 @@ const mapDispatchToProps = dispatch =>
     {
       addToCart,
       hideCartBtn,
-      exampleData
+      exampleData,
+      cop
     },
     dispatch
   );

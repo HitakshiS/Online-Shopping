@@ -4,7 +4,7 @@ import CustomText from "../../Components/CustomText";
 import CustomButton from "../../Components/CustomButton";
 import IncDec from "../../Components/IncDec";
 import { connect } from "react-redux";
-import { addToCart, reset, logOut } from "../HomeScreen/action";
+import { addToCart, reset, logOut, cop } from "../HomeScreen/action";
 import { bindActionCreators } from "redux";
 import axios from "axios";
 import { Constants } from "../../AppConfig/Constants";
@@ -110,7 +110,8 @@ class Cart extends Component {
     super();
     this.state = {
       cart: [],
-      Quantity: ""
+      Quantity: "",
+      price: 0
     };
   }
 
@@ -119,41 +120,43 @@ class Cart extends Component {
   };
 
   ApiCartRemoveItem = (user_id, product_id, index) => {
-    console.log("this.state.cart", index, this.state.cart);
+    // console.log("this.state.cart", index, this.state.cart);
 
-    let cardTemp = [...this.state.cart];
+    // let cardTemp = [...this.state.cart];
 
-    console.log(cardTemp);
+    // console.log(cardTemp);
 
-    cardTemp.splice(index, 1);
+    // cardTemp.splice(index, 1);
 
-    console.log(cardTemp);
+    // console.log(cardTemp);
 
-    this.setState({
-      cart: [...cardTemp]
-    });
-    // axios
-    //   .post(Constants.REMOVE_ITEM, { user_id, product_id })
-    //   .then(response => {
-    //     if (response.data.code == 200) {
-    //       console.log(response.data);
-    //       console.log("Prod_id Remove======>", product_id);
-    //       console.log("index Remove======>>>>", index);
-    //       let cardTemp = [...this.state.cart];
-    //       cardTemp.splice(index, 1);
-    //       this.setState({
-    //         cart: [...cardTemp]
-    //       });
-    //     }
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
+    // this.setState({
+    //   cart: [...cardTemp]
+    // });
+    axios
+      .post(Constants.REMOVE_ITEM, { user_id, product_id })
+      .then(response => {
+        if (response.data.code == 200) {
+          console.log("Remove Prod_id,index======>", product_id, index);
+          console.log("cartList", this.props.reducer.cartList);
+
+          let cardTemp = [...this.state.cart];
+          var indexValue = cardTemp.findIndex(p => p.product_id == product_id);
+          cardTemp.splice(indexValue, 1);
+          this.setState({
+            cart: [...cardTemp]
+          });
+          this.props.reset(index, product_id);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   calculateAmount = () => {
-    const billing = this.state.cart.length
-      ? this.billingCost(this.state.cart)
+    const billing = this.props.reducer.cartList
+      ? this.billingCost(this.props.reducer.cartList)
       : null;
 
     return this.state.cart.length ? this.Amount(billing) : null;
@@ -164,18 +167,21 @@ class Cart extends Component {
       <CartItem
         item={item}
         key={`cart_${index}`}
+        index={index}
         onRemovePress={() => {
           this.ApiCartRemoveItem(
             this.props.reducer.userProfile.user_id,
             item.product_id,
             index
           );
+          //this.props.cop(this.state.cart);
         }}
         onSelectedQuantity={this.quantitySelect}
         onValueUpdated={qtyValue => {
           // // let a = this.state.Quantity.splice();
           // // a[index] = qtyValue ? qtyValue : item.qty;
           this.props.addToCart(item.product_id, qtyValue);
+          //this.props.cop(this.state.cart);
         }}
       />
     );
@@ -200,12 +206,19 @@ class Cart extends Component {
     );
   };
 
-  billingCost = b1 => b1.map(item => item.price * this.state.Quantity);
+  billingCost = b1 =>
+    b1.map(item => item.cartItemPrice * item.cartItemQuantity);
+  cartItemQty = q1 => q1.map(item => item.qty);
+  cartItemPrc = p1 => p1.map(item => item.price);
+  // Amount = c1 =>
+  //   c1.reduce((total, currentValue) => {
+  //     return total + currentValue;
+  //   });
 
-  Amount = c1 =>
-    c1.reduce((total, currentValue) => {
-      return total + currentValue;
-    });
+  Amount = (a1, a2) =>
+    a1.reduce((r, a, i) => {
+      return r + a * a2[i];
+    }, 0);
 
   componentDidMount() {
     axios
@@ -229,8 +242,19 @@ class Cart extends Component {
   }
 
   render() {
-    const TotalAmount = this.calculateAmount();
     console.log("Products apicall======", this.state.success);
+    const cartItemQuantity = this.cartItemQty(this.state.cart);
+    const cartItemPrice = this.cartItemPrc(this.state.cart);
+    console.log("cartItemQty", cartItemQuantity);
+    console.log("cartItemPrice", cartItemPrice);
+    const finalAmount =
+      cartItemQuantity &&
+      cartItemPrice.length &&
+      cartItemPrice &&
+      cartItemQuantity.length
+        ? this.Amount(cartItemQuantity, cartItemPrice)
+        : 0;
+    console.log(finalAmount);
 
     return (
       //
@@ -263,7 +287,7 @@ class Cart extends Component {
                   marginBottom: 10
                 }
               ]}
-              title={`Total amount: ₹${TotalAmount}`}
+              title={`Total amount: ₹${finalAmount}`}
             />
             <CustomButton
               style={[styles.buttonStyles, { flex: 0.1 }]}
@@ -325,7 +349,8 @@ const mapDispatchToProps = dispatch =>
     {
       addToCart,
       reset,
-      logOut
+      logOut,
+      cop
     },
     dispatch
   );

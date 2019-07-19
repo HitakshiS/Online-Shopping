@@ -126,7 +126,7 @@ class ListItemDetail extends Component {
               />
             </ErrorBoundary>
           </ScrollView>
-          <View style={{ flex: 0.1 }}>
+          <View style={{ flex: 0.2 }}>
             {!this.state.showIncDec && quantity === 0 ? (
               <CustomButton
                 title="Add To Cart"

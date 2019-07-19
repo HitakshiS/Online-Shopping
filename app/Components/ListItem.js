@@ -12,6 +12,7 @@ import { ApiCartUpdateCall } from "./ApiCartUpdateCall";
 import { connect } from "react-redux";
 import ErrorBoundary from "./ErrorBoundary";
 import axios from "axios";
+import { addToCart } from "../Views/HomeScreen/action";
 
 class ListItem extends Component {
   constructor(props) {
@@ -19,29 +20,29 @@ class ListItem extends Component {
     this.state = {
       stockCheck: false,
       qty: 0,
-      showIncDec: false
+      showIncDec: false,
+      cart: []
     };
   }
 
-  // apiHomeDataCall = () => {
-  //   axios({
-  //     method: "post",
-  //     url: Constants.STOCK_API
-  //   })
-  //     .then(response => {
-  //       if (response.data.code == 200) {
-  //         console.log(response.stockData);
-  //         return response.stockData;
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // };
+  ApiGetCartCall = () => {
+    axios
+      .get(Constants.CART_API, {
+        params: { user_id: this.props.reducer.userProfile.user_id }
+      })
+      .then(response => {
+        if (response.data.code == 200) {
+          console.log(response.data.cartData);
 
-  // componentDidMount() {
-  //   this.apiHomeDataCall();
-  // }
+          this.setState(() => ({
+            cart: response.data.cartData
+          }));
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   render() {
     const {
@@ -50,55 +51,64 @@ class ListItem extends Component {
       onValueUpdated,
       listDetailNavigation
     } = this.props;
+
+    const cartValues = this.state.cart.map(id => ({
+      ...a2.find(item => item.id === id.id && item),
+      ...id
+    }));
+    console.log("home addtocart");
+    //console.log("In home=======>name,item.qty", item.name, item.qty);
     return (
       <TouchableWithoutFeedback
         onPress={() =>
           listDetailNavigation && listDetailNavigation(item, this.state.qty)
         }
       >
-        <View style={styles.containerStyles}>
-          <ErrorBoundary>
-            <Image style={{ flex: 1 }} source={item.image} />
-          </ErrorBoundary>
-          <View style={styles.listSubContainer}>
+        <View style={[styles.containerStyles, { flexDirection: "column" }]}>
+          <View style={{ flex: 1 }}>
             <ErrorBoundary>
-              <CustomText
-                style={styles.textStyles}
-                title={`Product: ${item.name}`}
-              />
+              <Image style={{ flex: 1 }} source={item.image} />
             </ErrorBoundary>
-            <ErrorBoundary>
-              <CustomText
-                style={styles.textStyles}
-                title={`Quantity: ${item.qty ? item.qty : this.state.qty}`}
-                //
-              />
-            </ErrorBoundary>
-            <ErrorBoundary>
-              <CustomText
-                style={styles.textStyles}
-                title={`Price: ${item.price}`}
-              />
-            </ErrorBoundary>
-            {!isPurchaseList && (
-              <CustomText
-                style={[
-                  styles.textStyles,
-                  {
-                    color:
-                      item.stock_qty === 0 || this.state.stockCheck
-                        ? "red"
-                        : "green",
-                    fontSize: 20
+            <View style={styles.listSubContainer}>
+              <ErrorBoundary>
+                <CustomText
+                  style={styles.textStyles}
+                  title={`Product: ${item.name}`}
+                />
+              </ErrorBoundary>
+              <ErrorBoundary>
+                <CustomText
+                  style={styles.textStyles}
+                  title={`Quantity: ${item.qty ? item.qty : this.state.qty}`}
+                  //
+                />
+              </ErrorBoundary>
+              <ErrorBoundary>
+                <CustomText
+                  style={styles.textStyles}
+                  title={`Price: ${item.price}`}
+                />
+              </ErrorBoundary>
+              {!isPurchaseList && (
+                <CustomText
+                  style={[
+                    styles.textStyles,
+                    {
+                      color:
+                        item.stock_qty === 0 || this.state.stockCheck
+                          ? "red"
+                          : "green",
+                      fontSize: 20
+                    }
+                  ]}
+                  title={
+                    item.stock_qty === 0 || this.state.stockCheck
+                      ? "Out of stock"
+                      : "In stock"
                   }
-                ]}
-                title={
-                  item.stock_qty === 0 || this.state.stockCheck
-                    ? "Out of stock"
-                    : "In stock"
-                }
-              />
-            )}
+                />
+              )}
+            </View>
           </View>
           {!isPurchaseList && (
             <View style={styles.buttonContainer}>
@@ -117,15 +127,20 @@ class ListItem extends Component {
                       item.product_id,
                       1
                     );
-                    onValueUpdated(item.product_id, 1);
+
+                    onValueUpdated(item.product_id, item.qty);
                     this.setState(() => ({
                       showIncDec: true
                     }));
                   }}
-                  disabled={item.stock_qty === 0 ? true : false}
+                  disabled={
+                    item.stock_qty === 0 || item.qty === item.stock_qty
+                      ? true
+                      : false
+                  }
                 />
               )}
-              {this.state.showIncDec && (
+              {this.state.showIncDec && item.qty != item.stock_qty && (
                 <IncDec
                   item={item}
                   stock_qty={item.stock_qty}
@@ -171,12 +186,12 @@ const styles = StyleSheet.create({
     color: "black"
   },
   buttonContainer: {
-    flex: 1,
-    alignSelf: "center"
+    flex: 0.2,
+    margin: 15
   },
   listSubContainer: {
     flexDirection: "column",
-    flex: 1,
+    flex: 1.2,
     alignSelf: "center",
     marginLeft: 10
   }

@@ -12,10 +12,10 @@ export const subCounterVal = id => {
     payload: id
   };
 };
-export const reset = id => {
+export const reset = (index, product_id) => {
   return {
     type: ActionTypes.RESET,
-    payload: id
+    payload: { index, product_id }
   };
 };
 export const addToCart = (id, qty) => {
@@ -55,5 +55,12 @@ export const exampleData = (id, name, stockQty, price, description, image) => {
 export const logOut = () => {
   return {
     type: ActionTypes.LOG_OUT
+  };
+};
+
+export const cop = cart => {
+  return {
+    type: ActionTypes.COPY,
+    payload: cart
   };
 };

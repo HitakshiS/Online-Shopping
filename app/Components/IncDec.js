@@ -13,7 +13,6 @@ class IncDec extends Component {
     this.state = {
       counter: props.value ? props.value : 1,
       stock_qty: 0
-      //quantity: 0
     };
   }
 
@@ -32,12 +31,6 @@ class IncDec extends Component {
         this.props.onValueUpdated(this.state.counter);
       }
     );
-    // this.props.navigation.navigate("Cart", {
-    //   quantity: this.state.quantity
-    // });
-    // this.props.navigation.navigate("Home", {
-    //   quantity: this.state.quantity
-    // });
   };
 
   ApiCartUpdateCall = (user_id, product_id, addSub) => {
@@ -46,7 +39,6 @@ class IncDec extends Component {
       .then(response => {
         if (response.data.code == 200) {
           this.setState({ quantity: response.data.quantity });
-          console.log("prod_id IncDec====>>>>", product_id);
         }
       })
       .catch(error => {
@@ -72,6 +64,11 @@ class IncDec extends Component {
   };
 
   render() {
+    console.log(
+      "prod_id, quantity incDec component",
+      this.props.product_id,
+      this.state.counter
+    );
     return (
       <View style={styles.containerStyles}>
         <CustomButton
@@ -81,7 +78,15 @@ class IncDec extends Component {
           disabled={this.state.counter > 1 ? false : true}
           color="#F4A460"
         />
-        <Text style={styles.textStyles}> {this.state.counter} </Text>
+        <View
+          style={{
+            // width: 10,
+            // height: 10,
+            flex: 0.5
+          }}
+        >
+          <Text style={styles.textStyles}> {this.state.counter} </Text>
+        </View>
         <CustomButton
           style={styles.buttonStyles}
           title="+"
@@ -109,9 +114,11 @@ const styles = StyleSheet.create({
   },
   textStyles: {
     fontSize: 20,
-    marginRight: 10,
+    paddingRight: 10,
     color: "black",
-    marginLeft: 10
+    paddingLeft: 10,
+    textAlign: "center"
+    //backgroundColor: "blue"
   },
   containerStyles: {
     flexDirection: "row",

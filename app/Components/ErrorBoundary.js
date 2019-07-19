@@ -23,7 +23,7 @@ export default class ErrorBoundary extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: "green" }}>
+      <View style={{ flex: 1 }}>
         {this.state.hasError ? (
           <CustomText title="some ERROR is spotted here." />
         ) : (

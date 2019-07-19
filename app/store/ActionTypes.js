@@ -9,5 +9,6 @@ export default (ActionTypes = {
   USER_PROFILE: "USER_PROFILE",
   EMPTY_CART_LIST: "EMPTY_CART_LIST",
   EXAMPLE_DATA: "EXAMPLE_DATA",
-  LOG_OUT: "LOG_OUT"
+  LOG_OUT: "LOG_OUT",
+  COPY: "COPY"
 });

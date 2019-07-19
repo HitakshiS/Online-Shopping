@@ -51,9 +51,36 @@ export default (HomeReducer = (state = INITIAL_STATE, action) => {
     }
 
     case ActionTypes.RESET: {
-      let updatedCartList = [...state.cartList];
-      updatedCartList.splice(action.payload, 1);
+      //console.log("before payload reducer index====>>>", action.payload.index);
+      // console.log(
+      //   "before payload reducer product_id====>>>",
+      //   action.payload.product_id
+      // );
 
+      let updatedCartList = [...state.cartList];
+      // const value = updatedCartList.map(item => {
+      //   if ((item.product_id = action.payload.product_id)) return item;
+      // });
+      var index = updatedCartList.findIndex(
+        p => p.product_id == action.payload.product_id
+      );
+      // console.log("index to be removed====>>>", index);
+      // console.log("before cartList reducer product_id====>>>", updatedCartList);
+      updatedCartList.splice(index, 1);
+      // console.log("after cartList before remove==>>", updatedCartList);
+      //console.log("cartList after remove==>>", cartList);
+      return {
+        ...state,
+        cartList: updatedCartList
+      };
+    }
+
+    case ActionTypes.COPY: {
+      let updatedCartList = action.payload;
+
+      // const newCartUpdate = updatedCartList.map(item => {
+      //   return item.product_id, item.qty;
+      // });
       return {
         ...state,
         cartList: updatedCartList
@@ -62,15 +89,15 @@ export default (HomeReducer = (state = INITIAL_STATE, action) => {
 
     case ActionTypes.ADD_TO_CART: {
       // let index = cartList.findIndex(i => i.id === action.object.id);
-
       return {
         ...state,
         cartList:
           state.cartList.length > 0
-            ? state.cartList.findIndex(item => item.id === action.payload.id) >
-              -1
+            ? state.cartList.findIndex(
+                item => item.product_id === action.payload.id
+              ) > -1
               ? state.cartList.map(data => {
-                  if (data.id === action.payload.id) {
+                  if (data.product_id === action.payload.id) {
                     return { ...data, qty: action.payload.qty };
                   } else {
                     return data;
@@ -78,9 +105,9 @@ export default (HomeReducer = (state = INITIAL_STATE, action) => {
                 })
               : [
                   ...state.cartList,
-                  { id: action.payload.id, qty: action.payload.qty }
+                  { product_id: action.payload.id, qty: action.payload.qty }
                 ]
-            : [{ id: action.payload.id, qty: action.payload.qty }]
+            : [{ product_id: action.payload.id, qty: action.payload.qty }]
       };
     }
 

@@ -4,31 +4,86 @@ import { View, StyleSheet } from "react-native";
 import CustomText from "../../Components/CustomText";
 import CustomButton from "../../Components/CustomButton";
 import IncDec from "../../Components/IncDec";
+import ErrorBoundary from "../../Components/ErrorBoundary";
 
 export default class CartItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      Quantity: props.item.qty
+      Quantity: props.item.qty,
+      cart: []
     };
   }
 
-  selectedQuantity = () => {
-    this.props.onSelectedQuantity(this.state.Quantity);
+  apiCartQuantityCheck = () => {
+    axios
+      .get(Constants.CART_API, {
+        params: { user_id: this.props.reducer.userProfile.user_id }
+      })
+      .then(response => {
+        if (response.data.code == 200) {
+          console.log(response.data.cartData);
+
+          this.setState(() => ({
+            cart: response.data.cartData
+          }));
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      }); // // let a = this.state.Quantity.splice();
+    // // a[index] = qtyValue ? qtyValue : item.qty;
   };
+
+  // mergeById = a1 =>
+  //   a1.map(itm => {
+  //     if (itm.id === product_id) return itm.qty;
+  //   });
 
   render() {
     const { item, onRemovePress, onValueUpdated } = this.props;
     amount = item.price * this.state.Quantity;
+    //const finalValue = this.mergeById(this.state.cart);
+    console.log(
+      "prod_id, cart quantity incDec ",
+      item.product_id,
+      this.state.Quantity
+    );
     return (
       <View style={styles.containerStyles}>
-        <View style={{ flexDirection: "row", flex: 1 }}>
-          <CustomText
-            style={styles.textStyles}
-            title={`Product: ${item.name}`}
-          />
-
-          <View styles={{ paddingRight: 10 }}>
+        <View style={{ flex: 1, flexDirection: "row" }}>
+          <View style={styles.listSubContainer}>
+            <ErrorBoundary>
+              <CustomText
+                style={styles.textStyles}
+                title={`Product: ${item.name}`}
+              />
+            </ErrorBoundary>
+            <ErrorBoundary>
+              <CustomText
+                style={styles.textStyles}
+                title={`Price: ${item.price}`}
+              />
+            </ErrorBoundary>
+            <ErrorBoundary>
+              <CustomText
+                style={[styles.textStyles, { paddingBottom: 5 }]}
+                title={`Amount: ${amount}`}
+              />
+            </ErrorBoundary>
+            <CustomText
+              style={[
+                styles.textStyles,
+                {
+                  color: item.qty === item.stock_qty ? "red" : "green",
+                  paddingBottom: 5,
+                  fontSize: 20
+                }
+              ]}
+              title={item.qty === item.stock_qty ? "Out of stock" : "In stock"}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
             <CustomButton
               onPress={onRemovePress}
               style={styles.buttonStyles}
@@ -37,43 +92,19 @@ export default class CartItem extends Component {
             />
           </View>
         </View>
-        <View style={{ flexDirection: "row", flex: 1 }}>
-          <CustomText
-            style={styles.textStyles}
-            title={`Price: ${item.price}`}
-          />
+        <View style={{ flex: 0.2 }}>
           <IncDec
             item={item}
-            // stock_qty={this.state.stock_qty}
+            //stock_qty={item.stock_qty}
             value={item.qty}
             product_id={item.product_id}
             onValueUpdated={qtyValue => {
-              // // let a = this.state.Quantity.splice();
-              // // a[index] = qtyValue ? qtyValue : item.qty;
               this.setState({
                 Quantity: qtyValue
               });
               //this.state.Quantity.push(qtyValue);
               onValueUpdated(qtyValue);
             }}
-          />
-        </View>
-        <View style={{ flex: 1 }}>
-          <CustomText
-            style={[styles.textStyles, { paddingBottom: 5 }]}
-            title={`Amount: ${amount}`}
-          />
-        </View>
-        <View style={{ flex: 1 }}>
-          <CustomText
-            style={[
-              styles.textStyles,
-              {
-                color: item.qty === item.stock_qty ? "red" : "green",
-                paddingBottom: 5
-              }
-            ]}
-            title={item.qty >= item.stock_qty ? "Out of stock" : "In stock"}
           />
         </View>
       </View>
@@ -83,11 +114,11 @@ export default class CartItem extends Component {
 
 const styles = StyleSheet.create({
   containerStyles: {
-    marginTop: 10,
-    marginBottom: 10,
-    flex: 0.4,
+    flexDirection: "column",
     backgroundColor: "white",
-    elevation: 30
+    margin: 20,
+    elevation: 30,
+    padding: 30
   },
   buttonStyles: {
     flex: 1,
@@ -96,8 +127,12 @@ const styles = StyleSheet.create({
     marginTop: 5,
     borderRadius: 30
   },
+  buttonContainer: {
+    flex: 0.3,
+    alignSelf: "center"
+  },
   textStyles: {
-    fontSize: 20,
+    fontSize: 17,
     flex: 1,
     color: "black",
     marginLeft: 10,
@@ -109,5 +144,11 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: "center",
     backgroundColor: "white"
+  },
+  listSubContainer: {
+    flexDirection: "column",
+    flex: 1.2,
+    alignSelf: "center",
+    marginLeft: 10
   }
 });
