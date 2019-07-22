@@ -115,10 +115,6 @@ class ListItemDetail extends Component {
   render() {
     const itemValue = this.props.navigation.getParam("itemValue");
     const quantity = this.props.navigation.getParam("quantity");
-    console.log("listDetail stock", itemValue.stock_qty);
-    console.log("listDetail quantity", quantity);
-    console.log("listDetail quantity and id array", itemValue.product_id);
-    // const cartItemQuantity = this.cartItemQty(this.state.cart);
     cartItemQty = () =>
       this.state.cart.map(item => {
         if (item.product_id === itemValue.product_id) return item.qty;
@@ -130,8 +126,8 @@ class ListItemDetail extends Component {
           <ScrollView style={styles.scrollViewStyle}>
             <Image
               style={{
-                width: 100,
-                height: 100
+                width: 300,
+                height: 200
               }}
               source={{
                 uri: itemValue.image
@@ -155,10 +151,14 @@ class ListItemDetail extends Component {
                   styles.textStyles,
                   {
                     color:
-                      this.state.qty === itemValue.stock_qty ? "red" : "green"
+                      quantity === itemValue.stock_qty ||
+                      this.state.qty === itemValue.stock_qty
+                        ? "red"
+                        : "green"
                   }
                 ]}
                 title={
+                  quantity === itemValue.stock_qty ||
                   this.state.qty === itemValue.stock_qty
                     ? "Out of stock"
                     : "In stock"
@@ -172,7 +172,7 @@ class ListItemDetail extends Component {
               />
             </ErrorBoundary>
           </ScrollView>
-          <View style={{ flex: 0.2 }}>
+          <View style={{ flex: 0.1 }}>
             {!this.state.showIncDec ? (
               <CustomButton
                 title="Add To Cart"

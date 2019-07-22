@@ -10,7 +10,8 @@ export default class CartItem extends Component {
     super(props);
     this.state = {
       Quantity: props.item.qty,
-      cart: []
+      cart: [],
+      quant: 0
     };
   }
 
@@ -37,7 +38,6 @@ export default class CartItem extends Component {
   render() {
     const { item, onRemovePress, onValueUpdated } = this.props;
     amount = item.price * this.state.Quantity;
-    //const finalValue = this.mergeById(this.state.cart);
     console.log("stock in cart", item.stock_qty);
     return (
       <View style={styles.containerStyles}>
@@ -45,7 +45,7 @@ export default class CartItem extends Component {
           <Image
             style={{
               width: 80,
-              height: 80
+              height: 100
             }}
             source={{
               uri: item.image
@@ -74,12 +74,17 @@ export default class CartItem extends Component {
               style={[
                 styles.textStyles,
                 {
-                  color: item.qty >= item.stock_qty ? "red" : "green",
+                  color:
+                    this.state.Quantity >= item.stock_qty ? "red" : "green",
                   paddingBottom: 5,
                   fontSize: 20
                 }
               ]}
-              title={item.qty >= item.stock_qty ? "Out of stock" : "In stock"}
+              title={
+                this.state.Quantity >= item.stock_qty
+                  ? "Out of stock"
+                  : "In stock"
+              }
             />
           </View>
           <View style={styles.buttonContainer}>
@@ -88,6 +93,16 @@ export default class CartItem extends Component {
               style={styles.buttonStyles}
               title="x"
               color="#F4A460"
+            />
+            <Image
+              style={{
+                width: 30,
+                height: 30
+              }}
+              source={{
+                uri:
+                  "https://pngimage.net/wp-content/uploads/2018/06/veg-sign-png-5.png"
+              }}
             />
           </View>
         </View>
@@ -122,10 +137,12 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginLeft: 10,
     marginTop: 5,
-    borderRadius: 30
+    height: 30,
+    width: 30,
+    borderRadius: 60
   },
   buttonContainer: {
-    flex: 0.3,
+    flex: 0.4,
     alignSelf: "center"
   },
   textStyles: {

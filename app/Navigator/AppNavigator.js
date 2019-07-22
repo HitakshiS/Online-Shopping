@@ -18,7 +18,7 @@ import SignUp from "../Views/Login/SignUp";
 import Login from "../Views/Login";
 import Authentication from "../Views/Login/Authentication";
 
-const AppNavigatorOne = createStackNavigator(
+const HomePage = createStackNavigator(
   {
     Home: {
       screen: HomeScreen
@@ -73,7 +73,7 @@ const MyOrders = createStackNavigator(
 );
 
 const MyDrawerNavigator = createDrawerNavigator({
-  AppNavigatorOne,
+  HomePage,
   MyOrders: MyOrders
 });
 

@@ -22,7 +22,7 @@ class HomeScreen extends Component {
         <View style={{ margin: 10, flexDirection: "row" }}>
           <CustomButton
             style={styles.buttonStyles}
-            title="drawer"
+            title="Orders"
             onPress={() => navigation.toggleDrawer()}
             color="#F4A460"
           />

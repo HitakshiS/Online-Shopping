@@ -21,35 +21,61 @@ class Order extends Component {
   });
 
   renderItem = ({ item }) => {
+    const str = item.creation_time_stamp;
+    const first = str.slice(0, 10);
+    const second = str.slice(11, 19);
     return (
       <TouchableWithoutFeedback
         onPress={() => this.PurchasedListNavigation(item, item.total_bill)}
       >
         <View style={styles.containerStyles}>
-          <ErrorBoundary>
+          <View style={{ flexDirection: "row", flex: 1 }}>
             <CustomText
-              style={styles.textStyles}
-              title={`Purchase Details: ${item.creation_time_stamp}`}
+              style={[styles.textStyles, { flex: 0.2, alignItems: "center" }]}
+              title={`Order Id: `}
             />
-          </ErrorBoundary>
-          <ErrorBoundary>
             <CustomText
-              style={styles.textStyles}
-              title={`Total Bill: ${item.total_bill}`}
+              style={[
+                styles.textStyles,
+                {
+                  color: "blue",
+                  fontSize: 20,
+                  marginLeft: 0,
+                  flex: 0.1
+                }
+              ]}
+              title={`${item.id}`}
             />
-          </ErrorBoundary>
-          <ErrorBoundary>
+          </View>
+
+          <CustomText
+            style={styles.textStyles}
+            title={`Purchase Details: ${first}  ${second}`}
+          />
+
+          <CustomText
+            style={styles.textStyles}
+            title={`Total Distinct Items: ${item.total_items}`}
+          />
+
+          <View style={{ flexDirection: "row", flex: 1 }}>
             <CustomText
-              style={styles.textStyles}
-              title={`Total Distinct Items: ${item.total_items}`}
+              style={[styles.textStyles, { flex: 0.25, alignItems: "center" }]}
+              title={`Total Bill: `}
             />
-          </ErrorBoundary>
-          <ErrorBoundary>
             <CustomText
-              style={styles.textStyles}
-              title={`Transaction Id: ${item.id}`}
+              style={[
+                styles.textStyles,
+                {
+                  color: "red",
+                  fontSize: 20,
+                  marginLeft: 0,
+                  flex: 0.1
+                }
+              ]}
+              title={`${item.total_bill}`}
             />
-          </ErrorBoundary>
+          </View>
         </View>
       </TouchableWithoutFeedback>
     );
@@ -119,7 +145,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     flex: 0.4,
     backgroundColor: "white",
-    elevation: 30
+    elevation: 30,
+    paddingTop: 10,
+    paddingBottom: 5
   },
   buttonStyles: {
     flex: 1,
@@ -134,7 +162,8 @@ const styles = StyleSheet.create({
     color: "black",
     marginLeft: 10,
     marginRight: 10,
-    padding: 10
+    paddingBottom: 10,
+    fontWeight: "bold"
   }
 });
 

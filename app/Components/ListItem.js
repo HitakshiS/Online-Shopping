@@ -76,21 +76,25 @@ class ListItem extends Component {
                   title={`Product: ${item.name}`}
                 />
               </ErrorBoundary>
-              {/* <ErrorBoundary>
+              {isPurchaseList && (
                 <CustomText
                   style={styles.textStyles}
-                  title={`Quantity: ${
-                    item.qty ? item.qty : this.state.qty ? this.state.qty : 1
-                  }`}
+                  title={`Quantity: ${item.qty}`}
                   //
                 />
-              </ErrorBoundary> */}
+              )}
               <ErrorBoundary>
                 <CustomText
                   style={styles.textStyles}
                   title={`Price: ${item.price}`}
                 />
               </ErrorBoundary>
+              {isPurchaseList && (
+                <CustomText
+                  style={styles.textStyles}
+                  title={`Amount: ${item.price * item.qty}`}
+                />
+              )}
               {!isPurchaseList && (
                 <CustomText
                   style={[
@@ -114,6 +118,18 @@ class ListItem extends Component {
                   }
                 />
               )}
+            </View>
+            <View>
+              <Image
+                style={{
+                  width: 30,
+                  height: 30
+                }}
+                source={{
+                  uri:
+                    "https://pngimage.net/wp-content/uploads/2018/06/veg-sign-png-5.png"
+                }}
+              />
             </View>
           </View>
           {!isPurchaseList && (

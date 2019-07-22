@@ -128,19 +128,37 @@ class Success extends Component {
 
   renderItem = ({ item }) => {
     return (
-      // <ErrorBoundary>
       <View
         style={[styles.flatlistContainerStyle, { backgroundColor: "white" }]}
       >
-        <CustomText style={styles.textStyles} title={`Product: ${item.name}`} />
-        <CustomText style={styles.textStyles} title={`Price: ${item.price}`} />
-        <CustomText style={styles.textStyles} title={`Quantity: ${item.qty}`} />
-        <CustomText
-          style={styles.textStyles}
-          title={`Amount: ${item.price * item.qty}`}
+        <Image
+          style={{
+            width: 100,
+            height: 100
+          }}
+          source={{
+            uri: item.image
+          }}
         />
+        <View style={{ flex: 1, marginLeft: 15, flexDirection: "column" }}>
+          <CustomText
+            style={styles.textStyles}
+            title={`Product: ${item.name}`}
+          />
+          <CustomText
+            style={styles.textStyles}
+            title={`Price: ${item.price}`}
+          />
+          <CustomText
+            style={styles.textStyles}
+            title={`Quantity: ${item.qty}`}
+          />
+          <CustomText
+            style={styles.textStyles}
+            title={`Amount: ${item.price * item.qty}`}
+          />
+        </View>
       </View>
-      // </ErrorBoundary>
     );
   };
 
@@ -204,17 +222,42 @@ class Success extends Component {
             <CustomText
               style={[
                 styles.textStyle,
-                { color: "green", fontSize: 24, paddingLeft: 20 }
+                {
+                  color: "green",
+                  fontSize: 24,
+                  paddingLeft: 20,
+                  marginBottom: 15,
+                  paddingTop: 20
+                }
               ]}
               title="Congrats!! Your order has been successfully placed."
             />
-            <CustomText
-              style={[
-                styles.textStyle,
-                { fontSize: 20, paddingLeft: 20, color: "black" }
-              ]}
-              title={`Your Transaction Id: ${response.order_id}`}
-            />
+            <View style={{ flex: 0.2, flexDirection: "row", paddingLeft: 20 }}>
+              <CustomText
+                style={[
+                  styles.textStyles,
+                  {
+                    fontSize: 20,
+                    color: "black",
+                    flex: 0.4,
+                    fontWeight: "bold"
+                  }
+                ]}
+                title={`Order Id: `}
+              />
+              <CustomText
+                style={[
+                  styles.textStyles,
+                  {
+                    fontSize: 20,
+                    color: "blue",
+                    fontWeight: "bold",
+                    flex: 0.8
+                  }
+                ]}
+                title={`${response.order_id}`}
+              />
+            </View>
             <CustomText
               style={[
                 styles.textStyle,
@@ -226,36 +269,62 @@ class Success extends Component {
               style={{
                 flex: 1,
                 marginTop: 20,
-                paddingTop: 20,
-                marginTop: 20,
-                paddingTop: 20,
                 marginBottom: 20,
-                paddingBottom: 20,
-                marginLeft: 10,
                 paddingLeft: 10,
-                marginRight: 10,
                 paddingRight: 10
               }}
               data={response.products}
               renderItem={this.renderItem}
             />
-          </View>
-
-          <View style={{ flex: 0.1 }}>
             <CustomText
               style={[
                 styles.textStyle,
                 {
                   fontSize: 20,
-                  paddingLeft: 20,
                   color: "black",
-                  textAlign: "center"
+                  textAlign: "center",
+                  marginBottom: 5
                 }
               ]}
               title={`Total Bill: ₹${response.total_bill}`}
             />
+            <View
+              style={{
+                flex: 0.2,
+                flexDirection: "row",
+                paddingLeft: 20,
+                justifyContent: "center"
+              }}
+            >
+              <CustomText
+                style={[
+                  styles.textStyles,
+                  {
+                    fontSize: 20,
+                    color: "black",
+                    flex: 0.4,
+                    fontWeight: "bold"
+                  }
+                ]}
+                title={`Order Id: `}
+              />
+              <CustomText
+                style={[
+                  styles.textStyles,
+                  {
+                    fontSize: 20,
+                    color: "red",
+                    fontWeight: "bold",
+                    flex: 0.8
+                  }
+                ]}
+                title={`₹${response.total_bill}`}
+              />
+            </View>
+          </View>
+          <View style={{ flex: 0.1, paddingLeft: 30, paddingRight: 30 }}>
             <CustomButton
-              style={{ flex: 0.1, paddingBottom: 10 }}
+              style={{ marginBottom: 10, paddingBottom: 10 }}
               title="Continue Shopping"
               onPress={() => {
                 this.homePage();
@@ -264,9 +333,7 @@ class Success extends Component {
             />
           </View>
         </View>
-        {/* )} */}
       </View>
-      // </ErrorBoundary>
     );
   }
 }
@@ -285,7 +352,7 @@ const styles = StyleSheet.create({
     color: "black"
   },
   flatlistContainerStyle: {
-    flexDirection: "column",
+    flexDirection: "row",
     margin: 10,
     elevation: 30,
     padding: 20,

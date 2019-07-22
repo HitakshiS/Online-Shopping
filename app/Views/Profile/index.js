@@ -179,40 +179,89 @@ class Profile extends Component {
               flex: 1,
               backgroundColor: "#FFEFD5",
               marginLeft: 20,
-              marginRight: 20
+              marginRight: 20,
+              elevation: 30,
+              paddingTop: 10,
+              paddingBottom: 10
             }}
           >
-            <CustomText
-              style={[
-                styles.textStyles,
-                {
-                  fontSize: 18,
-                  color: "black"
-                }
-              ]}
-              title={`Name: ${this.state.name}`}
-            />
-            <CustomText
-              style={[
-                styles.textStyles,
-                {
-                  fontSize: 18,
-                  color: "black"
-                }
-              ]}
-              title={`Email: ${this.state.email}`}
-            />
-            <CustomText
-              style={[
-                styles.textStyles,
-                {
-                  fontSize: 18,
-                  color: "black",
-                  paddingBottom: 20
-                }
-              ]}
-              title={`Mobile Number: ${this.state.mobile}`}
-            />
+            <View style={{ flex: 1, flexDirection: "row" }}>
+              <CustomText
+                style={[
+                  styles.textStyles,
+                  {
+                    fontSize: 18,
+                    color: "black",
+                    flex: 0.2,
+                    paddingTop: 0
+                  }
+                ]}
+                title={`Name `}
+              />
+              <CustomText
+                style={[
+                  styles.textStyles,
+                  {
+                    fontSize: 18,
+                    color: "black",
+                    fontWeight: "bold",
+                    flex: 0.8,
+                    paddingTop: 0
+                  }
+                ]}
+                title={` ${this.state.name}`}
+              />
+            </View>
+            <View style={{ flex: 1, flexDirection: "row" }}>
+              <CustomText
+                style={[
+                  styles.textStyles,
+                  {
+                    fontSize: 18,
+                    color: "black",
+                    flex: 0.2
+                  }
+                ]}
+                title={`Email `}
+              />
+              <CustomText
+                style={[
+                  styles.textStyles,
+                  {
+                    fontSize: 18,
+                    color: "black",
+                    fontWeight: "bold",
+                    flex: 0.8
+                  }
+                ]}
+                title={` ${this.state.email}`}
+              />
+            </View>
+            <View style={{ flex: 1, flexDirection: "row" }}>
+              <CustomText
+                style={[
+                  styles.textStyles,
+                  {
+                    fontSize: 18,
+                    color: "black",
+                    flex: 0.2
+                  }
+                ]}
+                title={`Mobile Number `}
+              />
+              <CustomText
+                style={[
+                  styles.textStyles,
+                  {
+                    fontSize: 18,
+                    color: "black",
+                    fontWeight: "bold",
+                    flex: 0.8
+                  }
+                ]}
+                title={`${this.state.mobile}`}
+              />
+            </View>
           </View>
 
           {this.state.addresses && this.state.addresses.length > 0 && (
@@ -222,7 +271,7 @@ class Profile extends Component {
                 style={{ fontSize: 26, color: "black" }}
               />
               <FlatList
-                style={{ backgroundColor: "#FFEFD5" }}
+                style={{ backgroundColor: "#FFEFD5", elevation: 30 }}
                 data={this.state.addresses}
                 renderItem={this.renderItem}
                 extraData={this.state.selectedAddress}
