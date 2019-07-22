@@ -10,5 +10,6 @@ export default (ActionTypes = {
   EMPTY_CART_LIST: "EMPTY_CART_LIST",
   EXAMPLE_DATA: "EXAMPLE_DATA",
   LOG_OUT: "LOG_OUT",
-  COPY: "COPY"
+  COPY: "COPY",
+  TOTAL_BILL: "TOTAL_BILL"
 });

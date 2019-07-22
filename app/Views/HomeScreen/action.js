@@ -64,3 +64,10 @@ export const cop = cart => {
     payload: cart
   };
 };
+
+export const totalBill = total_bill => {
+  return {
+    type: ActionTypes.TOTAL_BILL,
+    payload: total_bill
+  };
+};

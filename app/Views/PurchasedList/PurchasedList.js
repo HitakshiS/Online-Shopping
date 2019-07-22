@@ -27,6 +27,7 @@ class PurchasedList extends Component {
     const total_bill = this.props.navigation.getParam("total_bill");
     const id = this.props.navigation.getParam("id");
     const delivery_address = this.props.navigation.getParam("delivery_address");
+
     return (
       // <ErrorBoundary>
       <View style={styles.containerStyle}>
@@ -79,6 +80,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     flex: 0.1,
     color: "black",
+    fontWeight: "bold",
     marginLeft: 10,
     marginRight: 10,
     paddingTop: 5,

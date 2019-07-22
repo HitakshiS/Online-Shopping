@@ -23,7 +23,7 @@ class Order extends Component {
   renderItem = ({ item }) => {
     const str = item.creation_time_stamp;
     const first = str.slice(0, 10);
-    const second = str.slice(11, 19);
+    const second = str.slice(11, 16);
     return (
       <TouchableWithoutFeedback
         onPress={() => this.PurchasedListNavigation(item, item.total_bill)}

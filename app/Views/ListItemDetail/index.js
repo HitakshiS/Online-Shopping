@@ -58,6 +58,7 @@ class ListItemDetail extends Component {
       cart: []
     };
   }
+
   HomePage() {
     this.props.navigation.navigate("Home");
   }
@@ -135,14 +136,20 @@ class ListItemDetail extends Component {
             />
             <ErrorBoundary>
               <CustomText
-                style={styles.textStyles}
-                title={`Product: ${itemValue.name}`}
+                style={[
+                  styles.textStyles,
+                  { fontWeight: "bold", fontSize: 20 }
+                ]}
+                title={`${itemValue.name}`}
               />
             </ErrorBoundary>
             <ErrorBoundary>
               <CustomText
-                style={styles.textStyles}
-                title={`Price: ${itemValue.price}`}
+                style={[
+                  styles.textStyles,
+                  { fontWeight: "bold", fontSize: 20, color: "red" }
+                ]}
+                title={`₹${itemValue.price}`}
               />
             </ErrorBoundary>
             <ErrorBoundary>
@@ -154,7 +161,8 @@ class ListItemDetail extends Component {
                       quantity === itemValue.stock_qty ||
                       this.state.qty === itemValue.stock_qty
                         ? "red"
-                        : "green"
+                        : "green",
+                    fontSize: 20
                   }
                 ]}
                 title={
@@ -168,7 +176,7 @@ class ListItemDetail extends Component {
             <ErrorBoundary>
               <CustomText
                 style={styles.textStyles}
-                title={`Description: ${itemValue.description}`}
+                title={`Description:  ${itemValue.description}`}
               />
             </ErrorBoundary>
           </ScrollView>

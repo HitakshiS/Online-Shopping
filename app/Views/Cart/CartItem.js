@@ -38,7 +38,6 @@ export default class CartItem extends Component {
   render() {
     const { item, onRemovePress, onValueUpdated } = this.props;
     amount = item.price * this.state.Quantity;
-    console.log("stock in cart", item.stock_qty);
     return (
       <View style={styles.containerStyles}>
         <View style={{ flex: 1, flexDirection: "row" }}>
@@ -54,20 +53,20 @@ export default class CartItem extends Component {
           <View style={styles.listSubContainer}>
             <ErrorBoundary>
               <CustomText
-                style={styles.textStyles}
-                title={`Product: ${item.name}`}
+                style={[
+                  styles.textStyles,
+                  { fontWeight: "bold", fontSize: 20 }
+                ]}
+                title={`${item.name}`}
               />
             </ErrorBoundary>
             <ErrorBoundary>
-              <CustomText
-                style={styles.textStyles}
-                title={`Price: ${item.price}`}
-              />
+              <CustomText style={styles.textStyles} title={`₹${item.price}`} />
             </ErrorBoundary>
             <ErrorBoundary>
               <CustomText
-                style={[styles.textStyles, { paddingBottom: 5 }]}
-                title={`Amount: ${amount}`}
+                style={[styles.textStyles, { paddingBottom: 5, fontSize: 20 }]}
+                title={`Total: ₹${amount}`}
               />
             </ErrorBoundary>
             <CustomText
@@ -163,6 +162,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     flex: 1.2,
     alignSelf: "center",
-    marginLeft: 10
+    paddingLeft: 10
   }
 });

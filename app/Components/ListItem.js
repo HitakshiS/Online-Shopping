@@ -72,27 +72,30 @@ class ListItem extends Component {
             <View style={styles.listSubContainer}>
               <ErrorBoundary>
                 <CustomText
-                  style={styles.textStyles}
-                  title={`Product: ${item.name}`}
+                  style={[
+                    styles.textStyles,
+                    { fontWeight: "bold", fontSize: 20 }
+                  ]}
+                  title={`${item.name}`}
                 />
               </ErrorBoundary>
               {isPurchaseList && (
                 <CustomText
-                  style={styles.textStyles}
+                  style={[styles.textStyles, { fontSize: 20 }]}
                   title={`Quantity: ${item.qty}`}
                   //
                 />
               )}
               <ErrorBoundary>
                 <CustomText
-                  style={styles.textStyles}
-                  title={`Price: ${item.price}`}
+                  style={[styles.textStyles, { fontSize: 20 }]}
+                  title={`₹${item.price}`}
                 />
               </ErrorBoundary>
               {isPurchaseList && (
                 <CustomText
-                  style={styles.textStyles}
-                  title={`Amount: ${item.price * item.qty}`}
+                  style={[styles.textStyles, { fontSize: 20, color: "red" }]}
+                  title={`Total: ₹${item.price * item.qty}`}
                 />
               )}
               {!isPurchaseList && (
@@ -227,6 +230,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     flex: 1.2,
     alignSelf: "center",
-    marginLeft: 10
+    paddingLeft: 20
   }
 });

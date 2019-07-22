@@ -232,15 +232,14 @@ class Success extends Component {
               ]}
               title="Congrats!! Your order has been successfully placed."
             />
-            <View style={{ flex: 0.2, flexDirection: "row", paddingLeft: 20 }}>
+            <View style={{ flex: 0.1, flexDirection: "row", paddingLeft: 20 }}>
               <CustomText
                 style={[
                   styles.textStyles,
                   {
                     fontSize: 20,
                     color: "black",
-                    flex: 0.4,
-                    fontWeight: "bold"
+                    flex: 0.5
                   }
                 ]}
                 title={`Order Id: `}
@@ -252,45 +251,15 @@ class Success extends Component {
                     fontSize: 20,
                     color: "blue",
                     fontWeight: "bold",
-                    flex: 0.8
+                    flex: 0.6
                   }
                 ]}
                 title={`${response.order_id}`}
               />
             </View>
-            <CustomText
-              style={[
-                styles.textStyle,
-                { fontSize: 20, paddingLeft: 20, color: "black" }
-              ]}
-              title={`Delivery Address: ${response.delivery_address}`}
-            />
-            <FlatList
-              style={{
-                flex: 1,
-                marginTop: 20,
-                marginBottom: 20,
-                paddingLeft: 10,
-                paddingRight: 10
-              }}
-              data={response.products}
-              renderItem={this.renderItem}
-            />
-            <CustomText
-              style={[
-                styles.textStyle,
-                {
-                  fontSize: 20,
-                  color: "black",
-                  textAlign: "center",
-                  marginBottom: 5
-                }
-              ]}
-              title={`Total Bill: ₹${response.total_bill}`}
-            />
             <View
               style={{
-                flex: 0.2,
+                flex: 0.1,
                 flexDirection: "row",
                 paddingLeft: 20,
                 justifyContent: "center"
@@ -302,17 +271,59 @@ class Success extends Component {
                   {
                     fontSize: 20,
                     color: "black",
-                    flex: 0.4,
-                    fontWeight: "bold"
+                    flex: 0.5
                   }
                 ]}
-                title={`Order Id: `}
+                title={`Delivery Address: `}
               />
               <CustomText
                 style={[
                   styles.textStyles,
                   {
                     fontSize: 20,
+                    color: "black",
+                    fontWeight: "bold",
+                    flex: 0.6
+                  }
+                ]}
+                title={`${response.delivery_address}`}
+              />
+            </View>
+            <FlatList
+              style={{
+                flex: 1,
+                marginTop: 10,
+                marginBottom: 20,
+                paddingLeft: 10,
+                paddingRight: 10
+              }}
+              data={response.products}
+              renderItem={this.renderItem}
+            />
+            <View
+              style={{
+                flex: 0.1,
+                flexDirection: "row",
+                paddingLeft: 20,
+                justifyContent: "center"
+              }}
+            >
+              <CustomText
+                style={[
+                  styles.textStyles,
+                  {
+                    fontSize: 20,
+                    color: "black",
+                    flex: 0.4
+                  }
+                ]}
+                title={`Total Bill: `}
+              />
+              <CustomText
+                style={[
+                  styles.textStyles,
+                  {
+                    fontSize: 25,
                     color: "red",
                     fontWeight: "bold",
                     flex: 0.8
@@ -355,7 +366,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     margin: 10,
     elevation: 30,
-    padding: 20,
+    padding: 10,
     flex: 1
   },
   flatlistSubContainerStyle: {

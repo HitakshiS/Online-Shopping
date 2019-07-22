@@ -129,7 +129,8 @@ class Cart extends Component {
       cart: [],
       Quantity: "",
       price: 0,
-      stock_qty: 0
+      stock_qty: 0,
+      total_bill: 0
     };
   }
 
@@ -210,10 +211,6 @@ class Cart extends Component {
     b1.map(item => item.cartItemPrice * item.cartItemQuantity);
   cartItemQty = q1 => q1.map(item => item.qty);
   cartItemPrc = p1 => p1.map(item => item.price);
-  // Amount = c1 =>
-  //   c1.reduce((total, currentValue) => {
-  //     return total + currentValue;
-  //   });
 
   Amount = (a1, a2) =>
     a1.reduce((r, a, i) => {
@@ -244,8 +241,6 @@ class Cart extends Component {
   render() {
     const cartItemQuantity = this.cartItemQty(this.state.cart);
     const cartItemPrice = this.cartItemPrc(this.state.cart);
-    console.log("cartItemQty", cartItemQuantity);
-    console.log("cartItemPrice", cartItemPrice);
     const finalAmount =
       cartItemQuantity &&
       cartItemPrice.length &&
@@ -253,10 +248,8 @@ class Cart extends Component {
       cartItemQuantity.length
         ? this.Amount(cartItemQuantity, cartItemPrice)
         : 0;
-    console.log(finalAmount);
 
     return (
-      //
       <View style={{ flex: 1, padding: 10, backgroundColor: "#FFEFD5" }}>
         {this.state.cart.length > 0 ? (
           <FlatList

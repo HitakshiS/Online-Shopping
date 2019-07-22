@@ -5,7 +5,8 @@ const INITIAL_STATE = {
   exampleData: [],
   cartList: [],
   userProfile: {},
-  purchaseList: []
+  purchaseList: [],
+  TotalBill: 0
 };
 
 export default (HomeReducer = (state = INITIAL_STATE, action) => {
@@ -51,24 +52,11 @@ export default (HomeReducer = (state = INITIAL_STATE, action) => {
     }
 
     case ActionTypes.RESET: {
-      //console.log("before payload reducer index====>>>", action.payload.index);
-      // console.log(
-      //   "before payload reducer product_id====>>>",
-      //   action.payload.product_id
-      // );
-
       let updatedCartList = [...state.cartList];
-      // const value = updatedCartList.map(item => {
-      //   if ((item.product_id = action.payload.product_id)) return item;
-      // });
       var index = updatedCartList.findIndex(
         p => p.product_id == action.payload.product_id
       );
-      // console.log("index to be removed====>>>", index);
-      // console.log("before cartList reducer product_id====>>>", updatedCartList);
       updatedCartList.splice(index, 1);
-      // console.log("after cartList before remove==>>", updatedCartList);
-      //console.log("cartList after remove==>>", cartList);
       return {
         ...state,
         cartList: updatedCartList
@@ -77,10 +65,6 @@ export default (HomeReducer = (state = INITIAL_STATE, action) => {
 
     case ActionTypes.COPY: {
       let updatedCartList = action.payload;
-
-      // const newCartUpdate = updatedCartList.map(item => {
-      //   return item.product_id, item.qty;
-      // });
       return {
         ...state,
         cartList: updatedCartList
@@ -166,6 +150,13 @@ export default (HomeReducer = (state = INITIAL_STATE, action) => {
     case ActionTypes.LOG_OUT: {
       return {
         ...INITIAL_STATE
+      };
+    }
+
+    case ActionTypes.TOTAL_BILL: {
+      let total_bill = action.payload;
+      return {
+        TotalBill: total_bill
       };
     }
 
