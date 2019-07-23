@@ -244,7 +244,7 @@ class Profile extends Component {
                   {
                     fontSize: 18,
                     color: "black",
-                    flex: 0.2
+                    flex: 0.3
                   }
                 ]}
                 title={`Mobile Number `}

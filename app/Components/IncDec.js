@@ -71,11 +71,6 @@ class IncDec extends Component {
   };
 
   render() {
-    console.log(
-      "prod_id, quantity incDec component",
-      this.props.product_id,
-      this.state.counter
-    );
     return (
       <View style={styles.containerStyles}>
         <CustomButton

@@ -51,7 +51,7 @@ class SignIn extends Component {
 
   alertBoxCustom = () => {
     Alert.alert(
-      "congratulations!! you have Logged In continue shoppings",
+      "Congratulations!! you have Logged In continue shoppings",
       "click on OK to continue shopping",
       [
         {
@@ -63,7 +63,7 @@ class SignIn extends Component {
           onPress: () => this.SignInPage()
         }
       ],
-      { cancelable: true }
+      { cancelable: false }
     );
   };
 

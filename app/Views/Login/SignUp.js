@@ -79,7 +79,7 @@ export default class SignUp extends Component {
                 onPress: () => this.props.navigation.navigate("SignIn")
               }
             ],
-            { cancelable: true }
+            { cancelable: false }
           );
         }
       })

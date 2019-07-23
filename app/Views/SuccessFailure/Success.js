@@ -17,6 +17,7 @@ import axios from "axios";
 import { Constants } from "../../AppConfig/Constants";
 import { NavigationActions, StackActions } from "react-navigation";
 import ErrorBoundary from "../../Components/ErrorBoundary";
+import { ScrollView } from "react-native-gesture-handler";
 
 class Success extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -93,12 +94,7 @@ class Success extends Component {
   }
 
   homePage = () => {
-    return this.props.navigation.dispatch(
-      StackActions.reset({
-        index: 0,
-        actions: [NavigationActions.navigate({ routeName: "Home" })]
-      })
-    );
+    this.props.navigation.dispatch(StackActions.popToTop());
   };
 
   logOutFn = async () => {
@@ -190,15 +186,7 @@ class Success extends Component {
   // };
 
   componentDidMount() {
-    BackHandler.addEventListener("hardwareBackPress", () => {
-      this.homePage();
-      return true;
-    });
     this.props.navigation.setParams({ logOutFn: this.logOutFn });
-  }
-
-  componentWillUnmount() {
-    BackHandler.removeEventListener("hardwareBackPress");
   }
 
   render() {
@@ -219,119 +207,125 @@ class Success extends Component {
       <View style={styles.containerStyle}>
         <View style={{ flex: 1 }}>
           <View style={{ flex: 0.9 }}>
-            <CustomText
-              style={[
-                styles.textStyle,
-                {
-                  color: "green",
-                  fontSize: 24,
-                  paddingLeft: 20,
-                  marginBottom: 15,
-                  paddingTop: 20
-                }
-              ]}
-              title="Congrats!! Your order has been successfully placed."
-            />
-            <View style={{ flex: 0.1, flexDirection: "row", paddingLeft: 20 }}>
-              <CustomText
-                style={[
-                  styles.textStyles,
-                  {
-                    fontSize: 20,
-                    color: "black",
-                    flex: 0.5
-                  }
-                ]}
-                title={`Order Id: `}
-              />
-              <CustomText
-                style={[
-                  styles.textStyles,
-                  {
-                    fontSize: 20,
-                    color: "blue",
-                    fontWeight: "bold",
-                    flex: 0.6
-                  }
-                ]}
-                title={`${response.order_id}`}
-              />
-            </View>
-            <View
-              style={{
-                flex: 0.1,
-                flexDirection: "row",
-                paddingLeft: 20,
-                justifyContent: "center"
-              }}
-            >
-              <CustomText
-                style={[
-                  styles.textStyles,
-                  {
-                    fontSize: 20,
-                    color: "black",
-                    flex: 0.5
-                  }
-                ]}
-                title={`Delivery Address: `}
-              />
-              <CustomText
-                style={[
-                  styles.textStyles,
-                  {
-                    fontSize: 20,
-                    color: "black",
-                    fontWeight: "bold",
-                    flex: 0.6
-                  }
-                ]}
-                title={`${response.delivery_address}`}
-              />
-            </View>
-            <FlatList
-              style={{
-                flex: 1,
-                marginTop: 10,
-                marginBottom: 20,
-                paddingLeft: 10,
-                paddingRight: 10
-              }}
-              data={response.products}
-              renderItem={this.renderItem}
-            />
-            <View
-              style={{
-                flex: 0.1,
-                flexDirection: "row",
-                paddingLeft: 20,
-                justifyContent: "center"
-              }}
-            >
-              <CustomText
-                style={[
-                  styles.textStyles,
-                  {
-                    fontSize: 20,
-                    color: "black",
-                    flex: 0.4
-                  }
-                ]}
-                title={`Total Bill: `}
-              />
-              <CustomText
-                style={[
-                  styles.textStyles,
-                  {
-                    fontSize: 25,
-                    color: "red",
-                    fontWeight: "bold",
-                    flex: 0.8
-                  }
-                ]}
-                title={`₹${response.total_bill}`}
-              />
-            </View>
+            <ScrollView>
+              <View>
+                <CustomText
+                  style={[
+                    styles.textStyle,
+                    {
+                      color: "green",
+                      fontSize: 24,
+                      paddingLeft: 20,
+                      marginBottom: 15,
+                      paddingTop: 20
+                    }
+                  ]}
+                  title="Congrats!! Your order has been successfully placed."
+                />
+                <View
+                  style={{ flex: 0.1, flexDirection: "row", paddingLeft: 20 }}
+                >
+                  <CustomText
+                    style={[
+                      styles.textStyles,
+                      {
+                        fontSize: 20,
+                        color: "black",
+                        flex: 0.5
+                      }
+                    ]}
+                    title={`Order Id: `}
+                  />
+                  <CustomText
+                    style={[
+                      styles.textStyles,
+                      {
+                        fontSize: 20,
+                        color: "blue",
+                        fontWeight: "bold",
+                        flex: 0.6
+                      }
+                    ]}
+                    title={`${response.order_id}`}
+                  />
+                </View>
+                <View
+                  style={{
+                    flex: 0.1,
+                    flexDirection: "row",
+                    paddingLeft: 20,
+                    justifyContent: "center"
+                  }}
+                >
+                  <CustomText
+                    style={[
+                      styles.textStyles,
+                      {
+                        fontSize: 20,
+                        color: "black",
+                        flex: 0.5
+                      }
+                    ]}
+                    title={`Delivery Address: `}
+                  />
+                  <CustomText
+                    style={[
+                      styles.textStyles,
+                      {
+                        fontSize: 20,
+                        color: "black",
+                        fontWeight: "bold",
+                        flex: 0.6
+                      }
+                    ]}
+                    title={`${response.delivery_address}`}
+                  />
+                </View>
+                <View
+                  style={{
+                    flex: 0.1,
+                    flexDirection: "row",
+                    paddingLeft: 20,
+                    justifyContent: "center"
+                  }}
+                >
+                  <CustomText
+                    style={[
+                      styles.textStyles,
+                      {
+                        fontSize: 20,
+                        color: "black",
+                        flex: 0.4
+                      }
+                    ]}
+                    title={`Total Bill: `}
+                  />
+                  <CustomText
+                    style={[
+                      styles.textStyles,
+                      {
+                        fontSize: 25,
+                        color: "red",
+                        fontWeight: "bold",
+                        flex: 0.8
+                      }
+                    ]}
+                    title={`₹${response.total_bill}`}
+                  />
+                </View>
+                <FlatList
+                  style={{
+                    flex: 1,
+                    marginTop: 10,
+                    marginBottom: 20,
+                    paddingLeft: 10,
+                    paddingRight: 10
+                  }}
+                  data={response.products}
+                  renderItem={this.renderItem}
+                />
+              </View>
+            </ScrollView>
           </View>
           <View style={{ flex: 0.1, paddingLeft: 30, paddingRight: 30 }}>
             <CustomButton

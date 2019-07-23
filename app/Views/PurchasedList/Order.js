@@ -3,22 +3,34 @@ import {
   View,
   StyleSheet,
   FlatList,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  BackHandler
 } from "react-native";
 import { connect } from "react-redux";
 import CustomText from "../../Components/CustomText";
-import CustomButton from "../../Components/CustomButton";
-import ErrorBoundary from "../../Components/ErrorBoundary";
 import axios from "axios";
 import { Constants } from "../../AppConfig/Constants";
 
 class Order extends Component {
+  _didFocusSubscription;
   static navigationOptions = ({ navigation }) => ({
     headerStyle: {
       backgroundColor: "#F4A460"
     },
     headerTitle: "Previous orders"
   });
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      order: ""
+    };
+
+    this._didFocusSubscription = props.navigation.addListener(
+      "didFocus",
+      payload => this.getOrdersList()
+    );
+  }
 
   renderItem = ({ item }) => {
     const str = item.creation_time_stamp;
@@ -31,7 +43,7 @@ class Order extends Component {
         <View style={styles.containerStyles}>
           <View style={{ flexDirection: "row", flex: 1 }}>
             <CustomText
-              style={[styles.textStyles, { flex: 0.2, alignItems: "center" }]}
+              style={[styles.textStyles, { flex: 0.3, alignItems: "center" }]}
               title={`Order Id: `}
             />
             <CustomText
@@ -41,7 +53,7 @@ class Order extends Component {
                   color: "blue",
                   fontSize: 20,
                   marginLeft: 0,
-                  flex: 0.1
+                  flex: 0.7
                 }
               ]}
               title={`${item.id}`}
@@ -70,7 +82,7 @@ class Order extends Component {
                   color: "red",
                   fontSize: 20,
                   marginLeft: 0,
-                  flex: 0.1
+                  flex: 0.8
                 }
               ]}
               title={`${item.total_bill}`}
@@ -81,13 +93,6 @@ class Order extends Component {
     );
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      order: ""
-    };
-  }
-
   PurchasedListNavigation = item => {
     this.props.navigation.navigate("PurchasedList", {
       itemValue: item.products,
@@ -97,7 +102,11 @@ class Order extends Component {
     });
   };
 
-  componentDidMount = () => {
+  componentWillUnmount() {
+    this._didFocusSubscription && this._didFocusSubscription.remove();
+  }
+
+  getOrdersList = () => {
     axios
       .get(Constants.GET_ORDER, {
         params: { user_id: this.props.reducer.userProfile.user_id }
@@ -105,6 +114,11 @@ class Order extends Component {
       .then(response => {
         if (response.data.code == 200) {
           console.log(response.data);
+          console.log("order list", response.data.ordersData);
+          console.log(
+            "user_id in order",
+            this.props.reducer.userProfile.user_id
+          );
           this.setState(() => ({
             order: response.data.ordersData
           }));

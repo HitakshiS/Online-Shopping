@@ -5,6 +5,7 @@ import ListItem from "../../Components/ListItem";
 import CustomText from "../../Components/CustomText";
 import CustomButton from "../../Components/CustomButton";
 import ErrorBoundary from "../../Components/ErrorBoundary";
+import { ScrollView } from "react-native-gesture-handler";
 
 class PurchasedList extends Component {
   static navigationOptions = {
@@ -29,41 +30,42 @@ class PurchasedList extends Component {
     const delivery_address = this.props.navigation.getParam("delivery_address");
 
     return (
-      // <ErrorBoundary>
-      <View style={styles.containerStyle}>
-        {itemValue && itemValue.length > 0 ? (
-          <View style={{ flex: 1 }}>
-            <CustomText style={styles.textStyles} title={`Order Id: ${id}`} />
-            <FlatList
-              style={{ flex: 0.8, marginBottom: 10, marginTop: 10 }}
-              data={itemValue}
-              horizontal={this.props.horizontal}
-              renderItem={this.renderItem}
-            />
-            {/* <View style={{ flex: 0.2, backgroundColor: "blue" }}> */}
-            <CustomText
-              style={styles.textStyles}
-              title={`Total Bill: ₹${total_bill}`}
-            />
-            <CustomText
-              style={styles.textStyles}
-              title={`Delivery Address: ${delivery_address}`}
-            />
-            {/* </View> */}
-          </View>
-        ) : (
-          !this.props.horizontal && (
-            <CustomText
-              style={{
-                fontSize: 20,
-                color: "#7a42f4",
-                textAlign: "center"
-              }}
-              title="You have not purchased anything yet!!"
-            />
-          )
-        )}
-      </View>
+      <ScrollView>
+        <View style={styles.containerStyle}>
+          {itemValue && itemValue.length > 0 ? (
+            <View style={{ flex: 1 }}>
+              <CustomText style={styles.textStyles} title={`Order Id: ${id}`} />
+              <FlatList
+                style={{ flex: 0.8, marginBottom: 10, marginTop: 10 }}
+                data={itemValue}
+                horizontal={this.props.horizontal}
+                renderItem={this.renderItem}
+              />
+              {/* <View style={{ flex: 0.2, backgroundColor: "blue" }}> */}
+              <CustomText
+                style={styles.textStyles}
+                title={`Total Bill: ₹${total_bill}`}
+              />
+              <CustomText
+                style={styles.textStyles}
+                title={`Delivery Address: ${delivery_address}`}
+              />
+              {/* </View> */}
+            </View>
+          ) : (
+            !this.props.horizontal && (
+              <CustomText
+                style={{
+                  fontSize: 20,
+                  color: "#7a42f4",
+                  textAlign: "center"
+                }}
+                title="You have not purchased anything yet!!"
+              />
+            )
+          )}
+        </View>
+      </ScrollView>
     );
   }
 }
