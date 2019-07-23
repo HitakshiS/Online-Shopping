@@ -55,7 +55,7 @@ class ListItem extends Component {
     return (
       <TouchableWithoutFeedback
         onPress={() =>
-          listDetailNavigation && listDetailNavigation(item, this.state.qty)
+          listDetailNavigation && listDetailNavigation(item, item.qty)
         }
       >
         <View style={[styles.containerStyles, { flexDirection: "column" }]}>

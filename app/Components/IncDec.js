@@ -94,7 +94,7 @@ class IncDec extends Component {
           title="+"
           onPress={() => this.onPress()}
           color="#F4A460"
-          disabled={this.state.counter == this.state.stock_qty}
+          disabled={this.state.counter == this.props.item.stock_qty}
         />
       </View>
     );

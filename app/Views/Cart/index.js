@@ -277,7 +277,7 @@ class Cart extends Component {
                 {
                   textAlign: "center",
                   fontSize: 24,
-                  backgroundColor: "lightgreen",
+                  backgroundColor: "white",
                   marginBottom: 10
                 }
               ]}

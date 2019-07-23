@@ -116,11 +116,8 @@ class ListItemDetail extends Component {
   render() {
     const itemValue = this.props.navigation.getParam("itemValue");
     const quantity = this.props.navigation.getParam("quantity");
-    cartItemQty = () =>
-      this.state.cart.map(item => {
-        if (item.product_id === itemValue.product_id) return item.qty;
-      });
-
+    console.log("itemValue==>", JSON.stringify(itemValue));
+    console.log("quantity==>", JSON.stringify(quantity));
     return (
       <View style={{ flex: 1, backgroundColor: "#FFEFD5" }}>
         <View style={styles.containerStyle}>
@@ -159,7 +156,7 @@ class ListItemDetail extends Component {
                   {
                     color:
                       quantity === itemValue.stock_qty ||
-                      this.state.qty === itemValue.stock_qty
+                      this.state.qty === itemValue.stock_qtys
                         ? "red"
                         : "green",
                     fontSize: 20

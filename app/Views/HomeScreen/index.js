@@ -17,22 +17,35 @@ class HomeScreen extends Component {
       headerStyle: {
         backgroundColor: "#F4A460"
       },
-      headerTitle: "Home",
-      headerRight: (
-        <View style={{ margin: 10, flexDirection: "row" }}>
+      headerTitleStyle: { alignSelf: "center" },
+      title: "Home",
+      headerLeft: (
+        <View
+          style={{ marginRight: 30, paddingRight: 10, flexDirection: "row" }}
+        >
           <CustomButton
             style={styles.buttonStyles}
             title="Orders"
             onPress={() => navigation.toggleDrawer()}
             color="#F4A460"
           />
-          <CustomButton
-            style={styles.buttonStyles}
-            onPress={() => navigation.navigate("Cart")}
-            title="Cart"
-            color="#F4A460"
-          />
         </View>
+      ),
+      headerRight: (
+        // <View style={{ margin: 10, flexDirection: "row" }}>
+        //   <CustomButton
+        //     style={styles.buttonStyles}
+        //     title="Orders"
+        //     onPress={() => navigation.toggleDrawer()}
+        //     color="#F4A460"
+        //   />
+        <CustomButton
+          style={styles.buttonStyles}
+          onPress={() => navigation.navigate("Cart")}
+          title="Cart"
+          color="#F4A460"
+        />
+        //</View>
       )
     };
   };
@@ -60,7 +73,6 @@ class HomeScreen extends Component {
           this.props.addToCart(id, qty);
         }}
         listDetailNavigation={(item, qty) => {
-          addToCart;
           this.listDetailNavigation(item, qty);
         }}
       />
