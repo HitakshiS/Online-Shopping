@@ -130,7 +130,8 @@ class Cart extends Component {
       Quantity: "",
       price: 0,
       stock_qty: 0,
-      total_bill: 0
+      total_bill: 0,
+      totalBill: 0
     };
   }
 
@@ -181,7 +182,8 @@ class Cart extends Component {
             index
           );
         }}
-        onValueUpdated={qtyValue => {
+        onValueUpdated={(qtyValue, totalBill) => {
+          this.setState({ totalBill });
           this.props.addToCart(item.product_id, qtyValue);
         }}
       />
@@ -279,7 +281,9 @@ class Cart extends Component {
                   marginBottom: 10
                 }
               ]}
-              title={`Total amount: ₹${finalAmount}`}
+              title={`Total amount: ₹${
+                this.state.totalBill > 0 ? this.state.totalBill : finalAmount
+              }`}
             />
             <CustomButton
               style={[styles.buttonStyles, { flex: 0.1 }]}

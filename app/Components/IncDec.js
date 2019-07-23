@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { Text, View, Button, StyleSheet } from "react-native";
 import CustomButton from "./CustomButton";
-import { ApiCartUpdateCall } from "./ApiCartUpdateCall";
 import { connect } from "react-redux";
 import axios from "axios";
 import { Constants } from "../AppConfig/Constants";
+import { bindActionCreators } from "redux";
+
+import { totalBill } from "../Views/HomeScreen/action";
 
 class IncDec extends Component {
   constructor(props) {
@@ -12,7 +14,8 @@ class IncDec extends Component {
 
     this.state = {
       counter: props.value ? props.value : 1,
-      stock_qty: 0
+      stock_qty: 0,
+      totalBill: 0
     };
   }
 
@@ -28,7 +31,6 @@ class IncDec extends Component {
           isAdd
         );
         this.ApiStockRead(this.props.product_id);
-        this.props.onValueUpdated(this.state.counter);
       }
     );
   };
@@ -38,7 +40,12 @@ class IncDec extends Component {
       .post(Constants.CART_UPDATE, { user_id, product_id, addSub })
       .then(response => {
         if (response.data.code == 200) {
-          this.setState({ quantity: response.data.quantity });
+          this.setState({
+            quantity: response.data.quantity,
+            totalBill: response.data.total_bill
+          });
+          // this.props.totalBill(response.data.total_bill);
+          this.props.onValueUpdated(this.state.counter, this.state.totalBill);
         }
       })
       .catch(error => {
@@ -105,7 +112,18 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(IncDec);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      totalBill
+    },
+    dispatch
+  );
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(IncDec);
 
 const styles = StyleSheet.create({
   buttonStyles: {

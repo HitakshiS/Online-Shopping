@@ -110,11 +110,11 @@ export default class CartItem extends Component {
             item={item}
             value={item.qty}
             product_id={item.product_id}
-            onValueUpdated={qtyValue => {
+            onValueUpdated={(qtyValue, totalBill) => {
               this.setState({
                 Quantity: qtyValue
               });
-              onValueUpdated(qtyValue);
+              onValueUpdated(qtyValue, totalBill);
             }}
           />
         </View>
