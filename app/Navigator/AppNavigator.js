@@ -41,9 +41,6 @@ const HomePage = createStackNavigator(
     PurchasedList: {
       screen: PurchasedList
     },
-    Order: {
-      screen: Order
-    },
     Authentication: {
       screen: Authentication
     },
