@@ -55,7 +55,7 @@ class ListItem extends Component {
     return (
       <TouchableWithoutFeedback
         onPress={() =>
-          listDetailNavigation && listDetailNavigation(item, item.qty)
+          listDetailNavigation && listDetailNavigation(item, this.state.qty)
         }
       >
         <View style={[styles.containerStyles, { flexDirection: "column" }]}>
@@ -213,9 +213,9 @@ const styles = StyleSheet.create({
   containerStyles: {
     flexDirection: "row",
     backgroundColor: "white",
-    margin: 20,
+    margin: 10,
     elevation: 30,
-    padding: 30
+    padding: 10
   },
   textStyles: {
     fontSize: 17,

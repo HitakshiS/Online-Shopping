@@ -26,15 +26,13 @@ export default class Login extends Component {
     return (
       <View style={styles.container}>
         <CustomText
-          style={[styles.textStyles, { fontSize: 30, color: "#F4A460" }]}
+          style={[styles.textStyles, { fontSize: 40, color: "#F4A460" }]}
           title="Welcome"
         />
-        <ErrorBoundary>
-          <CustomText
-            style={styles.textStyles}
-            title="Sign In if you are already registered"
-          />
-        </ErrorBoundary>
+        <CustomText
+          style={[styles.textStyles, { marginTop: 40 }]}
+          title="Sign In if you are already registered"
+        />
         <CustomButton
           title="sign in"
           onPress={() => this.props.navigation.navigate("SignIn")}
@@ -58,7 +56,7 @@ const styles = StyleSheet.create({
     margin: 10
   },
   textStyles: {
-    fontSize: 26,
+    fontSize: 24,
     color: "black",
     textAlign: "center"
   },

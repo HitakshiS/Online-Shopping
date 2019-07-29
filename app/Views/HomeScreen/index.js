@@ -1,61 +1,102 @@
 import React, { Component } from "react";
-import { View, TouchableOpacity, FlatList, StyleSheet } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  FlatList,
+  StyleSheet,
+  TextInput,
+  ScrollView,
+  Image,
+  Picker
+} from "react-native";
 import CustomButton from "../../Components/CustomButton";
+import CustomHeader from "../../Components/CustomHeader";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { addToCart, hideCartBtn, exampleData, cop } from "./action";
+import {
+  addToCart,
+  hideCartBtn,
+  exampleData,
+  cop,
+  randomData,
+  categoryData
+} from "./action";
 import ListItem from "../../Components/ListItem";
-import PurchasedList from "../PurchasedList/PurchasedList";
-import { ScrollView } from "react-native-gesture-handler";
 import { Constants } from "../../AppConfig/Constants";
 import axios from "axios";
-import ErrorBoundary from "../../Components/ErrorBoundary";
+import Input from "../../Components/Input";
+import CustomText from "../../Components/CustomText";
 
 class HomeScreen extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      headerStyle: {
-        backgroundColor: "#F4A460"
-      },
-      headerTitleStyle: { alignSelf: "center" },
-      title: "Home",
-      headerLeft: (
-        <View
-          style={{ marginRight: 30, paddingRight: 10, flexDirection: "row" }}
-        >
-          <CustomButton
-            style={styles.buttonStyles}
-            title="Orders"
-            onPress={() => navigation.toggleDrawer()}
-            color="#F4A460"
-          />
-        </View>
-      ),
-      headerRight: (
-        // <View style={{ margin: 10, flexDirection: "row" }}>
-        //   <CustomButton
-        //     style={styles.buttonStyles}
-        //     title="Orders"
-        //     onPress={() => navigation.toggleDrawer()}
-        //     color="#F4A460"
-        //   />
-        <CustomButton
-          style={styles.buttonStyles}
-          onPress={() => navigation.navigate("Cart")}
-          title="Cart"
-          color="#F4A460"
-        />
-        //</View>
-      )
-    };
-  };
+  // static navigationOptions = ({ navigation }) => {
+  //   return {
+  //     headerStyle: {
+  //       backgroundColor: "#F4A460"
+  //     },
+  //     headerTitleStyle: { alignSelf: "center" },
+  //     headerTitle: "      Home",
+  //     headerLeft: (
+  //       <View
+  //         style={{ marginRight: 30, paddingRight: 10, flexDirection: "row" }}
+  //       >
+  //         <CustomButton
+  //           style={styles.buttonStyles}
+  //           title="Orders"
+  //           onPress={() => this.props.navigation.toggleDrawer()}
+  //           color="#F4A460"
+  //         />
+  //       </View>
+  //     ),
+  //     headerRight: (
+  //       <CustomButton
+  //         style={styles.buttonStyles}
+  //         onPress={() => navigation.navigate("Cart")}
+  //         title="Cart"
+  //         color="#F4A460"
+  //       />
+  //       //</View>
+  //     )
+  //   };
+  // };
+
   constructor() {
-    super();
+    super(); // dataSet.map(item => {
+    //   if (item.name === text) {
+    //     this.setState({ exist: 1 });
+    //     return true;
+    //   } else return alert("This item does not exist in the stock.");
+    // });
     this.state = {
       data: [],
-      cart: []
+      cart: [],
+      searchData: [],
+      existSearch: false,
+      existPicker: 0
     };
   }
+  // ApiGetStockCall = category_id => {
+  //   axios
+  //     .get(Constants.STOCK_API, {
+  //       params: { category_id }
+  //     })
+  //     .then(response => {
+  //       if (response.data.code == 200) {
+  //         console.log(response.data.stockData);
+
+  //         this.setState(
+  //           {
+  //             randomData: response.data.stockData
+  //           },
+  //           () => {
+  //             this.props.randomData(this.state.randomData);
+  //           }
+  //         );
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // };
 
   listDetailNavigation(item, qty) {
     this.props.navigation.navigate("ListItemDetail", {
@@ -63,6 +104,21 @@ class HomeScreen extends Component {
       quantity: qty
     });
   }
+
+  searchFilterFunction = text => {
+    // const dataSet = this.props.reducer.randomData.length
+    //   ? this.props.reducer.randomData
+    //   : this.state.data;
+    const newData = this.state.data.filter(item => {
+      const itemData = `${item.name.toUpperCase()}`;
+      const textData = text.toUpperCase();
+      return itemData.indexOf(textData) > -1;
+    });
+
+    this.setState(prevState => ({
+      searchData: newData,
+    }));
+  };
 
   renderItem = ({ item }) => {
     return (
@@ -78,6 +134,27 @@ class HomeScreen extends Component {
       />
     );
   };
+
+  // onDrawerPress = () => {
+  //   console.log("drawer entered");
+  //   this.props.navigation.toggleDrawer();
+  // };
+  // onCartPress = () => {
+  //   this.props.navigation.navigate("Cart");
+  // };
+
+  static navigationOptions = ({ navigation }) => ({
+    header: (
+      <CustomHeader
+        onDrawerPress={() => {
+          navigation.toggleDrawer();
+        }}
+        onCartPress={() => {
+          navigation.navigate("Cart");
+        }}
+      />
+    )
+  });
 
   componentDidMount() {
     axios
@@ -107,8 +184,6 @@ class HomeScreen extends Component {
       })
       .then(response => {
         if (response.data.code == 200) {
-          console.log(response.data.cartData);
-
           this.setState(
             {
               cart: response.data.cartData
@@ -135,12 +210,61 @@ class HomeScreen extends Component {
     }));
 
   render() {
-    const homeData = this.mergeById(this.state.data, this.state.cart);
+    //this.state.data && this.state.data.length > 0;
+    const initialData =
+      this.props.reducer.randomData.length > 0
+        ? this.props.reducer.randomData
+        : this.state.data;
+    const searchDataValue =
+      this.state.searchData.length > 0 ? this.state.searchData : initialData;
+    const homeData = this.mergeById(searchDataValue, this.state.cart);
     return (
-      <ScrollView style={{ backgroundColor: "#FFEFD5" }}>
-        {/* <PurchasedList horizontal={true} /> */}
-        <FlatList data={homeData} renderItem={this.renderItem} />
-      </ScrollView>
+      <View
+        style={{ flex: 1, backgroundColor: "#FFEFD5", flexDirection: "column" }}
+      >
+        <View style={{ flex: 0.15 }} />
+        <View
+          style={{
+            flex: 0.1,
+            backgroundColor: "#F4A460",
+            position: "relative"
+          }}
+        >
+          <TextInput
+            style={styles.input}
+            underlineColorAndroid="transparent"
+            placeholderTextColor="white"
+            placeholder="Search"
+            onChangeText={text => this.searchFilterFunction(text)}
+            autoCorrect={false}
+          />
+        </View>
+        <View style={{ flex: 0.7 }}>
+          {homeData.length ? (
+            <FlatList
+              data={homeData}
+              renderItem={this.renderItem}
+              keyExtractor={item => item.name}
+            />
+          ) : (
+            <CustomText
+              style={[
+                styles.emptyTextStyle,
+                {
+                  flex: 1,
+                  backgroundColor: "#FFEFD5",
+                  fontSize: 20,
+                  color: "#7a42f4",
+                  flex: 1,
+                  textAlign: "center",
+                  backgroundColor: "white"
+                }
+              ]}
+              title="Sorry no such item exists in this stock"
+            />
+          )}
+        </View>
+      </View>
     );
   }
 }
@@ -157,7 +281,9 @@ const mapDispatchToProps = dispatch =>
       addToCart,
       hideCartBtn,
       exampleData,
-      cop
+      cop,
+      randomData,
+      categoryData
     },
     dispatch
   );
@@ -172,6 +298,15 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 30,
     margin: 5,
-    backgroundColor: "#7a42f4"
+    backgroundColor: "#F4A460"
+  },
+  input: {
+    margin: 10,
+    height: 40,
+    borderColor: "white",
+    borderWidth: 1,
+    width: 390,
+    color: "white",
+    position: "absolute"
   }
 });

@@ -71,3 +71,17 @@ export const totalBill = total_bill => {
     payload: total_bill
   };
 };
+
+export const randomData = randomData => {
+  return {
+    type: ActionTypes.RANDOM_DATA,
+    payload: randomData
+  };
+};
+
+export const categoryData = categoryData => {
+  return {
+    type: ActionTypes.CATEGORY_DATA,
+    payload: categoryData
+  };
+};

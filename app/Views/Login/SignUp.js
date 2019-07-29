@@ -135,7 +135,11 @@ export default class SignUp extends Component {
   render() {
     console.log(this.state.password);
     return (
-      <ScrollView style={{ flex: 1 }}>
+      <ScrollView
+        style={{ flex: 1 }}
+        keyboardShouldPersistTaps="always"
+        keyboardDismissMode="on-drag"
+      >
         <View style={styles.container}>
           <CustomText
             style={styles.textStyles}
@@ -227,7 +231,8 @@ const styles = StyleSheet.create({
   textStyles: {
     fontSize: 26,
     color: "black",
-    textAlign: "center"
+    textAlign: "center",
+    marginTop: 20
   },
   submitButton: {
     flex: 0.1,

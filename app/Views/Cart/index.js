@@ -49,6 +49,18 @@ class Cart extends Component {
     )
   });
 
+  constructor() {
+    super();
+    this.state = {
+      cart: [],
+      Quantity: "",
+      price: 0,
+      stock_qty: 0,
+      total_bill: 0,
+      totalBill: 0
+    };
+  }
+
   logOutFn = async () => {
     console.log("=====>");
 
@@ -102,42 +114,9 @@ class Cart extends Component {
       });
   };
 
-  // ApiStockRead = product_id => {
-  //   axios
-  //     .get(Constants.STOCK_READ, { params: { product_id } })
-  //     .then(response => {
-  //       console.log(response.data);
-  //       if (response.data.code == 200) {
-  //         console.log(response.data);
-  //         this.setState(() => ({
-  //           stock_qty: response.data.productData.stock_qty
-  //         }));
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // };
-
   FailurePage() {
     this.props.navigation.navigate("Failure");
   }
-
-  constructor() {
-    super();
-    this.state = {
-      cart: [],
-      Quantity: "",
-      price: 0,
-      stock_qty: 0,
-      total_bill: 0,
-      totalBill: 0
-    };
-  }
-
-  quantitySelect = Qty => {
-    this.setState({ Quantity: Qty });
-  };
 
   ApiCartRemoveItem = (user_id, product_id, index) => {
     axios

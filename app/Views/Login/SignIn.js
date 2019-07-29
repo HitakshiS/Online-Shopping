@@ -132,7 +132,11 @@ class SignIn extends Component {
 
   render() {
     return (
-      <ScrollView style={{ flex: 1 }}>
+      <ScrollView
+        style={{ flex: 1 }}
+        keyboardShouldPersistTaps="always"
+        keyboardDismissMode="on-drag"
+      >
         <View style={styles.container}>
           {/* <ErrorBoundary> */}
           <CustomText style={styles.textStyles} title="Sign In Your Account" />
@@ -201,7 +205,8 @@ const styles = StyleSheet.create({
   textStyles: {
     fontSize: 26,
     color: "black",
-    textAlign: "center"
+    textAlign: "center",
+    marginTop: 20
   },
   submitButton: {
     flex: 0.1,

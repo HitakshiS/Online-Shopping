@@ -14,7 +14,6 @@ function Profile(props) {
       />
     </View>
   );
-  s;
 }
 const styles = StyleSheet.create({
   container: {

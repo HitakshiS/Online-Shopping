@@ -6,7 +6,9 @@ const INITIAL_STATE = {
   cartList: [],
   userProfile: {},
   purchaseList: [],
-  TotalBill: 0
+  TotalBill: 0,
+  randomData: [],
+  categoryData: []
 };
 
 export default (HomeReducer = (state = INITIAL_STATE, action) => {
@@ -157,6 +159,22 @@ export default (HomeReducer = (state = INITIAL_STATE, action) => {
       let total_bill = action.payload;
       return {
         TotalBill: total_bill
+      };
+    }
+
+    case ActionTypes.RANDOM_DATA: {
+      let randomDataList = action.payload;
+      return {
+        ...state,
+        randomData: randomDataList
+      };
+    }
+
+    case ActionTypes.CATEGORY_DATA: {
+      let categoryDataList = action.payload;
+      return {
+        ...state,
+        categoryData: categoryDataList
       };
     }
 
