@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  ImageBackground,
+  TouchableOpacity
+} from "react-native";
 import CustomButton from "../../Components/CustomButton";
 import CustomText from "../../Components/CustomText";
 import ErrorBoundary from "../../Components/ErrorBoundary";
@@ -21,39 +27,79 @@ export default class Login extends Component {
       console.error("AsyncStorage error: " + error.message);
     }
   }
-
+  signIn = () => {
+    console.log("signIn");
+  };
   render() {
     return (
-      <View style={styles.container}>
+      <ImageBackground
+        source={require("../../Assets/background.jpg")}
+        style={[styles.container, { width: "100%", height: "100%" }]}
+      >
         <CustomText
-          style={[styles.textStyles, { fontSize: 40, color: "#F4A460" }]}
+          style={[
+            styles.textStyles,
+            {
+              fontSize: 40,
+              color: "#503E24",
+              fontFamily: "serif",
+              fontWeight: "bold"
+            }
+          ]}
           title="Welcome"
         />
         <CustomText
-          style={[styles.textStyles, { marginTop: 40 }]}
-          title="Sign In if you are already registered"
+          style={[
+            styles.textStyles,
+            {
+              fontSize: 30,
+              color: "#503E24",
+              paddingTop: 50,
+              fontFamily: "serif"
+            }
+          ]}
+          title="A STORE THAT"
         />
-        <CustomButton
-          title="sign in"
-          onPress={() => this.props.navigation.navigate("SignIn")}
-          color="#F4A460"
+        <CustomText
+          style={[
+            styles.textStyles,
+            {
+              fontSize: 30,
+              color: "#503E24",
+              fontFamily: "serif"
+            }
+          ]}
+          title="NEVER SLEEPS"
         />
-        <CustomText style={styles.textStyles} title="Sign Up for new user" />
-        <CustomButton
-          title="sign up"
-          onPress={() => this.props.navigation.navigate("SignUp")}
-          color="#F4A460"
-        />
-      </View>
+        {/* <CustomText
+        //   style={[styles.textStyles, { marginTop: 40 }]}
+        //   title="Sign In if you are already registered"
+        // /> */}
+        <View
+          style={{ flexDirection: "row", flex: 0.7, alignItems: "flex-end" }}
+        >
+          <CustomButton
+            style={styles.submitButton}
+            title="sign In"
+            onPress={() => this.props.navigation.navigate("SignIn")}
+            color="rgba(100, 100, 100, 0.9)"
+          />
+          {/* //<CustomText style={styles.textStyles} title="Sign Up for new user" /> */}
+          <CustomButton
+            style={styles.submitButton}
+            title="sign up"
+            onPress={() => this.props.navigation.navigate("SignUp")}
+            color="rgba(100, 100, 100, 0.9)"
+          />
+        </View>
+      </ImageBackground>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.9,
-    padding: 10,
-    margin: 10
+    flex: 1
   },
   textStyles: {
     fontSize: 24,
@@ -61,9 +107,9 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   submitButton: {
-    flex: 0.1,
+    flex: 0.5,
     padding: 10,
     margin: 15,
-    height: 40
+    height: "30%"
   }
 });

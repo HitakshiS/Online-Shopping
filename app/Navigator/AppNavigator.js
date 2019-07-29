@@ -44,9 +44,9 @@ const HomePage = createStackNavigator(
     Authentication: {
       screen: Authentication
     },
-    SignIn: {
-      screen: SignIn
-    }
+    // SignIn: {
+    //   screen: SignIn
+    // }
   },
   { initialRouteName: "Home" }
 );

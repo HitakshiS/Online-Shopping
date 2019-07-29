@@ -5,7 +5,7 @@ import axios from "axios";
 export class ApiGetStockCall extends Component {
   constructor(props){
     super(props)
-    this.state = {randomData: []}
+    this.state = {data: []}
   }
   ApiGetStockCall = category_id => {
   axios
@@ -18,7 +18,7 @@ export class ApiGetStockCall extends Component {
 
         this.setState(
           {
-            randomData: response.data.stockData
+            data: response.data.stockData
           },
           () => {
             this.props.randomData(this.state.randomData);

@@ -134,8 +134,6 @@ class SignIn extends Component {
     return (
       <ScrollView
         style={{ flex: 1 }}
-        keyboardShouldPersistTaps="always"
-        keyboardDismissMode="on-drag"
       >
         <View style={styles.container}>
           {/* <ErrorBoundary> */}

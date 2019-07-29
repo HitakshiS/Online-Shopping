@@ -8,7 +8,8 @@ const INITIAL_STATE = {
   purchaseList: [],
   TotalBill: 0,
   randomData: [],
-  categoryData: []
+  categoryData: [],
+  existSearch: true
 };
 
 export default (HomeReducer = (state = INITIAL_STATE, action) => {
@@ -130,22 +131,7 @@ export default (HomeReducer = (state = INITIAL_STATE, action) => {
     case ActionTypes.EXAMPLE_DATA: {
       return {
         ...state,
-        exampleData: state.exampleData.map(data => {
-          if (data.id === action.payload.id) {
-            return {
-              ...data,
-              // ...action.payload
-              id: action.payload.id,
-              name: action.payload.name,
-              stockQty: action.payload.stockQty,
-              price: action.payload.price,
-              description: action.payload.description,
-              image: action.payload.image
-            };
-          } else {
-            return data;
-          }
-        })
+        exampleData: [...action.payload]
       };
     }
 
@@ -166,7 +152,8 @@ export default (HomeReducer = (state = INITIAL_STATE, action) => {
       let randomDataList = action.payload;
       return {
         ...state,
-        randomData: randomDataList
+        randomData: randomDataList,
+        existSearch: false
       };
     }
 
@@ -175,6 +162,12 @@ export default (HomeReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         categoryData: categoryDataList
+      };
+    }
+
+    case ActionTypes.EXIST_SEARCH: {
+      return {
+        existSearch: true
       };
     }
 

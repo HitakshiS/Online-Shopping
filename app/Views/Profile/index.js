@@ -148,7 +148,9 @@ class Profile extends Component {
           style={{
             flex: 1,
             backgroundColor:
-              this.state.selectedAddress == index ? "#F4A460" : "transparent"
+              this.state.selectedAddress == index ? "#F4A460" : "transparent",
+            borderWidth: 1,
+            borderColor: "black"
           }}
         >
           <CustomText
@@ -171,8 +173,8 @@ class Profile extends Component {
       <ScrollView style={{ flex: 1 }}>
         <View style={styles.container}>
           <CustomText
-            style={[styles.textStyles, { textAlign: "left" }]}
-            title="Please fill in the User Details"
+            style={[styles.textStyles, { textAlign: "left", marginBottom: 10 }]}
+            title="Please Fill In The User Details"
           />
           <View
             style={{
@@ -192,7 +194,7 @@ class Profile extends Component {
                   {
                     fontSize: 18,
                     color: "black",
-                    flex: 0.2,
+                    flex: 0.3,
                     paddingTop: 0
                   }
                 ]}
@@ -205,7 +207,7 @@ class Profile extends Component {
                     fontSize: 18,
                     color: "black",
                     fontWeight: "bold",
-                    flex: 0.8,
+                    flex: 0.5,
                     paddingTop: 0
                   }
                 ]}
@@ -219,7 +221,7 @@ class Profile extends Component {
                   {
                     fontSize: 18,
                     color: "black",
-                    flex: 0.2
+                    flex: 0.3
                   }
                 ]}
                 title={`Email `}
@@ -231,7 +233,7 @@ class Profile extends Component {
                     fontSize: 18,
                     color: "black",
                     fontWeight: "bold",
-                    flex: 0.8
+                    flex: 0.5
                   }
                 ]}
                 title={` ${this.state.email}`}
@@ -256,7 +258,7 @@ class Profile extends Component {
                     fontSize: 18,
                     color: "black",
                     fontWeight: "bold",
-                    flex: 0.8
+                    flex: 0.5
                   }
                 ]}
                 title={`${this.state.mobile}`}
@@ -267,8 +269,8 @@ class Profile extends Component {
           {this.state.addresses && this.state.addresses.length > 0 && (
             <View style={{ flex: 1, padding: 20 }}>
               <CustomText
-                title="Please select delivery address"
-                style={{ fontSize: 26, color: "black" }}
+                title="Please Select Delivery Address"
+                style={{ fontSize: 24, color: "black", marginBottom: 10 }}
               />
               <FlatList
                 style={{ backgroundColor: "#FFEFD5", elevation: 30 }}
@@ -297,7 +299,10 @@ class Profile extends Component {
 
           <CustomButton
             color="#F4A460"
-            style={[styles.submitButton, { paddingBottom: 5 }]}
+            style={[
+              styles.submitButton,
+              { paddingBottom: 5, width: 300, paddingLeft: 90 }
+            ]}
             title={
               this.state.showAddAddressInput
                 ? "Submit Address"

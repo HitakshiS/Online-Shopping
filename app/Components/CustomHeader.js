@@ -11,7 +11,7 @@ import CustomText from "./CustomText";
 import CustomButton from "./CustomButton";
 import axios from "axios";
 import { Constants } from "../AppConfig/Constants";
-import { randomData, categoryData } from "../Views/HomeScreen/action";
+import { randomData, categoryData, existSearch } from "../Views/HomeScreen/action";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -21,7 +21,8 @@ class CustomHeader extends Component {
     this.state = {
       products: "",
       randomData: [],
-      categoryData: []
+      categoryData: [],
+      
     };
   }
 
@@ -40,6 +41,8 @@ class CustomHeader extends Component {
             },
             () => {
               this.props.randomData(this.state.randomData);
+              //this.props.existSearch(false)
+              
             }
           );
         }
@@ -112,40 +115,26 @@ class CustomHeader extends Component {
           </TouchableOpacity>
           <CustomText
             style={{
-              flex: 0.8,
-              textAlign: "center",
+              flex: 0.82,
+              textAlign: "left",
               fontWeight: "bold",
-              fontSize: 30,
-              marginTop: 5,
+              fontSize: 26,
+              marginTop: 10,
               color: "white"
             }}
-            title="   Home"
+            title="    Home"
           />
           <View
             style={{
               flex: 0.2,
               justifyContents: "flex-end",
-              padding: 15
+              alignSelf:"flex-end",
+              padding: 15,
             }}
           >
             <CustomButton onPress={onCartPress} title="Cart" color="#F4A460" />
           </View>
         </View>
-        {/* <View
-          style={{
-            flex: 1,
-            flexDirection: "row",
-            backgroundColor: "#F4A460"
-          }}
-        >
-          <TextInput
-            style={styles.input}
-            underlineColorAndroid="transparent"
-            placeholderTextColor="white"
-            placeholder="Search"
-            autoCorrect={false}
-          />
-        </View> */}
         <View
           style={{
             flex: 1,
@@ -160,7 +149,7 @@ class CustomHeader extends Component {
               fontSize: 20,
               color: "white",
               marginLeft: 10,
-              marginTop: 5
+              marginTop: 10
             }}
             title="Categories:"
           />
@@ -169,15 +158,16 @@ class CustomHeader extends Component {
               flex: 0.4,
               height: 40,
               width: 150,
-              borderColor: "white",
-              borderWidth: 1,
               color: "white"
             }}
             selectedValue={this.state.products}
-            onValueChange={(itemValue, itemIndex) =>
+            onValueChange={(itemValue, itemIndex) => {
+              this.props.onRandomDataUpdate(itemValue);
               this.setState({ products: itemValue }, () => {
-                this.ApiGetStockCall(itemValue);
+              
               })
+            }
+             
             }
             itemStyle={{
               backgroundColor: "grey",
@@ -203,7 +193,8 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       randomData,
-      categoryData
+      categoryData,
+      existSearch
     },
     dispatch
   );

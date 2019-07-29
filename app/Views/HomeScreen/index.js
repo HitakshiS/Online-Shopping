@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {
   View,
-  TouchableOpacity,
   FlatList,
   StyleSheet,
   TextInput,
@@ -68,35 +67,33 @@ class HomeScreen extends Component {
     // });
     this.state = {
       data: [],
+      dataFull: [],
       cart: [],
       searchData: [],
       existSearch: false,
       existPicker: 0
     };
   }
-  // ApiGetStockCall = category_id => {
-  //   axios
-  //     .get(Constants.STOCK_API, {
-  //       params: { category_id }
-  //     })
-  //     .then(response => {
-  //       if (response.data.code == 200) {
-  //         console.log(response.data.stockData);
 
-  //         this.setState(
-  //           {
-  //             randomData: response.data.stockData
-  //           },
-  //           () => {
-  //             this.props.randomData(this.state.randomData);
-  //           }
-  //         );
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // };
+  ApiGetStockCall = (category_id = 0) => {
+    axios
+      .get(Constants.STOCK_API, {
+        params: { category_id }
+      })
+      .then(response => {
+        if (response.data.code == 200) {
+          this.props.exampleData(response.data.stockData);
+          console.log(response.data.stockData);
+          this.setState(() => ({
+            data: response.data.stockData,
+            dataFull: response.data.stockData
+          }));
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   listDetailNavigation(item, qty) {
     this.props.navigation.navigate("ListItemDetail", {
@@ -109,15 +106,22 @@ class HomeScreen extends Component {
     // const dataSet = this.props.reducer.randomData.length
     //   ? this.props.reducer.randomData
     //   : this.state.data;
-    const newData = this.state.data.filter(item => {
-      const itemData = `${item.name.toUpperCase()}`;
-      const textData = text.toUpperCase();
-      return itemData.indexOf(textData) > -1;
-    });
 
-    this.setState(prevState => ({
-      searchData: newData,
-    }));
+    let newData = [];
+
+    if (text && text != "") {
+      newData = this.state.dataFull.filter(item => {
+        const itemData = `${item.name.toUpperCase()}`;
+        const textData = text.toUpperCase();
+        return itemData.startsWith(textData);
+      });
+    } else {
+      newData = this.state.dataFull;
+    }
+
+    this.setState({
+      data: newData
+    });
   };
 
   renderItem = ({ item }) => {
@@ -152,32 +156,17 @@ class HomeScreen extends Component {
         onCartPress={() => {
           navigation.navigate("Cart");
         }}
+        onRandomDataUpdate={dataValue => {
+          const filterFn = navigation.getParam("filterFn");
+          filterFn(dataValue);
+        }}
       />
     )
   });
 
   componentDidMount() {
-    axios
-      .get(Constants.STOCK_API)
-      .then(response => {
-        if (response.data.code == 200) {
-          this.props.exampleData(
-            response.data.stockData.id,
-            response.data.stockData.name,
-            response.data.stockData.stockQty,
-            response.data.stockData.price,
-            response.data.stockData.description,
-            response.data.stockData.image
-          );
-          console.log(response.data.stockData);
-          this.setState(() => ({
-            data: response.data.stockData
-          }));
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    this.ApiGetStockCall();
+
     axios
       .get(Constants.CART_API, {
         params: { user_id: this.props.reducer.userProfile.user_id }
@@ -201,6 +190,8 @@ class HomeScreen extends Component {
       .catch(error => {
         console.log(error);
       });
+
+    this.props.navigation.setParams({ filterFn: this.ApiGetStockCall });
   }
 
   mergeById = (a1, a2) =>
@@ -211,23 +202,23 @@ class HomeScreen extends Component {
 
   render() {
     //this.state.data && this.state.data.length > 0;
-    const initialData =
-      this.props.reducer.randomData.length > 0
-        ? this.props.reducer.randomData
-        : this.state.data;
-    const searchDataValue =
-      this.state.searchData.length > 0 ? this.state.searchData : initialData;
-    const homeData = this.mergeById(searchDataValue, this.state.cart);
+
+    const homeData =
+      this.state.data &&
+      this.state.data.length > 0 &&
+      this.mergeById(this.state.data, this.state.cart);
     return (
       <View
-        style={{ flex: 1, backgroundColor: "#FFEFD5", flexDirection: "column" }}
+        style={{
+          flex: 1,
+          backgroundColor: "#FFEFD5",
+          flexDirection: "column",
+          marginTop: 100
+        }}
       >
-        <View style={{ flex: 0.15 }} />
         <View
           style={{
-            flex: 0.1,
-            backgroundColor: "#F4A460",
-            position: "relative"
+            backgroundColor: "#F4A460"
           }}
         >
           <TextInput
@@ -239,12 +230,13 @@ class HomeScreen extends Component {
             autoCorrect={false}
           />
         </View>
-        <View style={{ flex: 0.7 }}>
+        <View style={{ marginBottom: 80 }}>
           {homeData.length ? (
             <FlatList
               data={homeData}
               renderItem={this.renderItem}
               keyExtractor={item => item.name}
+              extraData={this.state.data}
             />
           ) : (
             <CustomText
@@ -306,7 +298,13 @@ const styles = StyleSheet.create({
     borderColor: "white",
     borderWidth: 1,
     width: 390,
-    color: "white",
-    position: "absolute"
+    color: "white"
+  },
+  emptyTextStyle: {
+    fontSize: 20,
+    color: "#7a42f4",
+    flex: 1,
+    textAlign: "center",
+    backgroundColor: "white"
   }
 });

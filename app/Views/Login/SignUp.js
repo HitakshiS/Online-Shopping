@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StyleSheet, ScrollView, Alert } from "react-native";
+import { View, StyleSheet, ScrollView, Alert, KeyboardAvoidingView} from "react-native";
 import Input from "../../Components/Input";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -135,10 +135,9 @@ export default class SignUp extends Component {
   render() {
     console.log(this.state.password);
     return (
+
       <ScrollView
         style={{ flex: 1 }}
-        keyboardShouldPersistTaps="always"
-        keyboardDismissMode="on-drag"
       >
         <View style={styles.container}>
           <CustomText

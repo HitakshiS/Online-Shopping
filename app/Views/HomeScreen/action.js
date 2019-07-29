@@ -45,10 +45,10 @@ export const emptyCartList = () => {
   };
 };
 
-export const exampleData = (id, name, stockQty, price, description, image) => {
+export const exampleData = exampleData => {
   return {
     type: ActionTypes.EXAMPLE_DATA,
-    payload: { id, name, stockQty, price, description, image }
+    payload:exampleData
   };
 };
 
@@ -83,5 +83,12 @@ export const categoryData = categoryData => {
   return {
     type: ActionTypes.CATEGORY_DATA,
     payload: categoryData
+  };
+};
+
+export const existSearch = existSearch => {
+  return {
+    type: ActionTypes.EXIST_SEARCH,
+    payload: existSearch
   };
 };
