@@ -1,7 +1,6 @@
 import {
   createStackNavigator,
   createAppContainer,
-  createBottomTabNavigator,
   createDrawerNavigator,
   createSwitchNavigator
 } from "react-navigation";
@@ -17,6 +16,7 @@ import SignIn from "../Views/Login/SignIn";
 import SignUp from "../Views/Login/SignUp";
 import Login from "../Views/Login";
 import Authentication from "../Views/Login/Authentication";
+import DrawerMenu from "../Components/DrawerMenu";
 
 const HomePage = createStackNavigator(
   {
@@ -43,7 +43,7 @@ const HomePage = createStackNavigator(
     },
     Authentication: {
       screen: Authentication
-    },
+    }
     // SignIn: {
     //   screen: SignIn
     // }
@@ -68,10 +68,15 @@ const MyOrders = createStackNavigator(
   { initialRouteName: "Order" }
 );
 
-const MyDrawerNavigator = createDrawerNavigator({
-  HomePage,
-  MyOrders: MyOrders
-});
+const MyDrawerNavigator = createDrawerNavigator(
+  {
+    HomePage,
+    MyOrders: MyOrders
+  },
+  {
+    contentComponent: DrawerMenu
+  }
+);
 
 const MySwitchNavigator = createSwitchNavigator(
   {
