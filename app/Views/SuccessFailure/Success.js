@@ -91,10 +91,36 @@ class Success extends Component {
       delivery_address: "",
       total_bill: 0
     };
+
+    this.backHandler = null;
+  }
+
+  componentDidMount() {
+    if (this.backHandler) {
+      this.backHandler.remove();
+    }
+    this.backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      this.homePage
+    );
+
+    this.props.navigation.setParams({ logOutFn: this.logOutFn });
+  }
+
+  componentWillUnmount() {
+    if (this.backHandler) {
+      this.backHandler.remove();
+    }
   }
 
   homePage = () => {
-    this.props.navigation.dispatch(StackActions.popToTop());
+    this.props.navigation.dispatch(
+      StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: "Home" })]
+      })
+    );
+    return true;
   };
 
   logOutFn = async () => {
@@ -184,10 +210,6 @@ class Success extends Component {
   //       console.log(error);
   //     });
   // };
-
-  componentDidMount() {
-    this.props.navigation.setParams({ logOutFn: this.logOutFn });
-  }
 
   render() {
     const response = this.props.navigation.getParam("response", "not recieved");
