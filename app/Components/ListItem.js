@@ -51,7 +51,12 @@ class ListItem extends Component {
       onValueUpdated,
       listDetailNavigation
     } = this.props;
-
+    console.log(
+      "listItem this.state.qty==> " +
+        this.state.qty +
+        "   item.product_id==>  " +
+        item.product_id
+    );
     return (
       <TouchableWithoutFeedback
         onPress={() =>
@@ -63,7 +68,8 @@ class ListItem extends Component {
             <Image
               style={{
                 width: 100,
-                height: 100
+                height: 100,
+                resizeMode: "contain"
               }}
               source={{
                 uri: item.image
@@ -175,7 +181,7 @@ class ListItem extends Component {
                 <IncDec
                   item={item}
                   stock_qty={item.stock_qty}
-                  value={item.qty + 1}
+                  value={item.qty == "" ? 1 : parseInt(item.qty, 10) + 1}
                   product_id={item.product_id}
                   onValueUpdated={qtyValue => {
                     if (item.stock_qty == qtyValue) {

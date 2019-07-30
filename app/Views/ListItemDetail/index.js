@@ -70,7 +70,7 @@ class ListItemDetail extends Component {
       })
       .then(response => {
         if (response.data.code == 200) {
-          console.log(response.data.cartData);
+          console.log("lolwa   ", response.data.cartData);
 
           this.setState(() => ({
             cart: response.data.cartData
@@ -115,9 +115,19 @@ class ListItemDetail extends Component {
 
   render() {
     const itemValue = this.props.navigation.getParam("itemValue");
-    const quantity = this.props.navigation.getParam("quantity");
-    console.log("itemValue==>", JSON.stringify(itemValue));
-    console.log("quantity==>", JSON.stringify(quantity));
+    //const quantity = this.props.navigation.getParam("quantity");
+    console.log("this.state.qty==>", JSON.stringify(this.state.qty));
+
+    let newQty = "";
+    for (var j = 0; j < this.state.cart.length; j++) {
+      if (this.state.cart[j].product_id === itemValue.product_id) {
+        console.log("Found It!!!  " + this.state.cart[j].qty);
+        newQty = this.state.cart[j].qty;
+      }
+    }
+
+    console.log("Check it   " + newQty);
+
     return (
       <View style={{ flex: 1, backgroundColor: "#FFEFD5" }}>
         <View style={styles.containerStyle}>
@@ -155,16 +165,18 @@ class ListItemDetail extends Component {
                   styles.textStyles,
                   {
                     color:
-                      quantity === itemValue.stock_qty ||
-                      this.state.qty === itemValue.stock_qtys
+                      newQty === itemValue.stock_qty ||
+                      this.state.qty === itemValue.stock_qty ||
+                      itemValue.qty === itemValue.stock_qty
                         ? "red"
                         : "green",
                     fontSize: 20
                   }
                 ]}
                 title={
-                  quantity === itemValue.stock_qty ||
-                  this.state.qty === itemValue.stock_qty
+                  newQty === itemValue.stock_qty ||
+                  this.state.qty === itemValue.stock_qty ||
+                  itemValue.qty === itemValue.stock_qty
                     ? "Out of stock"
                     : "In stock"
                 }
@@ -183,10 +195,26 @@ class ListItemDetail extends Component {
                 title="Add To Cart"
                 color="#F4A460"
                 onPress={() => {
+                  console.log("YEAH :: " + newQty);
+                  console.log("YEAH :: " + itemValue.name);
+                  console.log("YEAH :: " + itemValue.price);
+                  console.log("YEAH :: " + newQty);
                   if (itemValue.stock_qty == 1) {
-                    this.setState({ stockCheck: true, qty: quantity + 1 });
+                    if (newQty == "")
+                      this.setState({
+                        stockCheck: true,
+                        qty: itemValue.qty + 1
+                      });
+                    else
+                      this.setState({
+                        stockCheck: true,
+                        qty: parseInt(newQty, 10) + 1
+                      });
                   } else {
-                    this.setState({ stockCheck: false, qty: quantity + 1 });
+                    this.setState({
+                      stockCheck: false,
+                      qty: itemValue.qty + 1
+                    });
                   }
                   ApiCartUpdateCall(
                     this.props.reducer.userProfile.user_id,
@@ -198,7 +226,7 @@ class ListItemDetail extends Component {
                   }));
                 }}
                 disabled={
-                  itemValue.stock_qty === 0 || itemValue.stock_qty === quantity
+                  itemValue.stock_qty === 0 || itemValue.stock_qty === newQty
                     ? true
                     : false
                 }
@@ -207,7 +235,7 @@ class ListItemDetail extends Component {
               <IncDec
                 item={itemValue}
                 stock_qty={itemValue.stock_qty}
-                value={quantity + 1}
+                value={newQty == "" ? 1 : parseInt(newQty, 10) + 1}
                 product_id={itemValue.product_id}
                 onValueUpdated={qtyValue => {
                   if (itemValue.stock_qty == qtyValue) {
