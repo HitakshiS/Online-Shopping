@@ -55,20 +55,22 @@ class ListItemDetail extends Component {
       stockCheck: false,
       qty: 0,
       stock_qty: 0,
-      cart: []
+      cart: [],
+      showIncDec: false,
+      newQty1: ""
     };
-    //this.backHandler = null;
+    this.backHandler = null;
   }
 
-  // homePage = () => {
-  //   this.props.navigation.dispatch(
-  //     StackActions.reset({
-  //       index: 0,
-  //       actions: [NavigationActions.navigate({ routeName: "Home" })]
-  //     })
-  //   );
-  //   return true;
-  // };
+  homePage = () => {
+    this.props.navigation.dispatch(
+      StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: "Home" })]
+      })
+    );
+    return true;
+  };
 
   getCartItems = () => {
     axios
@@ -77,11 +79,44 @@ class ListItemDetail extends Component {
       })
       .then(response => {
         if (response.data.code == 200) {
-          console.log(response.data.cartData);
+          console.log("cartData", response.data.cartData);
 
-          this.setState(() => ({
-            cart: response.data.cartData
-          }));
+          this.setState(
+            {
+              cart: response.data.cartData
+            },
+            () => {
+              const item = this.props.navigation.getParam("itemValue");
+
+              for (var j = 0; j < this.state.cart.length; j++) {
+                if (this.state.cart[j].product_id === item.product_id) {
+                  this.setState({ newQty1: this.state.cart[j].qty }, () => {
+                    console.log("Check it  :: ", this.state.newQty1);
+                    if (this.state.newQty1 != "") {
+                      console.log(
+                        "Before::: ",
+                        this.state.qty,
+                        this.state.newQty1
+                      );
+                      this.setState({
+                        showIncDec: true,
+                        qty: parseInt(this.state.newQty1, 10)
+                      });
+                      console.log(
+                        "After::: ",
+                        this.state.qty,
+                        this.state.newQty1
+                      );
+                    } else {
+                      this.setState({
+                        qty: 0
+                      });
+                    }
+                  });
+                }
+              }
+            }
+          );
         }
       })
       .catch(error => {
@@ -91,36 +126,21 @@ class ListItemDetail extends Component {
 
   componentDidMount = () => {
     this.getCartItems();
-    // if (this.backHandler) {
-    //   this.backHandler.remove();
-    // }
-    // this.backHandler = BackHandler.addEventListener(
-    //   "hardwareBackPress",
-    //   this.homePage
-    // );
+    const item = this.props.navigation.getParam("itemValue");
+
+    if (this.backHandler) {
+      this.backHandler.remove();
+    }
+    this.backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      this.homePage
+    );
   };
 
-  // componentWillUnmount = () => {
-  //   if (this.backHandler) {
-  //     this.backHandler.remove();
-  //   }
-  // };
-
-  ApiStockRead = product_id => {
-    axios
-      .get(Constants.STOCK_READ, { params: { product_id } })
-      .then(response => {
-        console.log(response.data);
-        if (response.data.code == 200) {
-          console.log(response.data);
-          this.setState(() => ({
-            stock_qty: response.data.productData.stock_qty
-          }));
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
+  componentWillUnmount = () => {
+    if (this.backHandler) {
+      this.backHandler.remove();
+    }
   };
 
   render() {
@@ -131,10 +151,11 @@ class ListItemDetail extends Component {
     let newQty = "";
     for (var j = 0; j < this.state.cart.length; j++) {
       if (this.state.cart[j].product_id === itemValue.product_id) {
-        console.log("Found It!!!  " + this.state.cart[j].qty);
         newQty = this.state.cart[j].qty;
       }
     }
+    console.log("newQty yy", newQty);
+    console.log("qty yyy ", this.state.qty);
 
     return (
       <View style={{ flex: 1, backgroundColor: "#FFEFD5" }}>
@@ -152,53 +173,44 @@ class ListItemDetail extends Component {
               }}
               resizeMode="contain"
             />
-            <ErrorBoundary>
-              <CustomText
-                style={[
-                  styles.textStyles,
-                  { fontWeight: "bold", fontSize: 20 }
-                ]}
-                title={`${itemValue.name}`}
-              />
-            </ErrorBoundary>
-            <ErrorBoundary>
-              <CustomText
-                style={[
-                  styles.textStyles,
-                  { fontWeight: "bold", fontSize: 20, color: "red" }
-                ]}
-                title={`₹${itemValue.price}`}
-              />
-            </ErrorBoundary>
-            <ErrorBoundary>
-              <CustomText
-                style={[
-                  styles.textStyles,
-                  {
-                    color:
-                      newQty === itemValue.stock_qty ||
-                      this.state.qty === itemValue.stock_qty ||
-                      itemValue.qty === itemValue.stock_qty
-                        ? "red"
-                        : "green",
-                    fontSize: 20
-                  }
-                ]}
-                title={
-                  newQty === itemValue.stock_qty ||
-                  this.state.qty === itemValue.stock_qty ||
-                  itemValue.qty === itemValue.stock_qty
-                    ? "Out of stock"
-                    : "In stock"
+
+            <CustomText
+              style={[styles.textStyles, { fontWeight: "bold", fontSize: 20 }]}
+              title={`${itemValue.name}`}
+            />
+
+            <CustomText
+              style={[
+                styles.textStyles,
+                { fontWeight: "bold", fontSize: 20, color: "red" }
+              ]}
+              title={`₹${itemValue.price}`}
+            />
+
+            <CustomText
+              style={[
+                styles.textStyles,
+                {
+                  color:
+                    this.state.qty === itemValue.stock_qty ||
+                    itemValue.qty === itemValue.stock_qty
+                      ? "red"
+                      : "green",
+                  fontSize: 20
                 }
-              />
-            </ErrorBoundary>
-            <ErrorBoundary>
-              <CustomText
-                style={styles.textStyles}
-                title={`Description:  ${itemValue.description}`}
-              />
-            </ErrorBoundary>
+              ]}
+              title={
+                this.state.qty === itemValue.stock_qty ||
+                itemValue.qty === itemValue.stock_qty
+                  ? "Out of stock"
+                  : "In stock"
+              }
+            />
+
+            <CustomText
+              style={styles.textStyles}
+              title={`Description:  ${itemValue.description}`}
+            />
           </ScrollView>
           <View style={{ flex: 0.1 }}>
             {!this.state.showIncDec ? (
@@ -207,20 +219,20 @@ class ListItemDetail extends Component {
                 color="#F4A460"
                 onPress={() => {
                   if (itemValue.stock_qty == 1) {
-                    if (newQty == "")
+                    if (this.state.qty == 0)
                       this.setState({
                         stockCheck: true,
-                        qty: itemValue.qty + 1
+                        qty: 1
                       });
-                    else
-                      this.setState({
-                        stockCheck: true,
-                        qty: parseInt(newQty, 10) + 1
-                      });
+                    // else
+                    //   this.setState({
+                    //     stockCheck: true,
+                    //     qty: qty + 1
+                    //   });
                   } else {
                     this.setState({
                       stockCheck: false,
-                      qty: itemValue.qty + 1
+                      qty: 1
                     });
                   }
                   ApiCartUpdateCall(
@@ -242,7 +254,7 @@ class ListItemDetail extends Component {
               <IncDec
                 item={itemValue}
                 stock_qty={itemValue.stock_qty}
-                value={newQty == "" ? 1 : parseInt(newQty, 10) + 1}
+                value={parseInt(newQty, 10)}
                 product_id={itemValue.product_id}
                 onValueUpdated={qtyValue => {
                   if (itemValue.stock_qty == qtyValue) {

@@ -156,11 +156,13 @@ class Success extends Component {
         <Image
           style={{
             width: 100,
-            height: 100
+            height: 100,
+            flex: 1
           }}
           source={{
             uri: item.image
           }}
+          resizeMode="contain"
         />
         <View style={{ flex: 1, marginLeft: 15, flexDirection: "column" }}>
           <CustomText

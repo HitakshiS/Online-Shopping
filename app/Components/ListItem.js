@@ -25,24 +25,14 @@ class ListItem extends Component {
     };
   }
 
-  ApiGetCartCall = () => {
-    axios
-      .get(Constants.CART_API, {
-        params: { user_id: this.props.reducer.userProfile.user_id }
-      })
-      .then(response => {
-        if (response.data.code == 200) {
-          console.log(response.data.cartData);
-
-          this.setState(() => ({
-            cart: response.data.cartData
-          }));
-        }
-      })
-      .catch(error => {
-        console.log(error);
+  componentDidMount() {
+    const { item } = this.props;
+    if(item && item.qty && item.qty > 0) {
+      this.setState({
+      showIncDec: true
       });
-  };
+    }
+  }
 
   render() {
     const {
@@ -161,9 +151,9 @@ class ListItem extends Component {
                     );
 
                     onValueUpdated(item.product_id, 1);
-                    this.setState(() => ({
+                    this.setState({
                       showIncDec: true
-                    }));
+                    });
                   }}
                   disabled={
                     item.stock_qty === 0 || item.qty === item.stock_qty
@@ -176,7 +166,7 @@ class ListItem extends Component {
                 <IncDec
                   item={item}
                   stock_qty={item.stock_qty}
-                  value={item.qty == "" ? 1 : parseInt(item.qty, 10) + 1}
+                  value={item.qty == "" ? 1 : parseInt(item.qty, 10)}
                   product_id={item.product_id}
                   onValueUpdated={qtyValue => {
                     if (item.stock_qty == qtyValue) {

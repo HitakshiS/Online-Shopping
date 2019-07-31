@@ -44,11 +44,13 @@ export default class CartItem extends Component {
           <Image
             style={{
               width: 80,
-              height: 100
+              height: 100,
+              flex: 1
             }}
             source={{
               uri: item.image
             }}
+            resizeMode="contain"
           />
           <View style={styles.listSubContainer}>
             <ErrorBoundary>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StyleSheet, FlatList, Alert, AsyncStorage } from "react-native";
+import { View, StyleSheet, FlatList, Alert, AsyncStorage, BackHandler } from "react-native";
 import CustomText from "../../Components/CustomText";
 import CustomButton from "../../Components/CustomButton";
 import IncDec from "../../Components/IncDec";
@@ -23,13 +23,14 @@ class Cart extends Component {
         <CustomButton
           color="#F4A460"
           title="Back"
-          onPress={() =>
-            navigation.dispatch(
-              StackActions.reset({
-                index: 0,
-                actions: [NavigationActions.navigate({ routeName: "Home" })]
-              })
-            )
+          onPress={
+            () =>
+              navigation.dispatch(
+                StackActions.reset({
+                  index: 0,
+                  actions: [NavigationActions.navigate({ routeName: "Home" })]
+                })
+              )
           }
         />
       </View>
@@ -60,6 +61,19 @@ class Cart extends Component {
       totalBill: 0,
       removed: 0
     };
+    this.backHandler = null;
+  }
+
+
+  goBack = () => {
+    this.props.navigation.dispatch(
+      StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: "Home" })]
+      })
+    );
+
+    return true;
   }
 
   logOutFn = async () => {
@@ -213,7 +227,22 @@ class Cart extends Component {
   componentDidMount() {
     this.props.navigation.setParams({ logOutFn: this.logOutFn });
 
+    if (this.backHandler) {
+      this.backHandler.remove();
+    }
+
+    this.backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      this.goBack
+    );
+
     this.getCartItems();
+  }
+
+  componentWillUnmount() {
+    if (this.backHandler) {
+      this.backHandler.remove();
+    }
   }
 
   getCartItems = () => {

@@ -166,7 +166,10 @@ class HomeScreen extends Component {
 
   componentDidMount() {
     this.ApiGetStockCall();
-
+    console.log("always called");
+    this.props.navigation.addListener("didFocus", payload => {
+      this.forceUpdate();
+    });
     axios
       .get(Constants.CART_API, {
         params: { user_id: this.props.reducer.userProfile.user_id }
