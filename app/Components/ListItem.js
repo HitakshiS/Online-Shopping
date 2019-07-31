@@ -51,12 +51,6 @@ class ListItem extends Component {
       onValueUpdated,
       listDetailNavigation
     } = this.props;
-    console.log(
-      "listItem this.state.qty==> " +
-        this.state.qty +
-        "   item.product_id==>  " +
-        item.product_id
-    );
     return (
       <TouchableWithoutFeedback
         onPress={() =>
@@ -69,11 +63,12 @@ class ListItem extends Component {
               style={{
                 width: 100,
                 height: 100,
-                resizeMode: "contain"
+                flex: 1
               }}
               source={{
                 uri: item.image
               }}
+              resizeMode="contain"
             />
             <View style={styles.listSubContainer}>
               <ErrorBoundary>

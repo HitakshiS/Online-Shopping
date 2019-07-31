@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Image, StyleSheet, Alert } from "react-native";
+import { View, Image, StyleSheet, Alert, BackHandler } from "react-native";
 import CustomText from "../../Components/CustomText";
 import CustomButton from "../../Components/CustomButton";
 import { connect } from "react-redux";
@@ -57,20 +57,27 @@ class ListItemDetail extends Component {
       stock_qty: 0,
       cart: []
     };
+    //this.backHandler = null;
   }
 
-  HomePage() {
-    this.props.navigation.navigate("Home");
-  }
+  // homePage = () => {
+  //   this.props.navigation.dispatch(
+  //     StackActions.reset({
+  //       index: 0,
+  //       actions: [NavigationActions.navigate({ routeName: "Home" })]
+  //     })
+  //   );
+  //   return true;
+  // };
 
-  componentDidMount = () => {
+  getCartItems = () => {
     axios
       .get(Constants.CART_API, {
         params: { user_id: this.props.reducer.userProfile.user_id }
       })
       .then(response => {
         if (response.data.code == 200) {
-          console.log("lolwa   ", response.data.cartData);
+          console.log(response.data.cartData);
 
           this.setState(() => ({
             cart: response.data.cartData
@@ -82,19 +89,22 @@ class ListItemDetail extends Component {
       });
   };
 
-  alertBoxCustom = () => {
-    Alert.alert(
-      "An item is added in your cart.",
-      "To make the transaction move to your cart.",
-      [
-        {
-          text: "Ok",
-          onPress: () => this.HomePage()
-        }
-      ],
-      { cancelable: true }
-    );
+  componentDidMount = () => {
+    this.getCartItems();
+    // if (this.backHandler) {
+    //   this.backHandler.remove();
+    // }
+    // this.backHandler = BackHandler.addEventListener(
+    //   "hardwareBackPress",
+    //   this.homePage
+    // );
   };
+
+  // componentWillUnmount = () => {
+  //   if (this.backHandler) {
+  //     this.backHandler.remove();
+  //   }
+  // };
 
   ApiStockRead = product_id => {
     axios
@@ -115,8 +125,8 @@ class ListItemDetail extends Component {
 
   render() {
     const itemValue = this.props.navigation.getParam("itemValue");
-    //const quantity = this.props.navigation.getParam("quantity");
-    console.log("this.state.qty==>", JSON.stringify(this.state.qty));
+    // //const quantity = this.props.navigation.getParam("quantity");
+    // console.log("this.state.qty==>", JSON.stringify(this.state.qty));
 
     let newQty = "";
     for (var j = 0; j < this.state.cart.length; j++) {
@@ -126,8 +136,6 @@ class ListItemDetail extends Component {
       }
     }
 
-    console.log("Check it   " + newQty);
-
     return (
       <View style={{ flex: 1, backgroundColor: "#FFEFD5" }}>
         <View style={styles.containerStyle}>
@@ -135,11 +143,14 @@ class ListItemDetail extends Component {
             <Image
               style={{
                 width: 300,
-                height: 200
+                height: 300,
+                flex: 1,
+                alignSelf: "center"
               }}
               source={{
                 uri: itemValue.image
               }}
+              resizeMode="contain"
             />
             <ErrorBoundary>
               <CustomText
@@ -195,10 +206,6 @@ class ListItemDetail extends Component {
                 title="Add To Cart"
                 color="#F4A460"
                 onPress={() => {
-                  console.log("YEAH :: " + newQty);
-                  console.log("YEAH :: " + itemValue.name);
-                  console.log("YEAH :: " + itemValue.price);
-                  console.log("YEAH :: " + newQty);
                   if (itemValue.stock_qty == 1) {
                     if (newQty == "")
                       this.setState({

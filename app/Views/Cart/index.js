@@ -57,7 +57,8 @@ class Cart extends Component {
       price: 0,
       stock_qty: 0,
       total_bill: 0,
-      totalBill: 0
+      totalBill: 0,
+      removed: 0
     };
   }
 
@@ -125,14 +126,25 @@ class Cart extends Component {
         if (response.data.code == 200) {
           console.log("Remove Prod_id,index======>", product_id, index);
           console.log("cartList", this.props.reducer.cartList);
+          this.setState(
+            {
+              cart: [],
+              removed: 1
+            },
+            () => {
+              this.getCartItems();
+            }
+          );
 
-          let cardTemp = [...this.state.cart];
-          var indexValue = cardTemp.findIndex(p => p.product_id == product_id);
-          cardTemp.splice(indexValue, 1);
-          this.setState({
-            cart: [...cardTemp]
-          });
-          this.props.reset(index, product_id);
+          // let cardTemp = [...this.state.cart];
+          // var indexValue = cardTemp.findIndex(p => p.product_id == product_id);
+          // cardTemp.splice(indexValue, 1);
+          // this.setState({
+          //   cart: [...cardTemp]
+          // });
+          // this.props.reset(index, product_id);
+
+          // this.getCartItems();
         }
       })
       .catch(error => {
@@ -199,6 +211,12 @@ class Cart extends Component {
     }, 0);
 
   componentDidMount() {
+    this.props.navigation.setParams({ logOutFn: this.logOutFn });
+
+    this.getCartItems();
+  }
+
+  getCartItems = () => {
     axios
       .get(Constants.CART_API, {
         params: { user_id: this.props.reducer.userProfile.user_id }
@@ -215,9 +233,7 @@ class Cart extends Component {
       .catch(error => {
         console.log(error);
       });
-
-    this.props.navigation.setParams({ logOutFn: this.logOutFn });
-  }
+  };
 
   render() {
     const cartItemQuantity = this.cartItemQty(this.state.cart);
@@ -277,7 +293,6 @@ class Cart extends Component {
           </View>
         )}
       </View>
-      // </ErrorBoundary>
     );
   }
 }
