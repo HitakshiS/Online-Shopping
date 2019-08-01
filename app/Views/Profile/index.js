@@ -75,21 +75,12 @@ class Profile extends Component {
     }
   }
 
-  onFlatListRender = () => {
-    console.log("Button clicked");
-    this.setState(() => ({
-      refreshing: true
-    }));
-  };
-
   componentDidMount() {
-    alert("Please select delivery address");
     axios
       .get(Constants.USER_PROFILE, {
         params: { user_id: this.props.reducer.userProfile.user_id }
       })
       .then(response => {
-        console.log(response.data.profileData);
         if (response.data.code == 200) {
           this.setState(() => ({
             name: response.data.profileData.name,
@@ -110,6 +101,14 @@ class Profile extends Component {
     });
   };
 
+  whiteSpaceNewAddress = () => {
+    let value = /^\S+$/;
+    const newAddress = this.state.newAddress;
+    if (value.test(newAddress)) {
+      return true;
+    } else return false;
+  };
+
   submitNewAddress = () => {
     axios
       .post(Constants.ADD_ADDRESS, {
@@ -118,7 +117,6 @@ class Profile extends Component {
       })
       .then(response => {
         if (response.data.code == 200) {
-          console.log(response.data.code);
           let tempAddressList = [...this.state.addresses];
           tempAddressList.push({
             address: this.state.newAddress,
@@ -130,6 +128,8 @@ class Profile extends Component {
             newAddress: "",
             showAddAddressInput: false
           });
+        } else if (response.data.code == 400) {
+          alert("You cannot enter empty address field.");
         }
       })
       .catch(error => {
@@ -167,9 +167,7 @@ class Profile extends Component {
   };
 
   render() {
-    console.log(this.state.addresses);
     return (
-      // <ErrorBoundary>
       <ScrollView style={{ flex: 1 }}>
         <View style={styles.container}>
           <CustomText
@@ -313,6 +311,12 @@ class Profile extends Component {
                 ? this.submitNewAddress
                 : this.addAddress
             }
+            disabled={
+              this.state.showAddAddressInput &&
+              (this.state.newAddress == "" || this.whiteSpaceNewAddress())
+                ? true
+                : false
+            }
           />
 
           <CustomButton
@@ -326,7 +330,6 @@ class Profile extends Component {
           />
         </View>
       </ScrollView>
-      // </ErrorBoundary>
     );
   }
 }
