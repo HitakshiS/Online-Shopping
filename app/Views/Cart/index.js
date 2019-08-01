@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { View, StyleSheet, FlatList, Alert, AsyncStorage, BackHandler } from "react-native";
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  Alert,
+  AsyncStorage,
+  BackHandler
+} from "react-native";
 import CustomText from "../../Components/CustomText";
 import CustomButton from "../../Components/CustomButton";
 import IncDec from "../../Components/IncDec";
@@ -23,14 +30,13 @@ class Cart extends Component {
         <CustomButton
           color="#F4A460"
           title="Back"
-          onPress={
-            () =>
-              navigation.dispatch(
-                StackActions.reset({
-                  index: 0,
-                  actions: [NavigationActions.navigate({ routeName: "Home" })]
-                })
-              )
+          onPress={() =>
+            navigation.dispatch(
+              StackActions.reset({
+                index: 0,
+                actions: [NavigationActions.navigate({ routeName: "Home" })]
+              })
+            )
           }
         />
       </View>
@@ -59,11 +65,10 @@ class Cart extends Component {
       stock_qty: 0,
       total_bill: 0,
       totalBill: 0,
-      removed: 0
+      removeAmount: 0
     };
     this.backHandler = null;
   }
-
 
   goBack = () => {
     this.props.navigation.dispatch(
@@ -74,7 +79,7 @@ class Cart extends Component {
     );
 
     return true;
-  }
+  };
 
   logOutFn = async () => {
     console.log("=====>");
@@ -142,23 +147,14 @@ class Cart extends Component {
           console.log("cartList", this.props.reducer.cartList);
           this.setState(
             {
-              cart: [],
-              removed: 1
+              cart: []
             },
             () => {
+              console.log("GET CART HERE");
               this.getCartItems();
+              console.log("GET CART HERE");
             }
           );
-
-          // let cardTemp = [...this.state.cart];
-          // var indexValue = cardTemp.findIndex(p => p.product_id == product_id);
-          // cardTemp.splice(indexValue, 1);
-          // this.setState({
-          //   cart: [...cardTemp]
-          // });
-          // this.props.reset(index, product_id);
-
-          // this.getCartItems();
         }
       })
       .catch(error => {
@@ -254,9 +250,33 @@ class Cart extends Component {
         if (response.data.code == 200) {
           console.log(response.data.cartData);
 
-          this.setState(() => ({
-            cart: response.data.cartData
-          }));
+          this.setState(
+            {
+              cart: response.data.cartData
+            },
+            () => {
+              console.log("here");
+              const cartItemQty = this.state.cart.map(item => item.qty);
+              const cartItemPrc = this.state.cart.map(item => item.price);
+
+              const AmountRemove = cartItemQty.reduce((r, a, i) => {
+                return r + a * cartItemPrc[i];
+              }, 0);
+              console.log("Amount remove before  ", this.state.removeAmount);
+              console.log("Amount remove befor  ", this.state.totalBill);
+
+              this.setState(
+                {
+                  removeAmount: AmountRemove,
+                  totalBill: AmountRemove
+                },
+                () => {
+                  console.log("Amount remove after  ", this.state.removeAmount);
+                  console.log("Amount remove afte  ", this.state.totalBill);
+                }
+              );
+            }
+          );
         }
       })
       .catch(error => {
@@ -306,7 +326,11 @@ class Cart extends Component {
                 }
               ]}
               title={`Total amount: ₹${
-                this.state.totalBill > 0 ? this.state.totalBill : finalAmount
+                this.state.totalBill > 0
+                  ? this.state.totalBill
+                  : this.state.removeAmount != 0
+                  ? this.state.removeAmount
+                  : finalAmount
               }`}
             />
             <CustomButton
