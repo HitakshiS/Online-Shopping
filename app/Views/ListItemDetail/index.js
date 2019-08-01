@@ -303,20 +303,19 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     margin: 20,
     elevation: 30,
-    padding: 30,
+    padding: 10,
     flex: 1
   },
   textStyles: {
     fontSize: 18,
     flex: 0.5,
     color: "black",
-    margin: 10
+    marginBottom: 10
   },
   scrollViewStyle: {
     flexDirection: "column",
     flex: 0.8,
     marginLeft: 10,
-    marginTop: 10,
     marginBottom: 10
   }
 });

@@ -11,7 +11,11 @@ import CustomText from "./CustomText";
 import CustomButton from "./CustomButton";
 import axios from "axios";
 import { Constants } from "../AppConfig/Constants";
-import { randomData, categoryData, existSearch } from "../Views/HomeScreen/action";
+import {
+  randomData,
+  categoryData,
+  existSearch
+} from "../Views/HomeScreen/action";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -21,8 +25,7 @@ class CustomHeader extends Component {
     this.state = {
       products: "",
       randomData: [],
-      categoryData: [],
-      
+      categoryData: []
     };
   }
 
@@ -42,7 +45,6 @@ class CustomHeader extends Component {
             () => {
               this.props.randomData(this.state.randomData);
               //this.props.existSearch(false)
-              
             }
           );
         }
@@ -52,37 +54,37 @@ class CustomHeader extends Component {
       });
   };
 
-  componentDidMount() {
-    axios
-      .get(Constants.STOCK_API)
-      .then(response => {
-        if (response.data.code == 200) {
-          console.log(response.data.stockData);
+  // componentDidMount() {
+  //   axios
+  //     .get(Constants.STOCK_API)
+  //     .then(response => {
+  //       if (response.data.code == 200) {
+  //         console.log(response.data.stockData);
 
-          this.setState(
-            {
-              categoryData: response.data.categoryData
-            },
-            () => {
-              this.props.categoryData(this.state.categoryData);
-            }
-          );
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
+  //         this.setState(
+  //           {
+  //             categoryData: response.data.categoryData
+  //           },
+  //           () => {
+  //             this.props.categoryData(this.state.categoryData);
+  //           }
+  //         );
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // }
 
-  loadCategoryTypes = () => {
-    return this.setState.categoryData.map(item => (
-      <Picker.Item label={item.name} value={item.id} />
-    ));
-  };
+  // loadCategoryTypes = () => {
+  //   return this.props.reducer.categoryData.map(item => (
+  //     <Picker.Item label={item.name} value={item.id} />
+  //   ));
+  // };
 
   render() {
     const { onDrawerPress, onCartPress } = this.props;
-    let categoryValues = this.state.categoryData.map(item => (
+    let categoryValues = this.props.reducer.categoryData.map(item => (
       <Picker.Item
         style={{ fontSize: 18, fontWeight: "bold" }}
         label={item.name}
@@ -128,8 +130,8 @@ class CustomHeader extends Component {
             style={{
               flex: 0.2,
               justifyContents: "flex-end",
-              alignSelf:"flex-end",
-              padding: 15,
+              alignSelf: "flex-end",
+              padding: 15
             }}
           >
             <CustomButton onPress={onCartPress} title="Cart" color="#F4A460" />
@@ -163,12 +165,8 @@ class CustomHeader extends Component {
             selectedValue={this.state.products}
             onValueChange={(itemValue, itemIndex) => {
               this.props.onRandomDataUpdate(itemValue);
-              this.setState({ products: itemValue }, () => {
-              
-              })
-            }
-             
-            }
+              this.setState({ products: itemValue }, () => {});
+            }}
             itemStyle={{
               backgroundColor: "grey",
               color: "white",
