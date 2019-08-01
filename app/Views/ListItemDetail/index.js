@@ -156,6 +156,7 @@ class ListItemDetail extends Component {
     }
     console.log("newQty yy", newQty);
     console.log("qty yyy ", this.state.qty);
+    console.log("itemValue.qty", itemValue.qty);
 
     return (
       <View style={{ flex: 1, backgroundColor: "#FFEFD5" }}>
@@ -192,16 +193,12 @@ class ListItemDetail extends Component {
                 styles.textStyles,
                 {
                   color:
-                    this.state.qty === itemValue.stock_qty ||
-                    itemValue.qty === itemValue.stock_qty
-                      ? "red"
-                      : "green",
+                    this.state.qty === itemValue.stock_qty ? "red" : "green",
                   fontSize: 20
                 }
               ]}
               title={
-                this.state.qty === itemValue.stock_qty ||
-                itemValue.qty === itemValue.stock_qty
+                this.state.qty === itemValue.stock_qty
                   ? "Out of stock"
                   : "In stock"
               }

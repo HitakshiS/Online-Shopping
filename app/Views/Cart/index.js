@@ -121,12 +121,10 @@ class Cart extends Component {
     axios
       .post(Constants.SUCCESSFUL_PAYMENT_ALL, { user_id, address_id })
       .then(response => {
-        console.log(response.data);
         if (response.data.code == 200) {
           this.props.navigation.navigate("Success", {
             response: response.data
           });
-          console.log(response.data);
         }
       })
       .catch(error => {
@@ -150,9 +148,7 @@ class Cart extends Component {
               cart: []
             },
             () => {
-              console.log("GET CART HERE");
               this.getCartItems();
-              console.log("GET CART HERE");
             }
           );
         }
@@ -255,26 +251,17 @@ class Cart extends Component {
               cart: response.data.cartData
             },
             () => {
-              console.log("here");
               const cartItemQty = this.state.cart.map(item => item.qty);
               const cartItemPrc = this.state.cart.map(item => item.price);
 
               const AmountRemove = cartItemQty.reduce((r, a, i) => {
                 return r + a * cartItemPrc[i];
               }, 0);
-              console.log("Amount remove before  ", this.state.removeAmount);
-              console.log("Amount remove befor  ", this.state.totalBill);
 
-              this.setState(
-                {
-                  removeAmount: AmountRemove,
-                  totalBill: AmountRemove
-                },
-                () => {
-                  console.log("Amount remove after  ", this.state.removeAmount);
-                  console.log("Amount remove afte  ", this.state.totalBill);
-                }
-              );
+              this.setState({
+                removeAmount: AmountRemove,
+                totalBill: AmountRemove
+              });
             }
           );
         }
