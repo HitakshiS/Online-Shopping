@@ -8,7 +8,6 @@ import { bindActionCreators } from "redux";
 import { ScrollView } from "react-native-gesture-handler";
 import { ApiCartUpdateCall } from "../../Components/ApiCartUpdateCall";
 import IncDec from "../../Components/IncDec";
-import ErrorBoundary from "../../Components/ErrorBoundary";
 import { NavigationActions, StackActions } from "react-navigation";
 import axios from "axios";
 import { Constants } from "../../AppConfig/Constants";
@@ -91,22 +90,11 @@ class ListItemDetail extends Component {
               for (var j = 0; j < this.state.cart.length; j++) {
                 if (this.state.cart[j].product_id === item.product_id) {
                   this.setState({ newQty1: this.state.cart[j].qty }, () => {
-                    console.log("Check it  :: ", this.state.newQty1);
                     if (this.state.newQty1 != "") {
-                      console.log(
-                        "Before::: ",
-                        this.state.qty,
-                        this.state.newQty1
-                      );
                       this.setState({
                         showIncDec: true,
                         qty: parseInt(this.state.newQty1, 10)
                       });
-                      console.log(
-                        "After::: ",
-                        this.state.qty,
-                        this.state.newQty1
-                      );
                     } else {
                       this.setState({
                         qty: 0
@@ -145,8 +133,6 @@ class ListItemDetail extends Component {
 
   render() {
     const itemValue = this.props.navigation.getParam("itemValue");
-    // //const quantity = this.props.navigation.getParam("quantity");
-    // console.log("this.state.qty==>", JSON.stringify(this.state.qty));
 
     let newQty = "";
     for (var j = 0; j < this.state.cart.length; j++) {
@@ -154,9 +140,6 @@ class ListItemDetail extends Component {
         newQty = this.state.cart[j].qty;
       }
     }
-    console.log("newQty yy", newQty);
-    console.log("qty yyy ", this.state.qty);
-    console.log("itemValue.qty", itemValue.qty);
 
     return (
       <View style={{ flex: 1, backgroundColor: "#FFEFD5" }}>
@@ -221,11 +204,6 @@ class ListItemDetail extends Component {
                         stockCheck: true,
                         qty: 1
                       });
-                    // else
-                    //   this.setState({
-                    //     stockCheck: true,
-                    //     qty: qty + 1
-                    //   });
                   } else {
                     this.setState({
                       stockCheck: false,

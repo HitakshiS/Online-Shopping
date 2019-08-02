@@ -1,13 +1,9 @@
 import React, { Component } from "react";
-import { View, StyleSheet, ScrollView, Alert, KeyboardAvoidingView} from "react-native";
+import { View, StyleSheet, ScrollView, Alert } from "react-native";
 import Input from "../../Components/Input";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { userProfile } from "../HomeScreen/action";
 import CustomButton from "../../Components/CustomButton";
 import CustomText from "../../Components/CustomText";
 import axios from "axios";
-import { Constants } from "../../AppConfig/Constants";
 import ErrorBoundary from "../../Components/ErrorBoundary";
 
 export default class SignUp extends Component {
@@ -135,10 +131,7 @@ export default class SignUp extends Component {
   render() {
     console.log(this.state.password);
     return (
-
-      <ScrollView
-        style={{ flex: 1 }}
-      >
+      <ScrollView style={{ flex: 1 }}>
         <View style={styles.container}>
           <CustomText
             style={styles.textStyles}

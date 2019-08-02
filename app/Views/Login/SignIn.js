@@ -88,7 +88,6 @@ class SignIn extends Component {
       .then(response => {
         if (response.data.code == 200) {
           setItemInStorage(response.data.profileData);
-          // console.log("ProfileData=====>>>>>", response.data.profileData);
         }
         if (response.data.code == 410 || response.data.code == 400) {
           alert("you are not registered please Sign Up");
@@ -143,7 +142,6 @@ class SignIn extends Component {
     return (
       <ScrollView style={{ flex: 1 }}>
         <View style={styles.container}>
-          {/* <ErrorBoundary> */}
           <CustomText style={styles.textStyles} title="Sign In Your Account" />
           <Input
             placeholder="email"
@@ -163,7 +161,6 @@ class SignIn extends Component {
             textContentType="password"
             secureTextEntry={true}
           />
-          {/* </ErrorBoundary> */}
         </View>
         <View style={styles.submitButton}>
           <CustomButton

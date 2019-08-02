@@ -11,8 +11,6 @@ import IncDec from "./IncDec";
 import { ApiCartUpdateCall } from "./ApiCartUpdateCall";
 import { connect } from "react-redux";
 import ErrorBoundary from "./ErrorBoundary";
-import axios from "axios";
-import { addToCart } from "../Views/HomeScreen/action";
 
 class ListItem extends Component {
   constructor(props) {
@@ -27,9 +25,9 @@ class ListItem extends Component {
 
   componentDidMount() {
     const { item } = this.props;
-    if(item && item.qty && item.qty > 0) {
+    if (item && item.qty && item.qty > 0) {
       this.setState({
-      showIncDec: true
+        showIncDec: true
       });
     }
   }

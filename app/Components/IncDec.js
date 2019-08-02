@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import axios from "axios";
 import { Constants } from "../AppConfig/Constants";
 import { bindActionCreators } from "redux";
-
 import { totalBill } from "../Views/HomeScreen/action";
 
 class IncDec extends Component {
@@ -44,7 +43,6 @@ class IncDec extends Component {
             quantity: response.data.quantity,
             totalBill: response.data.total_bill
           });
-          // this.props.totalBill(response.data.total_bill);
           this.props.onValueUpdated(this.state.counter, this.state.totalBill);
         }
       })
@@ -57,9 +55,7 @@ class IncDec extends Component {
     axios
       .get(Constants.STOCK_READ, { params: { product_id } })
       .then(response => {
-        console.log(response.data);
         if (response.data.code == 200) {
-          console.log(response.data);
           this.setState(() => ({
             stock_qty: response.data.productData.stock_qty
           }));
@@ -82,8 +78,6 @@ class IncDec extends Component {
         />
         <View
           style={{
-            // width: 10,
-            // height: 10,
             flex: 0.5
           }}
         >
@@ -131,7 +125,6 @@ const styles = StyleSheet.create({
     color: "black",
     paddingLeft: 10,
     textAlign: "center"
-    //backgroundColor: "blue"
   },
   containerStyles: {
     flexDirection: "row",

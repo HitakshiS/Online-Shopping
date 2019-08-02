@@ -1,5 +1,4 @@
 import ActionTypes from "../../store/ActionTypes";
-import Images from "../../AppConfig/Images";
 
 const INITIAL_STATE = {
   exampleData: [],
@@ -75,7 +74,6 @@ export default (HomeReducer = (state = INITIAL_STATE, action) => {
     }
 
     case ActionTypes.ADD_TO_CART: {
-      // let index = cartList.findIndex(i => i.id === action.object.id);
       return {
         ...state,
         cartList:

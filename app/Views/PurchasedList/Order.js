@@ -3,8 +3,7 @@ import {
   View,
   StyleSheet,
   FlatList,
-  TouchableWithoutFeedback,
-  BackHandler
+  TouchableWithoutFeedback
 } from "react-native";
 import { connect } from "react-redux";
 import CustomText from "../../Components/CustomText";
@@ -113,12 +112,8 @@ class Order extends Component {
       })
       .then(response => {
         if (response.data.code == 200) {
-          console.log(response.data);
-          console.log("order list", response.data.ordersData);
-          console.log(
-            "user_id in order",
-            this.props.reducer.userProfile.user_id
-          );
+          console.log(response.data.ordersData);
+
           this.setState(() => ({
             order: response.data.ordersData
           }));

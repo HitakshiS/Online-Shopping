@@ -3,9 +3,6 @@ import { View, StyleSheet, FlatList } from "react-native";
 import { connect } from "react-redux";
 import ListItem from "../../Components/ListItem";
 import CustomText from "../../Components/CustomText";
-import CustomButton from "../../Components/CustomButton";
-import ErrorBoundary from "../../Components/ErrorBoundary";
-import { ScrollView } from "react-native-gesture-handler";
 
 class PurchasedList extends Component {
   static navigationOptions = {

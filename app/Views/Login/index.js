@@ -1,14 +1,7 @@
 import React, { Component } from "react";
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  ImageBackground,
-  TouchableOpacity
-} from "react-native";
+import { View, StyleSheet, ImageBackground } from "react-native";
 import CustomButton from "../../Components/CustomButton";
 import CustomText from "../../Components/CustomText";
-import ErrorBoundary from "../../Components/ErrorBoundary";
 
 export default class Login extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -71,10 +64,6 @@ export default class Login extends Component {
           ]}
           title="NEVER SLEEPS"
         />
-        {/* <CustomText
-        //   style={[styles.textStyles, { marginTop: 40 }]}
-        //   title="Sign In if you are already registered"
-        // /> */}
         <View
           style={{ flexDirection: "row", flex: 0.7, alignItems: "flex-end" }}
         >
@@ -84,7 +73,6 @@ export default class Login extends Component {
             onPress={() => this.props.navigation.navigate("SignIn")}
             color="rgba(100, 100, 100, 0.9)"
           />
-          {/* //<CustomText style={styles.textStyles} title="Sign Up for new user" /> */}
           <CustomButton
             style={styles.submitButton}
             title="sign up"

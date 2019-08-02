@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { View, FlatList, StyleSheet, TextInput } from "react-native";
-
 import CustomHeader from "../../Components/CustomHeader";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -15,10 +14,26 @@ import {
 import ListItem from "../../Components/ListItem";
 import { Constants } from "../../AppConfig/Constants";
 import axios from "axios";
-
 import CustomText from "../../Components/CustomText";
 
 class HomeScreen extends Component {
+  static navigationOptions = ({ navigation }) => ({
+    header: (
+      <CustomHeader
+        onDrawerPress={() => {
+          navigation.toggleDrawer();
+        }}
+        onCartPress={() => {
+          navigation.navigate("Cart");
+        }}
+        onRandomDataUpdate={dataValue => {
+          const filterFn = navigation.getParam("filterFn");
+          filterFn(dataValue);
+        }}
+      />
+    )
+  });
+
   constructor() {
     super();
 
@@ -32,6 +47,26 @@ class HomeScreen extends Component {
       categoryData: []
     };
   }
+
+  componentDidMount() {
+    this.props.navigation.setParams({ filterFn: this.ApiGetStockCall });
+    this.ApiGetStockCall();
+  }
+
+  renderItem = ({ item }) => {
+    return (
+      <ListItem
+        item={item}
+        stock_qty={item.stock_qty}
+        onValueUpdated={(id, qty) => {
+          this.props.addToCart(id, qty);
+        }}
+        listDetailNavigation={(item, qty) => {
+          this.listDetailNavigation(item, qty);
+        }}
+      />
+    );
+  };
 
   ApiGetStockCall = (category_id = "") => {
     axios
@@ -94,44 +129,6 @@ class HomeScreen extends Component {
       searchData: newData
     });
   };
-
-  renderItem = ({ item }) => {
-    return (
-      <ListItem
-        item={item}
-        stock_qty={item.stock_qty}
-        onValueUpdated={(id, qty) => {
-          this.props.addToCart(id, qty);
-        }}
-        listDetailNavigation={(item, qty) => {
-          this.listDetailNavigation(item, qty);
-        }}
-      />
-    );
-  };
-
-  static navigationOptions = ({ navigation }) => ({
-    header: (
-      <CustomHeader
-        onDrawerPress={() => {
-          navigation.toggleDrawer();
-        }}
-        onCartPress={() => {
-          navigation.navigate("Cart");
-        }}
-        onRandomDataUpdate={dataValue => {
-          const filterFn = navigation.getParam("filterFn");
-          filterFn(dataValue);
-        }}
-      />
-    )
-  });
-
-  componentDidMount() {
-    this.props.navigation.setParams({ filterFn: this.ApiGetStockCall });
-
-    this.ApiGetStockCall();
-  }
 
   getCartDataFromApi = async () => {
     const cartData = await axios.get(Constants.CART_API, {

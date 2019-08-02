@@ -9,14 +9,12 @@ import {
 } from "react-native";
 import CustomText from "../../Components/CustomText";
 import CustomButton from "../../Components/CustomButton";
-import IncDec from "../../Components/IncDec";
 import { connect } from "react-redux";
 import { addToCart, reset, logOut, cop } from "../HomeScreen/action";
 import { bindActionCreators } from "redux";
 import axios from "axios";
 import { Constants } from "../../AppConfig/Constants";
 import { NavigationActions, StackActions } from "react-navigation";
-import ErrorBoundary from "../../Components/ErrorBoundary";
 import CartItem from "./CartItem";
 
 class Cart extends Component {
@@ -70,6 +68,48 @@ class Cart extends Component {
     this.backHandler = null;
   }
 
+  componentDidMount() {
+    this.props.navigation.setParams({ logOutFn: this.logOutFn });
+
+    if (this.backHandler) {
+      this.backHandler.remove();
+    }
+
+    this.backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      this.goBack
+    );
+
+    this.getCartItems();
+  }
+
+  componentWillUnmount() {
+    if (this.backHandler) {
+      this.backHandler.remove();
+    }
+  }
+
+  renderItem = ({ item, index }) => {
+    return (
+      <CartItem
+        item={item}
+        key={`cart_${index}`}
+        index={index}
+        onRemovePress={() => {
+          this.ApiCartRemoveItem(
+            this.props.reducer.userProfile.user_id,
+            item.product_id,
+            index
+          );
+        }}
+        onValueUpdated={(qtyValue, totalBill) => {
+          this.setState({ totalBill });
+          this.props.addToCart(item.product_id, qtyValue);
+        }}
+      />
+    );
+  };
+
   goBack = () => {
     this.props.navigation.dispatch(
       StackActions.reset({
@@ -82,8 +122,6 @@ class Cart extends Component {
   };
 
   logOutFn = async () => {
-    console.log("=====>");
-
     Alert.alert(
       null,
       "Are you sure you want to LogOut",
@@ -166,27 +204,6 @@ class Cart extends Component {
     return this.state.cart.length ? this.Amount(billing) : null;
   };
 
-  renderItem = ({ item, index }) => {
-    return (
-      <CartItem
-        item={item}
-        key={`cart_${index}`}
-        index={index}
-        onRemovePress={() => {
-          this.ApiCartRemoveItem(
-            this.props.reducer.userProfile.user_id,
-            item.product_id,
-            index
-          );
-        }}
-        onValueUpdated={(qtyValue, totalBill) => {
-          this.setState({ totalBill });
-          this.props.addToCart(item.product_id, qtyValue);
-        }}
-      />
-    );
-  };
-
   alertBoxCustom = () => {
     Alert.alert(
       "Payment Information",
@@ -215,27 +232,6 @@ class Cart extends Component {
     a1.reduce((r, a, i) => {
       return r + a * a2[i];
     }, 0);
-
-  componentDidMount() {
-    this.props.navigation.setParams({ logOutFn: this.logOutFn });
-
-    if (this.backHandler) {
-      this.backHandler.remove();
-    }
-
-    this.backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      this.goBack
-    );
-
-    this.getCartItems();
-  }
-
-  componentWillUnmount() {
-    if (this.backHandler) {
-      this.backHandler.remove();
-    }
-  }
 
   getCartItems = () => {
     axios

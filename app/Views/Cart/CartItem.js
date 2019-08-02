@@ -31,8 +31,7 @@ export default class CartItem extends Component {
       })
       .catch(error => {
         console.log(error);
-      }); // // let a = this.state.Quantity.splice();
-    // // a[index] = qtyValue ? qtyValue : item.qty;
+      });
   };
 
   render() {

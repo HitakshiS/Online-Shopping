@@ -4,8 +4,6 @@ import {
   StyleSheet,
   ScrollView,
   FlatList,
-  Radio,
-  Text,
   TouchableWithoutFeedback
 } from "react-native";
 import Input from "../../Components/Input";
@@ -16,7 +14,6 @@ import CustomButton from "../../Components/CustomButton";
 import CustomText from "../../Components/CustomText";
 import { Constants } from "../../AppConfig/Constants";
 import axios from "axios";
-import ErrorBoundary from "../../Components/ErrorBoundary";
 
 class Profile extends Component {
   static navigationOptions = ({ navigation }) => {

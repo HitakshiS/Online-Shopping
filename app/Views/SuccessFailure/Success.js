@@ -13,10 +13,7 @@ import { bindActionCreators } from "redux";
 import CustomButton from "../../Components/CustomButton";
 import CustomText from "../../Components/CustomText";
 import { emptyCartList, logOut } from "../HomeScreen/action";
-import axios from "axios";
-import { Constants } from "../../AppConfig/Constants";
 import { NavigationActions, StackActions } from "react-navigation";
-import ErrorBoundary from "../../Components/ErrorBoundary";
 import { ScrollView } from "react-native-gesture-handler";
 
 class Success extends Component {
@@ -56,31 +53,6 @@ class Success extends Component {
         </View>
       )
     };
-  };
-
-  logOutFn = async () => {
-    console.log("=====>");
-
-    Alert.alert(
-      null,
-      "Are you sure you want to LogOut",
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        {
-          text: "OK",
-          onPress: async () => {
-            this.props.logOut();
-            await AsyncStorage.removeItem("userExist");
-            this.props.navigation.navigate("SignIn");
-          }
-        }
-      ],
-      { cancelable: true }
-    );
   };
 
   constructor(props) {
@@ -124,8 +96,6 @@ class Success extends Component {
   };
 
   logOutFn = async () => {
-    console.log("=====>");
-
     Alert.alert(
       null,
       "Are you sure you want to LogOut",
