@@ -21,7 +21,16 @@ class SignIn extends Component {
       headerStyle: {
         backgroundColor: "#F4A460"
       },
-      headerTitle: "Sign In"
+      headerTitle: "Sign In",
+      headerLeft: (
+        <View style={{ padding: 10 }}>
+          <CustomButton
+            color="#F4A460"
+            title="Back"
+            onPress={() => navigation.navigate("Login")}
+          />
+        </View>
+      )
     };
   };
 
@@ -132,9 +141,7 @@ class SignIn extends Component {
 
   render() {
     return (
-      <ScrollView
-        style={{ flex: 1 }}
-      >
+      <ScrollView style={{ flex: 1 }}>
         <View style={styles.container}>
           {/* <ErrorBoundary> */}
           <CustomText style={styles.textStyles} title="Sign In Your Account" />
