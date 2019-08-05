@@ -20,9 +20,7 @@ export default class Login extends Component {
       console.error("AsyncStorage error: " + error.message);
     }
   }
-  signIn = () => {
-    console.log("signIn");
-  };
+
   render() {
     return (
       <ImageBackground

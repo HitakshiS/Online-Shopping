@@ -58,24 +58,6 @@ class SignIn extends Component {
     this.props.navigation.navigate("SignIn");
   }
 
-  alertBoxCustom = () => {
-    Alert.alert(
-      "Congratulations!! you have Logged In continue shoppings",
-      "click on OK to continue shopping",
-      [
-        {
-          text: "Ok",
-          onPress: () => HomePage()
-        },
-        {
-          text: "cancel",
-          onPress: () => this.SignInPage()
-        }
-      ],
-      { cancelable: false }
-    );
-  };
-
   apiSignInCall = setItemInStorage => {
     axios({
       method: "post",
@@ -90,7 +72,7 @@ class SignIn extends Component {
           setItemInStorage(response.data.profileData);
         }
         if (response.data.code == 410 || response.data.code == 400) {
-          alert("you are not registered please Sign Up");
+          alert("You are not registered please Sign Up");
         }
       })
       .catch(error => {
@@ -118,8 +100,8 @@ class SignIn extends Component {
           ...profileData
         });
         Alert.alert(
-          "congratulations!! you have Logged In continue shoppings",
-          "click on OK to continue shopping",
+          "Congratulations!! You Have Logged In Continue Shoppings",
+          "Click On OK To Continue Shopping",
           [
             {
               text: "Ok",
@@ -144,7 +126,7 @@ class SignIn extends Component {
         <View style={styles.container}>
           <CustomText style={styles.textStyles} title="Sign In Your Account" />
           <Input
-            placeholder="email"
+            placeholder="Email"
             onChangeText={text => this.handleEmail(text)}
             value={this.state.email}
             autoCapitalize="none"
@@ -153,7 +135,7 @@ class SignIn extends Component {
             secureTextEntry={false}
           />
           <Input
-            placeholder="password"
+            placeholder="Password"
             onChangeText={text => this.handlePassword(text)}
             value={this.state.password}
             autoCapitalize="none"

@@ -67,8 +67,8 @@ export default class SignUp extends Component {
       .then(response => {
         if (response.data.code == 200) {
           Alert.alert(
-            "Congratulations!! you have Registered",
-            "Click on OK and SignIn to continue shopping",
+            "Congratulations!! You Have Registered",
+            "Click On OK And SignIn To Continue Shopping",
             [
               {
                 text: "Ok",
@@ -89,7 +89,7 @@ export default class SignUp extends Component {
     confirmPassword = this.state.confirmPassword;
     if (password === confirmPassword) return true;
     else {
-      alert("password and confirm password do not match.");
+      alert("Password and Confirm Password fields do not match.");
       return false;
     }
   };
@@ -98,7 +98,7 @@ export default class SignUp extends Component {
     let EmailAdr = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     const mail = this.state.email;
     if (EmailAdr.test(mail) === false) {
-      alert("You have entered an invalid email address!");
+      alert("You have entered an invalid Email Address!");
       return false;
     } else {
       return true;
@@ -108,7 +108,7 @@ export default class SignUp extends Component {
     let phoneNo = /^\d{10}$/;
     const phoneNumber = this.state.mobile;
     if (phoneNo.test(phoneNumber) === false) {
-      alert("You have entered an invalid mobile number!");
+      alert("You have entered an invalid Mobile Number!");
       return false;
     } else {
       <ErrorBoundary />;
@@ -135,11 +135,11 @@ export default class SignUp extends Component {
         <View style={styles.container}>
           <CustomText
             style={styles.textStyles}
-            title="Fill in the following user details"
+            title="Fill In The Following User Details"
           />
           <ErrorBoundary>
             <Input
-              placeholder="name"
+              placeholder="Name"
               onChangeText={text => this.handleName(text)}
               value={this.state.name}
               autoCapitalize="characters"
@@ -148,7 +148,7 @@ export default class SignUp extends Component {
               secureTextEntry={false}
             />
             <Input
-              placeholder="email"
+              placeholder="Email"
               onChangeText={text => this.handleEmail(text)}
               value={this.state.email}
               autoCapitalize="none"
@@ -157,7 +157,7 @@ export default class SignUp extends Component {
               secureTextEntry={false}
             />
             <Input
-              placeholder="password"
+              placeholder="Password"
               onChangeText={text => this.handlePassword(text)}
               value={this.state.password}
               autoCapitalize="none"
@@ -166,7 +166,7 @@ export default class SignUp extends Component {
               secureTextEntry={true}
             />
             <Input
-              placeholder="confirm password"
+              placeholder="Confirm Password"
               onChangeText={text => this.handleConfirmPassword(text)}
               value={this.state.confirmPassword}
               autoCapitalize="none"
