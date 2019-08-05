@@ -210,11 +210,11 @@ class Success extends Component {
                       color: "green",
                       fontSize: 24,
                       paddingLeft: 20,
-                      marginBottom: 15,
-                      paddingTop: 20
+                      marginBottom: 10,
+                      paddingTop: 10
                     }
                   ]}
-                  title="Congrats!! Your order has been successfully placed."
+                  title="Your Order Is Successfully Placed."
                 />
                 <View
                   style={{ flex: 0.1, flexDirection: "row", paddingLeft: 20 }}
@@ -225,7 +225,7 @@ class Success extends Component {
                       {
                         fontSize: 20,
                         color: "black",
-                        flex: 0.5
+                        flex: 0.42
                       }
                     ]}
                     title={`Order Id: `}
@@ -237,7 +237,7 @@ class Success extends Component {
                         fontSize: 20,
                         color: "blue",
                         fontWeight: "bold",
-                        flex: 0.6
+                        flex: 0.58
                       }
                     ]}
                     title={`${response.order_id}`}
@@ -257,7 +257,7 @@ class Success extends Component {
                       {
                         fontSize: 20,
                         color: "black",
-                        flex: 0.5
+                        flex: 0.42
                       }
                     ]}
                     title={`Delivery Address: `}
@@ -269,7 +269,7 @@ class Success extends Component {
                         fontSize: 20,
                         color: "black",
                         fontWeight: "bold",
-                        flex: 0.6
+                        flex: 0.58
                       }
                     ]}
                     title={`${response.delivery_address}`}
@@ -289,7 +289,7 @@ class Success extends Component {
                       {
                         fontSize: 20,
                         color: "black",
-                        flex: 0.4
+                        flex: 0.42
                       }
                     ]}
                     title={`Total Bill: `}
@@ -298,10 +298,10 @@ class Success extends Component {
                     style={[
                       styles.textStyles,
                       {
-                        fontSize: 25,
+                        fontSize: 20,
                         color: "red",
                         fontWeight: "bold",
-                        flex: 0.8
+                        flex: 0.58
                       }
                     ]}
                     title={`₹${response.total_bill}`}
@@ -339,8 +339,6 @@ class Success extends Component {
 const styles = StyleSheet.create({
   containerStyle: {
     flexDirection: "column",
-    // margin: 10,
-    // padding: 20,
     flex: 1,
     backgroundColor: "#FFEFD5"
   },

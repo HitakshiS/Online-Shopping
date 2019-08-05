@@ -5,7 +5,8 @@ import {
   FlatList,
   Alert,
   AsyncStorage,
-  BackHandler
+  BackHandler,
+  Image
 } from "react-native";
 import CustomText from "../../Components/CustomText";
 import CustomButton from "../../Components/CustomButton";
@@ -288,13 +289,32 @@ class Cart extends Component {
             extraData={this.state}
           />
         ) : (
-          <CustomText
-            style={[
-              styles.emptyTextStyle,
-              { flex: 1, backgroundColor: "#FFEFD5" }
-            ]}
-            title="Your shopping list is empty! Fill in your cart."
-          />
+          <View style={{ flex: 1 }}>
+            <Image
+              style={{
+                marginTop: 100,
+                width: 400,
+                height: 400,
+                flex: 0.5
+              }}
+              source={{
+                uri:
+                  "https://cdn2.iconfinder.com/data/icons/e-commerce-4/256/Favorite-512.png"
+              }}
+              resizeMode="contain"
+            />
+            <CustomText
+              style={[
+                styles.emptyTextStyle,
+                {
+                  backgroundColor: "#FFEFD5",
+                  fontFamily: "serif",
+                  marginTop: 40
+                }
+              ]}
+              title="The Bag Feels Light! Fill in your cart."
+            />
+          </View>
         )}
         {this.state.cart.length > 0 && (
           <View style={{ flex: 0.2 }}>
@@ -356,7 +376,7 @@ const styles = StyleSheet.create({
     marginRight: 10
   },
   emptyTextStyle: {
-    fontSize: 20,
+    fontSize: 24,
     color: "#7a42f4",
     flex: 1,
     textAlign: "center",

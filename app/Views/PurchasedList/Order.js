@@ -58,20 +58,44 @@ class Order extends Component {
               title={`${item.id}`}
             />
           </View>
-
-          <CustomText
-            style={styles.textStyles}
-            title={`Purchase Details: ${first}  ${second}`}
-          />
-
-          <CustomText
-            style={styles.textStyles}
-            title={`Total Distinct Items: ${item.total_items}`}
-          />
+          <View style={{ flexDirection: "row", flex: 1 }}>
+            <CustomText
+              style={[styles.textStyles, { flex: 0.3, alignItems: "center" }]}
+              title={`Order Time: `}
+            />
+            <CustomText
+              style={[
+                styles.textStyles,
+                {
+                  fontSize: 20,
+                  marginLeft: 0,
+                  flex: 0.7
+                }
+              ]}
+              title={`${first}  ${second}`}
+            />
+          </View>
+          <View style={{ flexDirection: "row", flex: 1 }}>
+            <CustomText
+              style={[styles.textStyles, { flex: 0.3, alignItems: "center" }]}
+              title={`Total Items: `}
+            />
+            <CustomText
+              style={[
+                styles.textStyles,
+                {
+                  fontSize: 20,
+                  marginLeft: 0,
+                  flex: 0.7
+                }
+              ]}
+              title={`${item.total_items}`}
+            />
+          </View>
 
           <View style={{ flexDirection: "row", flex: 1 }}>
             <CustomText
-              style={[styles.textStyles, { flex: 0.25, alignItems: "center" }]}
+              style={[styles.textStyles, { flex: 0.3, alignItems: "center" }]}
               title={`Total Bill: `}
             />
             <CustomText
@@ -81,7 +105,7 @@ class Order extends Component {
                   color: "red",
                   fontSize: 20,
                   marginLeft: 0,
-                  flex: 0.8
+                  flex: 0.7
                 }
               ]}
               title={`${item.total_bill}`}

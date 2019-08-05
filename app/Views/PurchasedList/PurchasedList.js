@@ -30,7 +30,7 @@ class PurchasedList extends Component {
       <View style={styles.containerStyle}>
         {itemValue && itemValue.length > 0 ? (
           <View style={{ flex: 1 }}>
-            <View style={{ flex: 0.7 }}>
+            <View style={{ flex: 0.73 }}>
               <FlatList
                 style={{ marginBottom: 10, marginTop: 10 }}
                 data={itemValue}
@@ -40,21 +40,74 @@ class PurchasedList extends Component {
             </View>
             <View
               style={{
-                flex: 0.3,
+                flex: 0.27,
                 backgroundColor: "white",
                 elevation: 30,
-                padding: 16
+                padding: 26
               }}
             >
-              <CustomText style={styles.textStyles} title={`Order Id: ${id}`} />
-              <CustomText
-                style={styles.textStyles}
-                title={`Total Bill: ₹${total_bill}`}
-              />
-              <CustomText
-                style={[styles.textStyles, { textAlign: "left" }]}
-                title={`Delivery Address: ${delivery_address}`}
-              />
+              <View style={{ flexDirection: "row" }}>
+                <CustomText
+                  style={[
+                    styles.textStyles,
+                    { flex: 0.3, alignItems: "center" }
+                  ]}
+                  title={`Order Id: `}
+                />
+                <CustomText
+                  style={[
+                    styles.textStyles,
+                    {
+                      color: "blue",
+                      fontSize: 20,
+                      marginLeft: 0,
+                      flex: 0.7
+                    }
+                  ]}
+                  title={`${id}`}
+                />
+              </View>
+              <View style={{ flexDirection: "row" }}>
+                <CustomText
+                  style={[
+                    styles.textStyles,
+                    { flex: 0.3, alignItems: "center" }
+                  ]}
+                  title={`Total Bill: `}
+                />
+                <CustomText
+                  style={[
+                    styles.textStyles,
+                    {
+                      color: "red",
+                      fontSize: 20,
+                      marginLeft: 0,
+                      flex: 0.7
+                    }
+                  ]}
+                  title={`${total_bill}`}
+                />
+              </View>
+              <View style={{ flexDirection: "row" }}>
+                <CustomText
+                  style={[
+                    styles.textStyles,
+                    { flex: 0.3, alignItems: "center" }
+                  ]}
+                  title={`Address: `}
+                />
+                <CustomText
+                  style={[
+                    styles.textStyles,
+                    {
+                      fontSize: 20,
+                      marginLeft: 0,
+                      flex: 0.7
+                    }
+                  ]}
+                  title={`${delivery_address}`}
+                />
+              </View>
             </View>
           </View>
         ) : (
@@ -77,7 +130,6 @@ class PurchasedList extends Component {
 const styles = StyleSheet.create({
   containerStyle: {
     flexDirection: "column",
-    // margin: 10,
     padding: 10,
     flex: 1,
     backgroundColor: "#FFEFD5"

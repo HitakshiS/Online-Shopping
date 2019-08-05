@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Button, StyleSheet } from "react-native";
+import { View, Button, StyleSheet, Image } from "react-native";
 import CustomText from "../../Components/CustomText";
 
 export default class Failure extends Component {
@@ -20,13 +20,45 @@ export default class Failure extends Component {
     return (
       <View style={styles.containerStyles}>
         <CustomText
-          style={{ fontSize: 30, color: "red" }}
-          title="Sorry your transaction has been unsuccessful!! Please try again."
+          style={{
+            fontSize: 24,
+            color: "red",
+            flex: 0.3,
+            textAlign: "center"
+          }}
+          title="Sorry Transaction Unsuccessful!! Please Try Again."
         />
-        <CustomText
-          style={{ fontSize: 18, color: "green" }}
-          title="For successful transaction click on Place Your Order Button in Cart list and choose success from the pop-up menu."
+        <Image
+          style={{
+            width: 380,
+            height: 300,
+            flex: 0.5
+          }}
+          source={{
+            uri: "https://png.pngtree.com/svg/20170706/3d9a32a59e.png"
+          }}
+          resizeMode="contain"
         />
+        <View style={{ flex: 0.4 }}>
+          <CustomText
+            style={{
+              fontSize: 18,
+              color: "black",
+              textAlign: "center",
+              fontWeight: "bold"
+            }}
+            title="For successful transaction"
+          />
+          <CustomText
+            style={{
+              fontSize: 18,
+              color: "green",
+              textAlign: "center",
+              fontWeight: "bold"
+            }}
+            title="Click on Place Your Order Button in CartList -> Success from the pop-up menu."
+          />
+        </View>
         <Button
           style={{ margin: 20 }}
           color="#F4A460"
