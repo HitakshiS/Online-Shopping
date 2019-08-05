@@ -71,7 +71,13 @@ class SignIn extends Component {
         if (response.data.code == 200) {
           setItemInStorage(response.data.profileData);
         }
-        if (response.data.code == 410 || response.data.code == 400) {
+        if (response.data.code == 410) {
+          alert("Sorry!! your password does not match.");
+        }
+        if (response.data.code == 400) {
+          alert("You have left the fields empty.");
+        }
+        if (response.data.code == 420) {
           alert("You are not registered please Sign Up");
         }
       })

@@ -78,6 +78,12 @@ export default class SignUp extends Component {
             { cancelable: false }
           );
         }
+        if (response.data.code == 400) {
+          alert("Empty fields are not allowed.");
+        }
+        if (response.data.code == 450) {
+          alert("Email Id or Mobile Number have already been registered.");
+        }
       })
       .catch(function(error) {
         console.log(error);
