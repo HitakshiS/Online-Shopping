@@ -6,7 +6,8 @@ import {
   Alert,
   AsyncStorage,
   BackHandler,
-  Image
+  Image,
+    Platform
 } from "react-native";
 import CustomText from "../../Components/CustomText";
 import CustomButton from "../../Components/CustomButton";
@@ -25,8 +26,9 @@ class Cart extends Component {
     },
     headerTitle: "Cart",
     headerLeft: (
-      <View style={{ padding: 10 }}>
+      <View style={{ padding: 10}}>
         <CustomButton
+          style = {{borderColor:"white"}}
           color="#F4A460"
           title="Back"
           onPress={() =>
@@ -308,7 +310,7 @@ class Cart extends Component {
                 styles.emptyTextStyle,
                 {
                   backgroundColor: "#FFEFD5",
-                  fontFamily: "serif",
+
                   marginTop: 40
                 }
               ]}
@@ -380,7 +382,8 @@ const styles = StyleSheet.create({
     color: "#7a42f4",
     flex: 1,
     textAlign: "center",
-    backgroundColor: "white"
+    backgroundColor: "white",
+    fontFamily: Platform.OS === 'ios' ? "Courier New" : "serif",
   }
 });
 
