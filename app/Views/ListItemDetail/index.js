@@ -11,6 +11,8 @@ import IncDec from "../../Components/IncDec";
 import { NavigationActions, StackActions } from "react-navigation";
 import axios from "axios";
 import { Constants } from "../../AppConfig/Constants";
+import { ScaledSheet } from "react-native-size-matters";
+import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 
 class ListItemDetail extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -147,8 +149,8 @@ class ListItemDetail extends Component {
           <ScrollView style={styles.scrollViewStyle}>
             <Image
               style={{
-                width: 300,
-                height: 300,
+                width: scale(300),
+                height: verticalScale(300),
                 flex: 1,
                 alignSelf: "center"
               }}
@@ -159,14 +161,21 @@ class ListItemDetail extends Component {
             />
 
             <CustomText
-              style={[styles.textStyles, { fontWeight: "bold", fontSize: 20 }]}
+              style={[
+                styles.textStyles,
+                { fontWeight: "bold", fontSize: moderateScale(20) }
+              ]}
               title={`${itemValue.name}`}
             />
 
             <CustomText
               style={[
                 styles.textStyles,
-                { fontWeight: "bold", fontSize: 20, color: "red" }
+                {
+                  fontWeight: "bold",
+                  fontSize: moderateScale(20),
+                  color: "red"
+                }
               ]}
               title={`₹${itemValue.price}`}
             />
@@ -177,7 +186,7 @@ class ListItemDetail extends Component {
                 {
                   color:
                     this.state.qty === itemValue.stock_qty ? "red" : "green",
-                  fontSize: 20
+                  fontSize: moderateScale(20)
                 }
               ]}
               title={
@@ -272,25 +281,25 @@ export default connect(
   mapDispatchToProps
 )(ListItemDetail);
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
   containerStyle: {
     flexDirection: "column",
     backgroundColor: "white",
-    margin: 20,
-    elevation: 30,
-    padding: 10,
+    margin: "20@ms",
+    elevation: "30@ms",
+    padding: "10@ms",
     flex: 1
   },
   textStyles: {
-    fontSize: 18,
+    fontSize: "18@ms",
     flex: 0.5,
     color: "black",
-    marginBottom: 10
+    marginBottom: "10@ms"
   },
   scrollViewStyle: {
     flexDirection: "column",
     flex: 0.8,
-    marginLeft: 10,
-    marginBottom: 10
+    marginLeft: "10@ms",
+    marginBottom: "10@ms"
   }
 });

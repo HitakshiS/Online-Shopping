@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, View, StyleSheet, Platform } from "react-native";
 import CustomText from "./CustomText";
+import { moderateScale } from "react-native-size-matters";
 
 function CustomButton(props) {
   const { style } = props;

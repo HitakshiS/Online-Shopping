@@ -9,6 +9,8 @@ import { connect } from "react-redux";
 import CustomText from "../../Components/CustomText";
 import axios from "axios";
 import { Constants } from "../../AppConfig/Constants";
+import { ScaledSheet } from "react-native-size-matters";
+import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 
 class Order extends Component {
   _didFocusSubscription;
@@ -40,9 +42,12 @@ class Order extends Component {
         onPress={() => this.PurchasedListNavigation(item, item.total_bill)}
       >
         <View style={styles.containerStyles}>
-          <View style={{ flexDirection: "row", flex: 1 }}>
+          <View style={{ flexDirection: "row", flex: moderateScale(1) }}>
             <CustomText
-              style={[styles.textStyles, { flex: 0.3, alignItems: "center" }]}
+              style={[
+                styles.textStyles,
+                { flex: moderateScale(0.3), alignItems: "center" }
+              ]}
               title={`Order Id: `}
             />
             <CustomText
@@ -50,9 +55,9 @@ class Order extends Component {
                 styles.textStyles,
                 {
                   color: "blue",
-                  fontSize: 20,
-                  marginLeft: 0,
-                  flex: 0.7
+                  fontSize: moderateScale(20),
+                  marginLeft: moderateScale(0),
+                  flex: moderateScale(0.7)
                 }
               ]}
               title={`${item.id}`}
@@ -60,42 +65,51 @@ class Order extends Component {
           </View>
           <View style={{ flexDirection: "row", flex: 1 }}>
             <CustomText
-              style={[styles.textStyles, { flex: 0.3, alignItems: "center" }]}
+              style={[
+                styles.textStyles,
+                { flex: moderateScale(0.3), alignItems: "center" }
+              ]}
               title={`Order Time: `}
             />
             <CustomText
               style={[
                 styles.textStyles,
                 {
-                  fontSize: 20,
-                  marginLeft: 0,
-                  flex: 0.7
+                  fontSize: moderateScale(20),
+                  marginLeft: moderateScale(0),
+                  flex: moderateScale(0.7)
                 }
               ]}
               title={`${first}  ${second}`}
             />
           </View>
-          <View style={{ flexDirection: "row", flex: 1 }}>
+          <View style={{ flexDirection: "row", flex: moderateScale(1) }}>
             <CustomText
-              style={[styles.textStyles, { flex: 0.3, alignItems: "center" }]}
+              style={[
+                styles.textStyles,
+                { flex: moderateScale(0.3), alignItems: "center" }
+              ]}
               title={`Total Items: `}
             />
             <CustomText
               style={[
                 styles.textStyles,
                 {
-                  fontSize: 20,
-                  marginLeft: 0,
-                  flex: 0.7
+                  fontSize: moderateScale(20),
+                  marginLeft: moderateScale(0),
+                  flex: moderateScale(0.7)
                 }
               ]}
               title={`${item.total_items}`}
             />
           </View>
 
-          <View style={{ flexDirection: "row", flex: 1 }}>
+          <View style={{ flexDirection: "row", flex: moderateScale(1) }}>
             <CustomText
-              style={[styles.textStyles, { flex: 0.3, alignItems: "center" }]}
+              style={[
+                styles.textStyles,
+                { flex: moderateScale(0.3), alignItems: "center" }
+              ]}
               title={`Total Bill: `}
             />
             <CustomText
@@ -103,9 +117,9 @@ class Order extends Component {
                 styles.textStyles,
                 {
                   color: "red",
-                  fontSize: 20,
-                  marginLeft: 0,
-                  flex: 0.7
+                  fontSize: moderateScale(20),
+                  marginLeft: moderateScale(0),
+                  flex: moderateScale(0.7)
                 }
               ]}
               title={`${item.total_bill}`}
@@ -150,17 +164,23 @@ class Order extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1, padding: 10, backgroundColor: "#FFEFD5" }}>
+      <View
+        style={{
+          flex: moderateScale(1),
+          padding: moderateScale(10),
+          backgroundColor: "#FFEFD5"
+        }}
+      >
         {this.state.order && this.state.order.length > 0 ? (
           <FlatList
-            style={{ margin: 10 }}
+            style={{ margin: moderateScale(10) }}
             data={this.state.order}
             renderItem={this.renderItem}
           />
         ) : (
           <CustomText
             style={{
-              fontSize: 20,
+              fontSize: moderateScale(20),
               color: "#7a42f4",
               textAlign: "center"
             }}
@@ -172,30 +192,30 @@ class Order extends Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
   containerStyles: {
-    marginTop: 10,
-    marginBottom: 10,
-    flex: 0.4,
+    marginTop: "10@ms",
+    marginBottom: "10@ms",
+    flex: "0.4@ms",
     backgroundColor: "white",
-    elevation: 30,
-    paddingTop: 10,
-    paddingBottom: 5
+    elevation: "30@ms",
+    paddingTop: "10@ms",
+    paddingBottom: "5@ms"
   },
   buttonStyles: {
-    flex: 1,
-    marginRight: 10,
-    marginLeft: 10,
-    marginTop: 5,
-    borderRadius: 30
+    flex: "1@ms",
+    marginRight: "10@ms",
+    marginLeft: "10@ms",
+    marginTop: "5@ms",
+    borderRadius: "30@ms"
   },
   textStyles: {
-    fontSize: 17,
-    flex: 1,
+    fontSize: "17@ms",
+    flex: "1@ms",
     color: "black",
-    marginLeft: 10,
-    marginRight: 10,
-    paddingBottom: 10,
+    marginLeft: "10@ms",
+    marginRight: "10@ms",
+    paddingBottom: "10@ms",
     fontWeight: "bold"
   }
 });

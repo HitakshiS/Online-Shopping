@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { View, StyleSheet, ImageBackground } from "react-native";
 import CustomButton from "../../Components/CustomButton";
 import CustomText from "../../Components/CustomText";
+import { ScaledSheet } from "react-native-size-matters";
+import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 
 export default class Login extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -31,7 +33,7 @@ export default class Login extends Component {
           style={[
             styles.textStyles,
             {
-              fontSize: 40,
+              fontSize: moderateScale(40),
               color: "#503E24",
               fontFamily: "serif",
               fontWeight: "bold"
@@ -43,9 +45,9 @@ export default class Login extends Component {
           style={[
             styles.textStyles,
             {
-              fontSize: 30,
+              fontSize: moderateScale(30),
               color: "#503E24",
-              paddingTop: 50,
+              paddingTop: moderateScale(50),
               fontFamily: "serif"
             }
           ]}
@@ -55,7 +57,7 @@ export default class Login extends Component {
           style={[
             styles.textStyles,
             {
-              fontSize: 30,
+              fontSize: moderateScale(30),
               color: "#503E24",
               fontFamily: "serif"
             }
@@ -83,19 +85,19 @@ export default class Login extends Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
   container: {
     flex: 1
   },
   textStyles: {
-    fontSize: 24,
+    fontSize: "24@ms",
     color: "black",
     textAlign: "center"
   },
   submitButton: {
     flex: 0.5,
-    padding: 10,
-    margin: 15,
+    padding: "10@ms",
+    margin: "15@ms",
     height: "30%"
   }
 });

@@ -6,6 +6,8 @@ import axios from "axios";
 import { Constants } from "../AppConfig/Constants";
 import { bindActionCreators } from "redux";
 import { totalBill } from "../Views/HomeScreen/action";
+import { ScaledSheet } from "react-native-size-matters";
+import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 
 class IncDec extends Component {
   constructor(props) {
@@ -78,7 +80,7 @@ class IncDec extends Component {
         />
         <View
           style={{
-            flex: 0.5
+            flex: moderateScale(0.5)
           }}
         >
           <Text style={styles.textStyles}> {this.state.counter} </Text>
@@ -114,22 +116,22 @@ export default connect(
   mapDispatchToProps
 )(IncDec);
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
   buttonStyles: {
-    flex: 1,
-    borderRadius: 30
+    flex: "1@ms",
+    borderRadius: "30@ms"
   },
   textStyles: {
-    fontSize: 20,
-    paddingRight: 10,
+    fontSize: "20@ms",
+    paddingRight: "10@ms",
     color: "black",
-    paddingLeft: 10,
+    paddingLeft: "10@ms",
     textAlign: "center"
   },
   containerStyles: {
     flexDirection: "row",
-    flex: 1,
+    flex: "1@ms",
     justifyContent: "flex-end",
-    padding: 10
+    padding: "10@ms"
   }
 });

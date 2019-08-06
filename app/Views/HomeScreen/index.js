@@ -15,6 +15,8 @@ import ListItem from "../../Components/ListItem";
 import { Constants } from "../../AppConfig/Constants";
 import axios from "axios";
 import CustomText from "../../Components/CustomText";
+import { ScaledSheet } from "react-native-size-matters";
+import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 
 class HomeScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -42,8 +44,6 @@ class HomeScreen extends Component {
       dataFull: [],
       cart: [],
       searchData: [],
-      existSearch: false,
-      existPicker: 0,
       categoryData: []
     };
   }
@@ -156,7 +156,7 @@ class HomeScreen extends Component {
           flex: 1,
           backgroundColor: "#FFEFD5",
           flexDirection: "column",
-          marginTop: 100
+          marginTop: moderateScale(100)
         }}
       >
         <View
@@ -173,7 +173,7 @@ class HomeScreen extends Component {
             autoCorrect={false}
           />
         </View>
-        <View style={{ marginBottom: 20, flex: 1 }}>
+        <View style={{ marginBottom: moderateScale(20), flex: 1 }}>
           {this.state.data && this.state.data.length > 0 ? (
             <FlatList
               data={homeData}
@@ -217,23 +217,23 @@ export default connect(
   mapDispatchToProps
 )(HomeScreen);
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
   buttonStyles: {
     flex: 1,
-    borderRadius: 30,
-    margin: 5,
+    borderRadius: "30@ms",
+    margin: "5@ms",
     backgroundColor: "#F4A460"
   },
   input: {
-    margin: 10,
-    height: 40,
+    margin: "10@ms",
+    height: "40@vs",
     borderColor: "white",
     borderWidth: 1,
-    width: 390,
+    width: "390@s",
     color: "white"
   },
   emptyTextStyle: {
-    fontSize: 20,
+    fontSize: "20@ms",
     color: "#7a42f4",
     flex: 1,
     textAlign: "center",

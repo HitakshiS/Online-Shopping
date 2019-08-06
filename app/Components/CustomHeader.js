@@ -13,6 +13,8 @@ import { Constants } from "../AppConfig/Constants";
 import { randomData, categoryData } from "../Views/HomeScreen/action";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { ScaledSheet } from "react-native-size-matters";
+import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 
 class CustomHeader extends Component {
   constructor() {
@@ -52,7 +54,7 @@ class CustomHeader extends Component {
     const { onDrawerPress, onCartPress } = this.props;
     let categoryValues = this.props.reducer.categoryData.map(item => (
       <Picker.Item
-        style={{ fontSize: 18, fontWeight: "bold" }}
+        style={{ fontSize: moderateScale(18), fontWeight: "bold" }}
         label={item.name}
         value={item.id}
       />
@@ -79,6 +81,7 @@ class CustomHeader extends Component {
                 uri:
                   "https://lh3.googleusercontent.com/qBiPuYC-H23TGfVPUha1gEeito5PQolF_eJjR74gVnMJiE4FGCFNZDEM85D-Ed7YcJg"
               }}
+              resizeMode="center"
             />
           </TouchableOpacity>
           <CustomText
@@ -86,8 +89,8 @@ class CustomHeader extends Component {
               flex: 0.82,
               textAlign: "left",
               fontWeight: "bold",
-              fontSize: 26,
-              marginTop: 10,
+              fontSize: moderateScale(26),
+              marginTop: moderateScale(10),
               color: "white"
             }}
             title="    Home"
@@ -97,7 +100,7 @@ class CustomHeader extends Component {
               flex: 0.2,
               justifyContents: "flex-end",
               alignSelf: "flex-end",
-              padding: 15
+              padding: moderateScale(15)
             }}
           >
             <CustomButton onPress={onCartPress} title="Cart" color="#F4A460" />
@@ -114,18 +117,18 @@ class CustomHeader extends Component {
             style={{
               flex: 0.4,
               fontWeight: "bold",
-              fontSize: 20,
+              fontSize: moderateScale(20),
               color: "white",
-              marginLeft: 10,
-              marginTop: 10
+              marginLeft: moderateScale(10),
+              marginTop: moderateScale(10)
             }}
             title="Categories:"
           />
           <Picker
             style={{
               flex: 0.4,
-              height: 40,
-              width: 150,
+              height: verticalScale(40),
+              width: scale(150),
               color: "white"
             }}
             selectedValue={this.state.products}
@@ -136,7 +139,7 @@ class CustomHeader extends Component {
             itemStyle={{
               backgroundColor: "grey",
               color: "white",
-              fontSize: 17
+              fontSize: moderateScale(17)
             }}
           >
             {categoryValues}
@@ -167,22 +170,22 @@ export default connect(
   mapDispatchToProps
 )(CustomHeader);
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
   ImageIconStyle: {
-    padding: 10,
-    marginLeft: 10,
-    marginTop: 10,
-    height: 40,
-    width: 40,
+    padding: "10@ms",
+    marginLeft: "10@ms",
+    marginTop: "10@ms",
+    height: "40@vs",
+    width: "40@s",
     resizeMode: "stretch"
   },
   input: {
-    marginLeft: 10,
-    marginRight: 10,
-    height: 40,
+    marginLeft: "10@ms",
+    marginRight: "10@ms",
+    height: "40@vs",
     borderColor: "white",
     borderWidth: 1,
-    width: 390,
+    width: "390@s",
     color: "white"
   }
 });

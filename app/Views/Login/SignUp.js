@@ -5,6 +5,7 @@ import CustomButton from "../../Components/CustomButton";
 import CustomText from "../../Components/CustomText";
 import axios from "axios";
 import ErrorBoundary from "../../Components/ErrorBoundary";
+import { ScaledSheet } from "react-native-size-matters";
 
 export default class SignUp extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -222,21 +223,21 @@ export default class SignUp extends Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
   container: {
     flex: 0.9
   },
   textStyles: {
-    fontSize: 26,
+    fontSize: "26@ms",
     color: "black",
     textAlign: "center",
-    marginTop: 20
+    marginTop: "20@ms"
   },
   submitButton: {
     flex: 0.1,
-    padding: 10,
-    margin: 15,
-    height: 40
+    padding: "10@ms",
+    margin: "15@ms",
+    height: "40@vs"
   },
   submitButtonText: {
     color: "white",
