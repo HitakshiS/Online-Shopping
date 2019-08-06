@@ -11,6 +11,8 @@ import IncDec from "./IncDec";
 import { ApiCartUpdateCall } from "./ApiCartUpdateCall";
 import { connect } from "react-redux";
 import ErrorBoundary from "./ErrorBoundary";
+import { ScaledSheet } from "react-native-size-matters";
+import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 
 class ListItem extends Component {
   constructor(props) {
@@ -46,12 +48,12 @@ class ListItem extends Component {
         }
       >
         <View style={[styles.containerStyles, { flexDirection: "column" }]}>
-          <View style={{ flex: 1, flexDirection: "row" }}>
+          <View style={{ flex: moderateScale(1), flexDirection: "row" }}>
             <Image
               style={{
-                width: 100,
-                height: 100,
-                flex: 1
+                width: scale(100),
+                height: verticalScale(100),
+                flex: moderateScale(1)
               }}
               source={{
                 uri: item.image
@@ -63,27 +65,30 @@ class ListItem extends Component {
                 <CustomText
                   style={[
                     styles.textStyles,
-                    { fontWeight: "bold", fontSize: 20 }
+                    { fontWeight: "bold", fontSize: moderateScale(20) }
                   ]}
                   title={`${item.name}`}
                 />
               </ErrorBoundary>
               {isPurchaseList && (
                 <CustomText
-                  style={[styles.textStyles, { fontSize: 20 }]}
+                  style={[styles.textStyles, { fontSize: moderateScale(20) }]}
                   title={`Quantity: ${item.qty}`}
                   //
                 />
               )}
               <ErrorBoundary>
                 <CustomText
-                  style={[styles.textStyles, { fontSize: 20 }]}
+                  style={[styles.textStyles, { fontSize: moderateScale(20) }]}
                   title={`₹${item.price}`}
                 />
               </ErrorBoundary>
               {isPurchaseList && (
                 <CustomText
-                  style={[styles.textStyles, { fontSize: 20, color: "red" }]}
+                  style={[
+                    styles.textStyles,
+                    { fontSize: moderateScale(20), color: "red" }
+                  ]}
                   title={`Total: ₹${item.price * item.qty}`}
                 />
               )}
@@ -98,7 +103,7 @@ class ListItem extends Component {
                         item.stock_qty === item.qty
                           ? "red"
                           : "green",
-                      fontSize: 20
+                      fontSize: moderateScale(20)
                     }
                   ]}
                   title={
@@ -114,13 +119,14 @@ class ListItem extends Component {
             <View>
               <Image
                 style={{
-                  width: 30,
-                  height: 30
+                  width: scale(30),
+                  height: verticalScale(30)
                 }}
                 source={{
                   uri:
                     "https://pngimage.net/wp-content/uploads/2018/06/veg-sign-png-5.png"
                 }}
+                resizeMode="contain"
               />
             </View>
           </View>
@@ -198,27 +204,27 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps)(ListItem);
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
   containerStyles: {
     flexDirection: "row",
     backgroundColor: "white",
-    margin: 10,
-    elevation: 30,
-    padding: 10
+    margin: "10@ms",
+    elevation: "30@ms",
+    padding: "10@ms"
   },
   textStyles: {
-    fontSize: 17,
+    fontSize: "17@ms",
     flex: 1,
     color: "black"
   },
   buttonContainer: {
     flex: 0.2,
-    margin: 15
+    margin: "15@ms"
   },
   listSubContainer: {
     flexDirection: "column",
     flex: 1.2,
     alignSelf: "center",
-    paddingLeft: 20
+    paddingLeft: "20@ms"
   }
 });

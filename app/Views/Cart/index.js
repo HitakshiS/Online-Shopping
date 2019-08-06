@@ -17,6 +17,8 @@ import axios from "axios";
 import { Constants } from "../../AppConfig/Constants";
 import { NavigationActions, StackActions } from "react-navigation";
 import CartItem from "./CartItem";
+import { ScaledSheet } from "react-native-size-matters";
+import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 
 class Cart extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -25,7 +27,7 @@ class Cart extends Component {
     },
     headerTitle: "Cart",
     headerLeft: (
-      <View style={{ padding: 10 }}>
+      <View style={{ padding: moderateScale(10) }}>
         <CustomButton
           color="#F4A460"
           title="Back"
@@ -41,7 +43,7 @@ class Cart extends Component {
       </View>
     ),
     headerRight: (
-      <View style={{ padding: 10 }}>
+      <View style={{ padding: moderateScale(10) }}>
         <CustomButton
           title="LogOut"
           onPress={() => {
@@ -180,8 +182,6 @@ class Cart extends Component {
       .post(Constants.REMOVE_ITEM, { user_id, product_id })
       .then(response => {
         if (response.data.code == 200) {
-          console.log("Remove Prod_id,index======>", product_id, index);
-          console.log("cartList", this.props.reducer.cartList);
           this.setState(
             {
               cart: []
@@ -283,7 +283,7 @@ class Cart extends Component {
       <View style={{ flex: 1, padding: 10, backgroundColor: "#FFEFD5" }}>
         {this.state.cart.length > 0 ? (
           <FlatList
-            style={{ flex: 0.8, marginBottom: 20 }}
+            style={{ flex: 0.8, marginBottom: moderateScale(20) }}
             data={this.state.cart}
             renderItem={this.renderItem}
             extraData={this.state}
@@ -292,9 +292,9 @@ class Cart extends Component {
           <View style={{ flex: 1 }}>
             <Image
               style={{
-                marginTop: 100,
-                width: 400,
-                height: 400,
+                marginTop: moderateScale(100),
+                width: scale(360),
+                height: verticalScale(400),
                 flex: 0.5
               }}
               source={{
@@ -309,7 +309,7 @@ class Cart extends Component {
                 {
                   backgroundColor: "#FFEFD5",
                   fontFamily: "serif",
-                  marginTop: 40
+                  marginTop: moderateScale(40)
                 }
               ]}
               title="The Bag Feels Light! Fill in your cart."
@@ -323,9 +323,9 @@ class Cart extends Component {
                 styles.textStyles,
                 {
                   textAlign: "center",
-                  fontSize: 24,
+                  fontSize: moderateScale(24),
                   backgroundColor: "white",
-                  marginBottom: 10
+                  marginBottom: moderateScale(10)
                 }
               ]}
               title={`Total amount: ₹${
@@ -353,30 +353,30 @@ class Cart extends Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
   containerStyles: {
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: "10@ms",
+    marginBottom: "10@ms",
     flex: 0.4,
     backgroundColor: "white",
-    elevation: 30
+    elevation: "30@ms"
   },
   buttonStyles: {
     flex: 1,
-    marginRight: 10,
-    marginLeft: 10,
-    marginTop: 5,
+    marginRight: "10@ms",
+    marginLeft: "10@ms",
+    marginTop: "5@ms",
     borderRadius: 30
   },
   textStyles: {
-    fontSize: 20,
+    fontSize: "20@ms",
     flex: 1,
     color: "black",
-    marginLeft: 10,
-    marginRight: 10
+    marginLeft: "10@ms",
+    marginRight: "10@ms"
   },
   emptyTextStyle: {
-    fontSize: 24,
+    fontSize: "24@ms",
     color: "#7a42f4",
     flex: 1,
     textAlign: "center",

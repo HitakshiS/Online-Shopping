@@ -4,6 +4,8 @@ import CustomText from "../../Components/CustomText";
 import CustomButton from "../../Components/CustomButton";
 import IncDec from "../../Components/IncDec";
 import ErrorBoundary from "../../Components/ErrorBoundary";
+import { ScaledSheet } from "react-native-size-matters";
+import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 
 export default class CartItem extends Component {
   constructor(props) {
@@ -42,8 +44,8 @@ export default class CartItem extends Component {
         <View style={{ flex: 1, flexDirection: "row" }}>
           <Image
             style={{
-              width: 80,
-              height: 100,
+              width: scale(80),
+              height: verticalScale(100),
               flex: 1
             }}
             source={{
@@ -56,7 +58,7 @@ export default class CartItem extends Component {
               <CustomText
                 style={[
                   styles.textStyles,
-                  { fontWeight: "bold", fontSize: 20 }
+                  { fontWeight: "bold", fontSize: moderateScale(20) }
                 ]}
                 title={`${item.name}`}
               />
@@ -66,7 +68,13 @@ export default class CartItem extends Component {
             </ErrorBoundary>
             <ErrorBoundary>
               <CustomText
-                style={[styles.textStyles, { paddingBottom: 5, fontSize: 20 }]}
+                style={[
+                  styles.textStyles,
+                  {
+                    paddingBottom: moderateScale(5),
+                    fontSize: moderateScale(20)
+                  }
+                ]}
                 title={`Total: ₹${amount}`}
               />
             </ErrorBoundary>
@@ -76,8 +84,8 @@ export default class CartItem extends Component {
                 {
                   color:
                     this.state.Quantity >= item.stock_qty ? "red" : "green",
-                  paddingBottom: 5,
-                  fontSize: 20
+                  paddingBottom: moderateScale(5),
+                  fontSize: moderateScale(20)
                 }
               ]}
               title={
@@ -96,8 +104,8 @@ export default class CartItem extends Component {
             />
             <Image
               style={{
-                width: 30,
-                height: 30
+                width: scale(30),
+                height: verticalScale(30)
               }}
               source={{
                 uri:
@@ -124,36 +132,36 @@ export default class CartItem extends Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
   containerStyles: {
     flexDirection: "column",
     backgroundColor: "white",
-    margin: 20,
-    elevation: 30,
-    padding: 30
+    margin: "20@ms",
+    elevation: "30@ms",
+    padding: "30@ms"
   },
   buttonStyles: {
     flex: 1,
-    marginRight: 10,
-    marginLeft: 10,
-    marginTop: 5,
-    height: 30,
-    width: 30,
-    borderRadius: 60
+    marginRight: "10@ms",
+    marginLeft: "10@ms",
+    marginTop: "5@ms",
+    height: "30@vs",
+    width: "30@s",
+    borderRadius: "60@ms"
   },
   buttonContainer: {
     flex: 0.4,
     alignSelf: "center"
   },
   textStyles: {
-    fontSize: 17,
+    fontSize: "17@ms",
     flex: 1,
     color: "black",
-    marginLeft: 10,
-    marginRight: 10
+    marginLeft: "10@ms",
+    marginRight: "10@ms"
   },
   emptyTextStyle: {
-    fontSize: 20,
+    fontSize: "20@ms",
     color: "#7a42f4",
     flex: 1,
     textAlign: "center",
@@ -163,6 +171,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     flex: 1.2,
     alignSelf: "center",
-    paddingLeft: 10
+    paddingLeft: "10@ms"
   }
 });

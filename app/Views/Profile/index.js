@@ -14,6 +14,8 @@ import CustomButton from "../../Components/CustomButton";
 import CustomText from "../../Components/CustomText";
 import { Constants } from "../../AppConfig/Constants";
 import axios from "axios";
+import { ScaledSheet } from "react-native-size-matters";
+import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 
 class Profile extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -146,12 +148,18 @@ class Profile extends Component {
             flex: 1,
             backgroundColor:
               this.state.selectedAddress == index ? "#F4A460" : "transparent",
-            borderWidth: 1,
+            borderWidth: moderateScale(1),
             borderColor: "black"
           }}
         >
           <CustomText
-            style={[styles.textStyles, { fontSize: 18, paddingVertical: 10 }]}
+            style={[
+              styles.textStyles,
+              {
+                fontSize: moderateScale(18),
+                paddingVertical: moderateScale(10)
+              }
+            ]}
             title={item.address}
           />
         </View>
@@ -168,18 +176,21 @@ class Profile extends Component {
       <ScrollView style={{ flex: 1 }}>
         <View style={styles.container}>
           <CustomText
-            style={[styles.textStyles, { textAlign: "left", marginBottom: 10 }]}
+            style={[
+              styles.textStyles,
+              { textAlign: "left", marginBottom: moderateScale(10) }
+            ]}
             title="Please Fill In The User Details"
           />
           <View
             style={{
               flex: 1,
               backgroundColor: "#FFEFD5",
-              marginLeft: 20,
-              marginRight: 20,
-              elevation: 30,
-              paddingTop: 10,
-              paddingBottom: 10
+              marginLeft: moderateScale(20),
+              marginRight: moderateScale(20),
+              elevation: moderateScale(30),
+              paddingTop: moderateScale(10),
+              paddingBottom: moderateScale(10)
             }}
           >
             <View style={{ flex: 1, flexDirection: "row" }}>
@@ -187,10 +198,10 @@ class Profile extends Component {
                 style={[
                   styles.textStyles,
                   {
-                    fontSize: 18,
+                    fontSize: moderateScale(18),
                     color: "black",
                     flex: 0.3,
-                    paddingTop: 0
+                    paddingTop: moderateScale(0)
                   }
                 ]}
                 title={`Name `}
@@ -199,11 +210,11 @@ class Profile extends Component {
                 style={[
                   styles.textStyles,
                   {
-                    fontSize: 18,
+                    fontSize: moderateScale(18),
                     color: "black",
                     fontWeight: "bold",
                     flex: 0.5,
-                    paddingTop: 0
+                    paddingTop: moderateScale(0)
                   }
                 ]}
                 title={` ${this.state.name}`}
@@ -214,7 +225,7 @@ class Profile extends Component {
                 style={[
                   styles.textStyles,
                   {
-                    fontSize: 18,
+                    fontSize: moderateScale(18),
                     color: "black",
                     flex: 0.3
                   }
@@ -225,7 +236,7 @@ class Profile extends Component {
                 style={[
                   styles.textStyles,
                   {
-                    fontSize: 18,
+                    fontSize: moderateScale(18),
                     color: "black",
                     fontWeight: "bold",
                     flex: 0.5
@@ -239,7 +250,7 @@ class Profile extends Component {
                 style={[
                   styles.textStyles,
                   {
-                    fontSize: 18,
+                    fontSize: moderateScale(18),
                     color: "black",
                     flex: 0.3
                   }
@@ -250,7 +261,7 @@ class Profile extends Component {
                 style={[
                   styles.textStyles,
                   {
-                    fontSize: 18,
+                    fontSize: moderateScale(18),
                     color: "black",
                     fontWeight: "bold",
                     flex: 0.5
@@ -262,13 +273,20 @@ class Profile extends Component {
           </View>
 
           {this.state.addresses && this.state.addresses.length > 0 && (
-            <View style={{ flex: 1, padding: 20 }}>
+            <View style={{ flex: 1, padding: moderateScale(20) }}>
               <CustomText
                 title="Please Select Delivery Address"
-                style={{ fontSize: 24, color: "black", marginBottom: 10 }}
+                style={{
+                  fontSize: moderateScale(24),
+                  color: "black",
+                  marginBottom: moderateScale(10)
+                }}
               />
               <FlatList
-                style={{ backgroundColor: "#FFEFD5", elevation: 30 }}
+                style={{
+                  backgroundColor: "#FFEFD5",
+                  elevation: moderateScale(30)
+                }}
                 data={this.state.addresses}
                 renderItem={this.renderItem}
                 extraData={this.state.selectedAddress}
@@ -296,7 +314,11 @@ class Profile extends Component {
             color="#F4A460"
             style={[
               styles.submitButton,
-              { paddingBottom: 5, width: 300, paddingLeft: 90 }
+              {
+                paddingBottom: moderateScale(5),
+                width: scale(300),
+                paddingLeft: moderateScale(90)
+              }
             ]}
             title={
               this.state.showAddAddressInput
@@ -317,7 +339,7 @@ class Profile extends Component {
           />
 
           <CustomButton
-            style={[styles.submitButton, { paddingTop: 5 }]}
+            style={[styles.submitButton, { paddingTop: moderateScale(5) }]}
             title="Submit Details"
             color="#F4A460"
             onPress={() => {
@@ -350,22 +372,22 @@ export default connect(
   mapDispatchToProps
 )(Profile);
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
   container: {
     flex: 0.9
   },
   textStyles: {
-    fontSize: 26,
+    fontSize: "26@ms",
     color: "black",
     textAlign: "left",
-    paddingTop: 20,
-    paddingLeft: 20
+    paddingTop: "20@ms",
+    paddingLeft: "20@ms"
   },
   submitButton: {
     flex: 0.1,
-    padding: 10,
-    margin: 15,
-    height: 40
+    padding: "10@ms",
+    margin: "15@ms",
+    height: "40@vs"
   },
   submitButtonText: {
     color: "white",

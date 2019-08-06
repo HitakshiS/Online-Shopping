@@ -3,6 +3,8 @@ import { View, StyleSheet, FlatList } from "react-native";
 import { connect } from "react-redux";
 import ListItem from "../../Components/ListItem";
 import CustomText from "../../Components/CustomText";
+import { ScaledSheet } from "react-native-size-matters";
+import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 
 class PurchasedList extends Component {
   static navigationOptions = {
@@ -29,10 +31,13 @@ class PurchasedList extends Component {
     return (
       <View style={styles.containerStyle}>
         {itemValue && itemValue.length > 0 ? (
-          <View style={{ flex: 1 }}>
-            <View style={{ flex: 0.73 }}>
+          <View style={{ flex: moderateScale(1) }}>
+            <View style={{ flex: moderateScale(0.73) }}>
               <FlatList
-                style={{ marginBottom: 10, marginTop: 10 }}
+                style={{
+                  marginBottom: moderateScale(10),
+                  marginTop: moderateScale(10)
+                }}
                 data={itemValue}
                 horizontal={this.props.horizontal}
                 renderItem={this.renderItem}
@@ -40,17 +45,17 @@ class PurchasedList extends Component {
             </View>
             <View
               style={{
-                flex: 0.27,
+                flex: moderateScale(0.27),
                 backgroundColor: "white",
-                elevation: 30,
-                padding: 26
+                elevation: moderateScale(30),
+                padding: moderateScale(26)
               }}
             >
               <View style={{ flexDirection: "row" }}>
                 <CustomText
                   style={[
                     styles.textStyles,
-                    { flex: 0.3, alignItems: "center" }
+                    { flex: moderateScale(0.3), alignItems: "center" }
                   ]}
                   title={`Order Id: `}
                 />
@@ -59,9 +64,9 @@ class PurchasedList extends Component {
                     styles.textStyles,
                     {
                       color: "blue",
-                      fontSize: 20,
-                      marginLeft: 0,
-                      flex: 0.7
+                      fontSize: moderateScale(20),
+                      marginLeft: moderateScale(0),
+                      flex: moderateScale(0.7)
                     }
                   ]}
                   title={`${id}`}
@@ -71,7 +76,7 @@ class PurchasedList extends Component {
                 <CustomText
                   style={[
                     styles.textStyles,
-                    { flex: 0.3, alignItems: "center" }
+                    { flex: moderateScale(0.3), alignItems: "center" }
                   ]}
                   title={`Total Bill: `}
                 />
@@ -80,9 +85,9 @@ class PurchasedList extends Component {
                     styles.textStyles,
                     {
                       color: "red",
-                      fontSize: 20,
-                      marginLeft: 0,
-                      flex: 0.7
+                      fontSize: moderateScale(20),
+                      marginLeft: moderateScale(0),
+                      flex: moderateScale(0.7)
                     }
                   ]}
                   title={`${total_bill}`}
@@ -92,7 +97,7 @@ class PurchasedList extends Component {
                 <CustomText
                   style={[
                     styles.textStyles,
-                    { flex: 0.3, alignItems: "center" }
+                    { flex: moderateScale(0.3), alignItems: "center" }
                   ]}
                   title={`Address: `}
                 />
@@ -100,9 +105,9 @@ class PurchasedList extends Component {
                   style={[
                     styles.textStyles,
                     {
-                      fontSize: 20,
-                      marginLeft: 0,
-                      flex: 0.7
+                      fontSize: moderateScale(20),
+                      marginLeft: moderateScale(0),
+                      flex: moderateScale(0.7)
                     }
                   ]}
                   title={`${delivery_address}`}
@@ -114,7 +119,7 @@ class PurchasedList extends Component {
           !this.props.horizontal && (
             <CustomText
               style={{
-                fontSize: 20,
+                fontSize: moderateScale(20),
                 color: "#7a42f4",
                 textAlign: "center"
               }}
@@ -127,21 +132,21 @@ class PurchasedList extends Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
   containerStyle: {
     flexDirection: "column",
-    padding: 10,
-    flex: 1,
+    padding: "10@ms",
+    flex: "1@ms",
     backgroundColor: "#FFEFD5"
   },
   textStyles: {
-    fontSize: 20,
+    fontSize: "20@ms",
     color: "black",
     fontWeight: "bold",
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft: "10@ms",
+    marginRight: "10@ms",
     textAlign: "left",
-    marginBottom: 10
+    marginBottom: "10@ms"
   }
 });
 

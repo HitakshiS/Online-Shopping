@@ -15,6 +15,8 @@ import CustomText from "../../Components/CustomText";
 import { emptyCartList, logOut } from "../HomeScreen/action";
 import { NavigationActions, StackActions } from "react-navigation";
 import { ScrollView } from "react-native-gesture-handler";
+import { ScaledSheet } from "react-native-size-matters";
+import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 
 class Success extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -24,7 +26,7 @@ class Success extends Component {
       },
       headerTitle: "Successful Payment",
       headerLeft: (
-        <View style={{ padding: 10 }}>
+        <View style={{ padding: moderateScale(10) }}>
           <CustomButton
             color="#F4A460"
             title="Back"
@@ -40,7 +42,7 @@ class Success extends Component {
         </View>
       ),
       headerRight: (
-        <View style={{ padding: 10 }}>
+        <View style={{ padding: moderateScale(10) }}>
           <CustomButton
             title="LogOut"
             onPress={() => {
@@ -125,16 +127,22 @@ class Success extends Component {
       >
         <Image
           style={{
-            width: 100,
-            height: 100,
-            flex: 1
+            width: scale(100),
+            height: verticalScale(100),
+            flex: moderateScale(1)
           }}
           source={{
             uri: item.image
           }}
           resizeMode="contain"
         />
-        <View style={{ flex: 1, marginLeft: 15, flexDirection: "column" }}>
+        <View
+          style={{
+            flex: moderateScale(1),
+            marginLeft: moderateScale(15),
+            flexDirection: "column"
+          }}
+        >
           <CustomText
             style={styles.textStyles}
             title={`Product: ${item.name}`}
@@ -156,33 +164,6 @@ class Success extends Component {
     );
   };
 
-  // ApiSuccessfulPaymentAll = (user_id, address_id) => {
-  //   axios
-  //     .post(Constants.SUCCESSFUL_PAYMENT_ALL, { user_id, address_id })
-  //     .then(response => {
-  //       console.log(response.data);
-  //       if (response.data.code == 200) {
-  //         console.log(response.data);
-  //         this.setState({
-  //           success: response.data.products,
-  //           order_id: response.data.order_id,
-  //           delivery_address: response.data.delivery_address,
-  //           total_bill: response.data.total_bill
-  //         });
-  //       }
-  //       if (response.data.notPurchasedItems.length > 0) {
-  //         response.data.notPurchasedItems.map(item =>
-  //           alert(
-  //             `This items are OUT OF STOCK therefore cannot be purchased ${item}`
-  //           )
-  //         );
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // };
-
   render() {
     const response = this.props.navigation.getParam("response", "not recieved");
     console.log("success response", response);
@@ -199,8 +180,8 @@ class Success extends Component {
 
     return (
       <View style={styles.containerStyle}>
-        <View style={{ flex: 1 }}>
-          <View style={{ flex: 0.9 }}>
+        <View style={{ flex: moderateScale(1) }}>
+          <View style={{ flex: moderateScale(0.9) }}>
             <ScrollView>
               <View>
                 <CustomText
@@ -208,24 +189,28 @@ class Success extends Component {
                     styles.textStyle,
                     {
                       color: "green",
-                      fontSize: 24,
-                      paddingLeft: 20,
-                      marginBottom: 10,
-                      paddingTop: 10
+                      fontSize: moderateScale(24),
+                      paddingLeft: moderateScale(20),
+                      marginBottom: moderateScale(10),
+                      paddingTop: moderateScale(10)
                     }
                   ]}
                   title="Your Order Is Successfully Placed."
                 />
                 <View
-                  style={{ flex: 0.1, flexDirection: "row", paddingLeft: 20 }}
+                  style={{
+                    flex: moderateScale(0.1),
+                    flexDirection: "row",
+                    paddingLeft: moderateScale(20)
+                  }}
                 >
                   <CustomText
                     style={[
                       styles.textStyles,
                       {
-                        fontSize: 20,
+                        fontSize: moderateScale(20),
                         color: "black",
-                        flex: 0.42
+                        flex: moderateScale(0.42)
                       }
                     ]}
                     title={`Order Id: `}
@@ -234,10 +219,10 @@ class Success extends Component {
                     style={[
                       styles.textStyles,
                       {
-                        fontSize: 20,
+                        fontSize: moderateScale(20),
                         color: "blue",
                         fontWeight: "bold",
-                        flex: 0.58
+                        flex: moderateScale(0.58)
                       }
                     ]}
                     title={`${response.order_id}`}
@@ -245,9 +230,9 @@ class Success extends Component {
                 </View>
                 <View
                   style={{
-                    flex: 0.1,
+                    flex: moderateScale(0.1),
                     flexDirection: "row",
-                    paddingLeft: 20,
+                    paddingLeft: moderateScale(20),
                     justifyContent: "center"
                   }}
                 >
@@ -255,9 +240,9 @@ class Success extends Component {
                     style={[
                       styles.textStyles,
                       {
-                        fontSize: 20,
+                        fontSize: moderateScale(20),
                         color: "black",
-                        flex: 0.42
+                        flex: moderateScale(0.42)
                       }
                     ]}
                     title={`Delivery Address: `}
@@ -266,10 +251,10 @@ class Success extends Component {
                     style={[
                       styles.textStyles,
                       {
-                        fontSize: 20,
+                        fontSize: moderateScale(20),
                         color: "black",
                         fontWeight: "bold",
-                        flex: 0.58
+                        flex: moderateScale(0.58)
                       }
                     ]}
                     title={`${response.delivery_address}`}
@@ -277,9 +262,9 @@ class Success extends Component {
                 </View>
                 <View
                   style={{
-                    flex: 0.1,
+                    flex: moderateScale(0.1),
                     flexDirection: "row",
-                    paddingLeft: 20,
+                    paddingLeft: moderateScale(20),
                     justifyContent: "center"
                   }}
                 >
@@ -287,9 +272,9 @@ class Success extends Component {
                     style={[
                       styles.textStyles,
                       {
-                        fontSize: 20,
+                        fontSize: moderateScale(20),
                         color: "black",
-                        flex: 0.42
+                        flex: moderateScale(0.42)
                       }
                     ]}
                     title={`Total Bill: `}
@@ -298,10 +283,10 @@ class Success extends Component {
                     style={[
                       styles.textStyles,
                       {
-                        fontSize: 20,
+                        fontSize: moderateScale(20),
                         color: "red",
                         fontWeight: "bold",
-                        flex: 0.58
+                        flex: moderateScale(0.58)
                       }
                     ]}
                     title={`₹${response.total_bill}`}
@@ -309,11 +294,11 @@ class Success extends Component {
                 </View>
                 <FlatList
                   style={{
-                    flex: 1,
-                    marginTop: 10,
-                    marginBottom: 20,
-                    paddingLeft: 10,
-                    paddingRight: 10
+                    flex: moderateScale(1),
+                    marginTop: moderateScale(10),
+                    marginBottom: moderateScale(20),
+                    paddingLeft: moderateScale(10),
+                    paddingRight: moderateScale(10)
                   }}
                   data={response.products}
                   renderItem={this.renderItem}
@@ -321,9 +306,18 @@ class Success extends Component {
               </View>
             </ScrollView>
           </View>
-          <View style={{ flex: 0.1, paddingLeft: 30, paddingRight: 30 }}>
+          <View
+            style={{
+              flex: moderateScale(0.1),
+              paddingLeft: moderateScale(30),
+              paddingRight: moderateScale(30)
+            }}
+          >
             <CustomButton
-              style={{ marginBottom: 10, paddingBottom: 10 }}
+              style={{
+                marginBottom: moderateScale(10),
+                paddingBottom: moderateScale(10)
+              }}
               title="Continue Shopping"
               onPress={() => {
                 this.homePage();
@@ -336,30 +330,30 @@ class Success extends Component {
     );
   }
 }
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
   containerStyle: {
     flexDirection: "column",
-    flex: 1,
+    flex: "1@ms",
     backgroundColor: "#FFEFD5"
   },
   textStyles: {
-    flex: 0.2,
-    fontSize: 16,
-    flex: 0.5,
+    flex: "0.2@ms",
+    fontSize: "16@ms",
+    flex: "0.5@ms",
     color: "black"
   },
   flatlistContainerStyle: {
     flexDirection: "row",
-    margin: 10,
-    elevation: 30,
-    padding: 10,
-    flex: 1
+    margin: "10@ms",
+    elevation: "30@ms",
+    padding: "10@ms",
+    flex: "1@ms"
   },
   flatlistSubContainerStyle: {
     flexDirection: "column",
-    flex: 1,
+    flex: "1@ms",
     alignSelf: "center",
-    marginLeft: 10
+    marginLeft: "10@ms"
   }
 });
 

@@ -3,6 +3,8 @@ import { View, ImageBackground, Text, StyleSheet, Image } from "react-native";
 import { NavigationActions } from "react-navigation";
 import CustomText from "./CustomText";
 import { connect } from "react-redux";
+import { ScaledSheet } from "react-native-size-matters";
+import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 
 class DrawerMenu extends Component {
   navigateToScreen = route => () => {
@@ -27,10 +29,10 @@ class DrawerMenu extends Component {
                 source={{ uri: "https://facebook.github.io/react/logo-og.png" }}
                 radius
                 style={{
-                  width: 60,
-                  height: 60,
-                  borderRadius: 60 / 2,
-                  marginLeft: 10
+                  width: scale(60),
+                  height: verticalScale(60),
+                  borderRadius: moderateScale(30),
+                  marginLeft: moderateScale(10)
                 }}
               />
               <CustomText
@@ -95,36 +97,36 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps)(DrawerMenu);
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
   container: {
     alignItems: "center"
   },
   headerContainer: {
-    height: 150
+    height: "150@vs"
   },
   headerText: {
     color: "white",
     textAlign: "center",
-    fontSize: 25,
+    fontSize: "25@ms",
     fontWeight: "bold",
-    marginLeft: 4,
-    padding: 8,
+    marginLeft: "4@ms",
+    padding: "8@ms",
     backgroundColor: "rgba(0,0,0,0.5)"
   },
   screenContainer: {
-    paddingTop: 20,
+    paddingTop: "20@ms",
     width: "100%"
   },
   screenStyle: {
-    height: 33,
-    marginTop: 2,
+    height: "33@vs",
+    marginTop: "2@ms",
     flexDirection: "row",
     alignItems: "center",
     width: "100%"
   },
   screenTextStyle: {
-    fontSize: 20,
-    marginLeft: 20,
+    fontSize: "20@ms",
+    marginLeft: "20@ms",
     textAlign: "center"
   },
   selectedTextStyle: {

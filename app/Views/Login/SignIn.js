@@ -14,6 +14,8 @@ import CustomButton from "../../Components/CustomButton";
 import CustomText from "../../Components/CustomText";
 import axios from "axios";
 import ErrorBoundary from "../../Components/ErrorBoundary";
+import { ScaledSheet } from "react-native-size-matters";
+import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 
 class SignIn extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -23,7 +25,7 @@ class SignIn extends Component {
       },
       headerTitle: "Sign In",
       headerLeft: (
-        <View style={{ padding: 10 }}>
+        <View style={{ padding: moderateScale(10) }}>
           <CustomButton
             color="#F4A460"
             title="Back"
@@ -188,21 +190,21 @@ export default connect(
   mapDispatchToProps
 )(SignIn);
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
   container: {
     flex: 0.9
   },
   textStyles: {
-    fontSize: 26,
+    fontSize: "26@ms",
     color: "black",
     textAlign: "center",
-    marginTop: 20
+    marginTop: "20@ms"
   },
   submitButton: {
     flex: 0.1,
-    padding: 10,
-    margin: 15,
-    height: 40
+    padding: "10@ms",
+    margin: "15@ms",
+    height: "40@vs"
   },
   submitButtonText: {
     color: "white",

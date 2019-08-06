@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { View, Button, StyleSheet, Image } from "react-native";
 import CustomText from "../../Components/CustomText";
+import { ScaledSheet } from "react-native-size-matters";
+import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 
 export default class Failure extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -21,17 +23,17 @@ export default class Failure extends Component {
       <View style={styles.containerStyles}>
         <CustomText
           style={{
-            fontSize: 24,
+            fontSize: moderateScale(24),
             color: "red",
-            flex: 0.3,
+            flex: moderateScale(0.3),
             textAlign: "center"
           }}
           title="Sorry Transaction Unsuccessful!! Please Try Again."
         />
         <Image
           style={{
-            width: 380,
-            height: 300,
+            width: scale(350),
+            height: verticalScale(300),
             flex: 0.5
           }}
           source={{
@@ -39,10 +41,10 @@ export default class Failure extends Component {
           }}
           resizeMode="contain"
         />
-        <View style={{ flex: 0.4 }}>
+        <View style={{ flex: moderateScale(0.4) }}>
           <CustomText
             style={{
-              fontSize: 18,
+              fontSize: moderateScale(18),
               color: "black",
               textAlign: "center",
               fontWeight: "bold"
@@ -51,7 +53,7 @@ export default class Failure extends Component {
           />
           <CustomText
             style={{
-              fontSize: 18,
+              fontSize: moderateScale(18),
               color: "green",
               textAlign: "center",
               fontWeight: "bold"
@@ -60,7 +62,7 @@ export default class Failure extends Component {
           />
         </View>
         <Button
-          style={{ margin: 20 }}
+          style={{ margin: moderateScale(20) }}
           color="#F4A460"
           title="Try again"
           onPress={() => this.cartNavigation()}
@@ -70,11 +72,11 @@ export default class Failure extends Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
   containerStyles: {
-    flex: 1,
+    flex: "1@ms",
     backgroundColor: "#FFEFD5",
-    padding: 20,
+    padding: "20@ms",
     justifyContent: "space-between"
   }
 });

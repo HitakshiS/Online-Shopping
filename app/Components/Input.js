@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { View, TextInput, StyleSheet } from "react-native";
+import { ScaledSheet } from "react-native-size-matters";
 
 function Profile(props) {
   return (
@@ -15,15 +16,15 @@ function Profile(props) {
     </View>
   );
 }
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
   container: {
-    paddingTop: 23
+    paddingTop: "23@ms"
   },
   input: {
-    margin: 15,
-    height: 40,
+    margin: "15@ms",
+    height: "40@vs",
     borderColor: "#F4A460",
-    borderWidth: 1
+    borderWidth: "1@ms"
   }
 });
 export default Profile;
