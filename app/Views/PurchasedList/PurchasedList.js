@@ -64,7 +64,7 @@ class PurchasedList extends Component {
                     styles.textStyles,
                     {
                       color: "blue",
-                      fontSize: moderateScale(20),
+    
                       marginLeft: moderateScale(0),
                       flex: moderateScale(0.7)
                     }
@@ -78,19 +78,19 @@ class PurchasedList extends Component {
                     styles.textStyles,
                     { flex: moderateScale(0.3), alignItems: "center" }
                   ]}
-                  title={`Total Bill: `}
+                  title={`Bill: `}
                 />
                 <CustomText
                   style={[
                     styles.textStyles,
                     {
                       color: "red",
-                      fontSize: moderateScale(20),
+    
                       marginLeft: moderateScale(0),
                       flex: moderateScale(0.7)
                     }
                   ]}
-                  title={`${total_bill}`}
+                  title={`₹${total_bill}`}
                 />
               </View>
               <View style={{ flexDirection: "row" }}>
@@ -105,7 +105,6 @@ class PurchasedList extends Component {
                   style={[
                     styles.textStyles,
                     {
-                      fontSize: moderateScale(20),
                       marginLeft: moderateScale(0),
                       flex: moderateScale(0.7)
                     }
@@ -140,7 +139,7 @@ const styles = ScaledSheet.create({
     backgroundColor: "#FFEFD5"
   },
   textStyles: {
-    fontSize: "20@ms",
+    fontSize: "18@ms",
     color: "black",
     fontWeight: "bold",
     marginLeft: "10@ms",

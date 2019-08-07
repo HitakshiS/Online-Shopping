@@ -24,13 +24,12 @@ import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 class Cart extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerStyle: {
-      backgroundColor: "#F4A460"
+      backgroundColor: Platform.OS === "ios" ? "white" : "#F4A460"
     },
     headerTitle: "Cart",
     headerLeft: (
       <View style={{ padding: moderateScale(10) }}>
         <CustomButton
-          style = {{borderColor:"white"}}
           color="#F4A460"
           title="Back"
           onPress={() =>
@@ -310,7 +309,6 @@ class Cart extends Component {
                 styles.emptyTextStyle,
                 {
                   backgroundColor: "#FFEFD5",
-                  fontFamily: "serif",
                   marginTop: moderateScale(40)
                 }
               ]}
@@ -339,7 +337,7 @@ class Cart extends Component {
               }`}
             />
             <CustomButton
-              style={[styles.buttonStyles, { flex: 0.1 }]}
+              style={[styles.buttonStyles, { flex: moderateScale(0.1) }]}
               title="Place Your Order"
               color="#F4A460"
               onPress={() => {

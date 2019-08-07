@@ -149,7 +149,7 @@ class Success extends Component {
           />
           <CustomText
             style={styles.textStyles}
-            title={`Price: ${item.price}`}
+            title={`Price: ₹${item.price}`}
           />
           <CustomText
             style={styles.textStyles}
@@ -157,7 +157,7 @@ class Success extends Component {
           />
           <CustomText
             style={styles.textStyles}
-            title={`Amount: ${item.price * item.qty}`}
+            title={`Amount: ₹${item.price * item.qty}`}
           />
         </View>
       </View>

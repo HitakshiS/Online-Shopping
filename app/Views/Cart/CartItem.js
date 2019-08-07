@@ -58,7 +58,7 @@ export default class CartItem extends Component {
               <CustomText
                 style={[
                   styles.textStyles,
-                  { fontWeight: "bold", fontSize: moderateScale(20) }
+                  { fontWeight: "bold", fontSize: moderateScale(18) }
                 ]}
                 title={`${item.name}`}
               />
@@ -105,12 +105,14 @@ export default class CartItem extends Component {
             <Image
               style={{
                 width: scale(30),
-                height: verticalScale(30)
+                height: verticalScale(30),
+                paddingTop: moderateScale(130)
               }}
               source={{
                 uri:
                   "https://pngimage.net/wp-content/uploads/2018/06/veg-sign-png-5.png"
               }}
+              resizeMode= "contain"
             />
           </View>
         </View>
@@ -141,13 +143,12 @@ const styles = ScaledSheet.create({
     padding: "30@ms"
   },
   buttonStyles: {
-    flex: 1,
-    marginRight: "10@ms",
+    flex: 0.05,
     marginLeft: "10@ms",
     marginTop: "5@ms",
-    height: "30@vs",
-    width: "30@s",
-    borderRadius: "60@ms"
+    //height: "30@vs",
+    // width: "30@s",
+    // borderRadius: "60@ms"
   },
   buttonContainer: {
     flex: 0.4,
@@ -169,7 +170,7 @@ const styles = ScaledSheet.create({
   },
   listSubContainer: {
     flexDirection: "column",
-    flex: 1.2,
+    flex: 1,
     alignSelf: "center",
     paddingLeft: "10@ms"
   }

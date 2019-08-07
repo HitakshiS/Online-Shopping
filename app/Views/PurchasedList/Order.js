@@ -122,7 +122,7 @@ class Order extends Component {
                   flex: moderateScale(0.7)
                 }
               ]}
-              title={`${item.total_bill}`}
+              title={`₹${item.total_bill}`}
             />
           </View>
         </View>
