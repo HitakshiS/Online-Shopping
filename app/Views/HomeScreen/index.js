@@ -229,7 +229,7 @@ const styles = ScaledSheet.create({
     height: "40@vs",
     borderColor: "white",
     borderWidth: 1,
-    width: "100%",
+    width: "95%",
     color: "white"
   },
   emptyTextStyle: {

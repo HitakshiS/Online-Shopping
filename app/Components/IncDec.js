@@ -72,7 +72,12 @@ class IncDec extends Component {
     return (
       <View style={styles.containerStyles}>
         <CustomButton
-          style={styles.buttonStyles}
+          style={[
+            styles.buttonStyles,
+            {
+              borderColor: this.state.counter > 1 ? "#F4A460" : "grey"
+            }
+          ]}
           title="-"
           onPress={() => this.onPress(false)}
           disabled={this.state.counter > 1 ? false : true}
@@ -86,7 +91,15 @@ class IncDec extends Component {
           <Text style={styles.textStyles}> {this.state.counter} </Text>
         </View>
         <CustomButton
-          style={styles.buttonStyles}
+          style={[
+            styles.buttonStyles,
+            {
+              borderColor:
+                this.state.counter == this.props.item.stock_qty
+                  ? "grey"
+                  : "#F4A460"
+            }
+          ]}
           title="+"
           onPress={() => this.onPress()}
           color="#F4A460"

@@ -27,8 +27,14 @@ class Success extends Component {
       headerTitle: "Successful Payment",
       headerForceInset: { top: "never", bottom: "never" },
       headerLeft: (
-        <View style={{ flex: 1, marginLeft: moderateScale(10) }}>
+        <View
+          style={{
+            flex: 1,
+            marginLeft: moderateScale(10)
+          }}
+        >
           <CustomButton
+            style={{ borderColor: "#F4A460" }}
             color="#F4A460"
             title="Back"
             onPress={() =>
@@ -39,12 +45,19 @@ class Success extends Component {
                 })
               )
             }
+            backgroundColor="white"
           />
         </View>
       ),
       headerRight: (
-        <View style={{ flex: 1, marginRight: moderateScale(10) }}>
+        <View
+          style={{
+            flex: 1,
+            marginRight: moderateScale(10)
+          }}
+        >
           <CustomButton
+            style={{ borderColor: "#F4A460" }}
             title="LogOut"
             onPress={() => {
               const logOutFn = navigation.getParam("logOutFn");
@@ -52,6 +65,7 @@ class Success extends Component {
               logOutFn();
             }}
             color="#F4A460"
+            backgroundColor="white"
           />
         </View>
       )
@@ -309,7 +323,7 @@ class Success extends Component {
           </View>
           <View
             style={{
-              flex: moderateScale(0.1),
+              flex: moderateScale(0.08),
               paddingLeft: moderateScale(30),
               paddingRight: moderateScale(30)
             }}
@@ -318,13 +332,15 @@ class Success extends Component {
               style={{
                 marginBottom: moderateScale(10),
                 paddingBottom: moderateScale(10),
-                borderRadius: moderateScale(30)
+                borderRadius: moderateScale(30),
+                borderColor: "#F4A460"
               }}
               title="Continue Shopping"
               onPress={() => {
                 this.homePage();
               }}
               color="#F4A460"
+              backgroundColor="white"
             />
           </View>
         </View>

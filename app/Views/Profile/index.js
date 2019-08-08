@@ -312,36 +312,50 @@ class Profile extends Component {
             />
           )}
 
-          <CustomButton
-            color="#F4A460"
-            style={[
-              styles.submitButton,
-              {
-                // marginBottom: moderateScale(5),
-                width: scale(170),
-                marginLeft: moderateScale(95)
+          <View
+            style={{
+              flex: 1
+            }}
+          >
+            <CustomButton
+              color="#F4A460"
+              style={[
+                styles.submitButton,
+                {
+                  // marginBottom: moderateScale(5),
+                  flex: 0.1,
+                  width: scale(170),
+                  marginLeft: moderateScale(95),
+                  borderColor:
+                    this.state.showAddAddressInput &&
+                    this.state.newAddress == ""
+                      ? "grey"
+                      : "#F4A460"
+                }
+              ]}
+              title={
+                this.state.showAddAddressInput
+                  ? "Submit Address"
+                  : "Add New Address"
               }
-            ]}
-            title={
-              this.state.showAddAddressInput
-                ? "Submit Address"
-                : "Add New Address"
-            }
-            onPress={
-              this.state.showAddAddressInput
-                ? this.submitNewAddress
-                : this.addAddress
-            }
-            disabled={
-              this.state.showAddAddressInput &&
-              (this.state.newAddress == "" || this.whiteSpaceNewAddress())
-                ? true
-                : false
-            }
-          />
+              onPress={
+                this.state.showAddAddressInput
+                  ? this.submitNewAddress
+                  : this.addAddress
+              }
+              disabled={
+                this.state.showAddAddressInput && this.state.newAddress == ""
+                  ? true
+                  : false
+              }
+            />
+          </View>
 
           <CustomButton
-            style={[styles.submitButton, { paddingTop: moderateScale(0) }]}
+            style={[
+              styles.submitButton,
+              { paddingTop: moderateScale(0), borderColor: "#F4A460" }
+            ]}
             title="Submit Details"
             color="#F4A460"
             onPress={() => {

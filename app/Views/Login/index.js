@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StyleSheet, ImageBackground } from "react-native";
+import { View, StyleSheet, ImageBackground, Platform } from "react-native";
 import CustomButton from "../../Components/CustomButton";
 import CustomText from "../../Components/CustomText";
 import { ScaledSheet } from "react-native-size-matters";
@@ -11,6 +11,7 @@ export default class Login extends Component {
       headerStyle: {
         backgroundColor: "#F4A460"
       },
+      headerForceInset: { top: "never", bottom: "never" },
       headerTitle: "Online Shopping"
     };
   };
@@ -30,54 +31,35 @@ export default class Login extends Component {
         style={[styles.container, { width: "100%", height: "100%" }]}
       >
         <CustomText
-          style={[
-            styles.textStyles,
-            {
-              fontSize: moderateScale(40),
-              color: "#503E24",
-              fontFamily: "serif",
-              fontWeight: "bold"
-            }
-          ]}
-          title="Welcome"
+          style={[styles.titleStyle, { fontSize: moderateScale(30) }]}
+          title="WELCOME"
         />
+        <CustomText style={styles.titleStyle} title="A Store That" />
         <CustomText
-          style={[
-            styles.textStyles,
-            {
-              fontSize: moderateScale(30),
-              color: "#503E24",
-              paddingTop: moderateScale(50),
-              fontFamily: "serif"
-            }
-          ]}
-          title="A STORE THAT"
-        />
-        <CustomText
-          style={[
-            styles.textStyles,
-            {
-              fontSize: moderateScale(30),
-              color: "#503E24",
-              fontFamily: "serif"
-            }
-          ]}
-          title="NEVER SLEEPS"
+          style={[styles.titleStyle, { paddingTop: moderateScale(0) }]}
+          title="Never Sleeps"
         />
         <View
-          style={{ flexDirection: "row", flex: 0.7, alignItems: "flex-end" }}
+          style={{
+            flexDirection: "row",
+            flex: 0.7,
+            alignItems: "flex-end",
+            paddingBottom: moderateScale(80)
+          }}
         >
           <CustomButton
             style={styles.submitButton}
             title="sign In"
             onPress={() => this.props.navigation.navigate("SignIn")}
-            color="rgba(100, 100, 100, 0.9)"
+            color="white"
+            backgroundColor="rgba(100, 100, 100, 0.6)"
           />
           <CustomButton
             style={styles.submitButton}
             title="sign up"
             onPress={() => this.props.navigation.navigate("SignUp")}
-            color="rgba(100, 100, 100, 0.9)"
+            color="white"
+            backgroundColor="rgba(100, 100, 100, 0.6)"
           />
         </View>
       </ImageBackground>
@@ -94,10 +76,19 @@ const styles = ScaledSheet.create({
     color: "black",
     textAlign: "center"
   },
+  titleStyle: {
+    fontSize: "26@ms",
+    color: "#503E24",
+    paddingTop: "50@ms",
+    fontFamily: Platform.OS === "ios" ? "Georgia" : "serif",
+    textAlign: "center"
+  },
   submitButton: {
     flex: 0.5,
-    padding: "10@ms",
+    padding: "0@ms",
     margin: "15@ms",
-    height: "30%"
+    borderColor: "rgba(100, 100, 100, 0.9)",
+    backgroundColor: "rgba(100, 100, 100, 0.9)",
+    borderRadius: "30@ms"
   }
 });

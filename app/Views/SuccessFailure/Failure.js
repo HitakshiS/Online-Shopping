@@ -64,10 +64,15 @@ export default class Failure extends Component {
           />
         </View>
         <CustomButton
-          style={{ margin: moderateScale(10), borderRadius: moderateScale(30) }}
+          style={{
+            margin: moderateScale(10),
+            borderRadius: moderateScale(30),
+            borderColor: "#F4A460"
+          }}
           color="#F4A460"
           title="Try again"
           onPress={() => this.cartNavigation()}
+          backgroundColor="white"
         />
       </View>
     );

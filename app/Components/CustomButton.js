@@ -4,10 +4,10 @@ import CustomText from "./CustomText";
 import { moderateScale } from "react-native-size-matters";
 
 function CustomButton(props) {
-  const { style } = props;
+  const { style, backgroundColor } = props;
 
   return (
-    <View style={[style,styles.customButton]}>
+    <View style={[style, styles.customButton, { backgroundColor }]}>
       <Button {...props} />
     </View>
   );
@@ -16,8 +16,8 @@ function CustomButton(props) {
 export default CustomButton;
 const styles = StyleSheet.create({
   customButton: {
-    borderWidth: 1,
-    borderColor: "#F4A460",
-    backgroundColor: Platform.OS === "ios" && "white"
+    borderWidth: Platform.OS === "ios" ? 1 : 0,
+    //borderColor: "#F4A460",
+    backgroundColor: Platform.OS === "ios" ? "white" : "transparent"
   }
-})
+});
