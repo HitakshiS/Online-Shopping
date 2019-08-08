@@ -11,6 +11,7 @@ class PurchasedList extends Component {
     headerStyle: {
       backgroundColor: "#F4A460"
     },
+    headerForceInset: { top: 'never', bottom: 'never' },
     title: "Purchased Items"
   };
 

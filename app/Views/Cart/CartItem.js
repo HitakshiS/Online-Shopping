@@ -45,7 +45,7 @@ export default class CartItem extends Component {
           <Image
             style={{
               width: scale(80),
-              height: verticalScale(100),
+              height: verticalScale(130),
               flex: 1
             }}
             source={{
@@ -100,7 +100,7 @@ export default class CartItem extends Component {
               onPress={onRemovePress}
               style={styles.buttonStyles}
               title="x"
-              color="#F4A460"
+              color="red"
             />
             <Image
               style={{
@@ -112,7 +112,7 @@ export default class CartItem extends Component {
                 uri:
                   "https://pngimage.net/wp-content/uploads/2018/06/veg-sign-png-5.png"
               }}
-              resizeMode= "contain"
+              resizeMode="contain"
             />
           </View>
         </View>
@@ -138,21 +138,18 @@ const styles = ScaledSheet.create({
   containerStyles: {
     flexDirection: "column",
     backgroundColor: "white",
-    margin: "20@ms",
+    margin: "10@ms",
     elevation: "30@ms",
-    padding: "30@ms"
+    padding: "10@ms"
   },
   buttonStyles: {
     flex: 0.05,
-    marginLeft: "10@ms",
-    marginTop: "5@ms",
-    //height: "30@vs",
-    // width: "30@s",
-    // borderRadius: "60@ms"
+    borderRadius: "30@ms",
+    backgroundColor: "red"
   },
   buttonContainer: {
     flex: 0.4,
-    alignSelf: "center"
+    alignSelf: "center",
   },
   textStyles: {
     fontSize: "17@ms",

@@ -18,6 +18,7 @@ class Order extends Component {
     headerStyle: {
       backgroundColor: "#F4A460"
     },
+    headerForceInset: { top: "never", bottom: "never" },
     headerTitle: "Previous orders"
   });
 

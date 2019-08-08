@@ -7,7 +7,7 @@ import {
   AsyncStorage,
   BackHandler,
   Image,
-    Platform
+  Platform
 } from "react-native";
 import CustomText from "../../Components/CustomText";
 import CustomButton from "../../Components/CustomButton";
@@ -24,12 +24,14 @@ import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 class Cart extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerStyle: {
-      backgroundColor: Platform.OS === "ios" ? "white" : "#F4A460"
+      backgroundColor: "#F4A460"
     },
     headerTitle: "Cart",
+    headerForceInset: { top: "never", bottom: "never" },
     headerLeft: (
-      <View style={{ padding: moderateScale(10) }}>
+      <View style={{ flex: 1, marginLeft: moderateScale(10) }}>
         <CustomButton
+          style={{ borderColor: "white" }}
           color="#F4A460"
           title="Back"
           onPress={() =>
@@ -44,7 +46,7 @@ class Cart extends Component {
       </View>
     ),
     headerRight: (
-      <View style={{ padding: moderateScale(10) }}>
+      <View style={{ flex: 1, marginRight: moderateScale(10) }}>
         <CustomButton
           title="LogOut"
           onPress={() => {
@@ -325,19 +327,16 @@ class Cart extends Component {
                   textAlign: "center",
                   fontSize: moderateScale(24),
                   backgroundColor: "white",
-                  marginBottom: moderateScale(10)
+                  flex: 1
+                  // marginBottom: moderateScale(10)
                 }
               ]}
               title={`Total amount: ₹${
-                this.state.totalBill > 0
-                  ? this.state.totalBill
-                  : this.state.removeAmount != 0
-                  ? this.state.removeAmount
-                  : finalAmount
+                this.state.totalBill > 0 ? this.state.totalBill : finalAmount
               }`}
             />
             <CustomButton
-              style={[styles.buttonStyles, { flex: moderateScale(0.1) }]}
+              style={styles.buttonStyles}
               title="Place Your Order"
               color="#F4A460"
               onPress={() => {
@@ -381,7 +380,7 @@ const styles = ScaledSheet.create({
     flex: 1,
     textAlign: "center",
     backgroundColor: "white",
-    fontFamily: Platform.OS === 'ios' ? "Courier New" : "serif",
+    fontFamily: Platform.OS === "ios" ? "Courier New" : "serif"
   }
 });
 

@@ -4,7 +4,9 @@ import {
   TouchableOpacity,
   Image,
   StyleSheet,
-  Picker
+  Picker,
+  Platform,
+  SafeAreaView
 } from "react-native";
 import CustomText from "./CustomText";
 import CustomButton from "./CustomButton";
@@ -15,14 +17,17 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { ScaledSheet } from "react-native-size-matters";
 import { scale, verticalScale, moderateScale } from "react-native-size-matters";
+import { Dropdown } from "react-native-material-dropdown";
 
 class CustomHeader extends Component {
   constructor() {
     super();
     this.state = {
-      products: "",
+      products: "All",
       randomData: [],
-      categoryData: []
+      categoryData: [],
+      iosPlatform: false,
+      selectedCategory: 0
     };
   }
 
@@ -50,29 +55,24 @@ class CustomHeader extends Component {
       });
   };
 
+  componentDidMount() {
+    if (Platform.OS === "ios") {
+      this.setState({
+        iosPlatform: true
+      });
+    }
+  }
+
   render() {
     const { onDrawerPress, onCartPress } = this.props;
-    let categoryValues = this.props.reducer.categoryData.map(item => (
-      <Picker.Item
-        style={{ fontSize: moderateScale(18), fontWeight: "bold" }}
-        label={item.name}
-        value={item.id}
-      />
-    ));
+    let categoryValues = this.props.reducer.categoryData.map((item, index) => {
+      return {
+        value: item.name
+      };
+    });
 
     return (
-      <View
-        style={{
-          flex: 0.2,
-          backgroundColor: "#F4A460",
-          flexDirection: "column",
-          position: "absolute",
-          top: 0,
-          alignSelf: "stretch",
-          right: 0,
-          left: 0
-        }}
-      >
+      <View style={styles.containerStyle}>
         <View style={{ flex: 1, flexDirection: "row" }}>
           <TouchableOpacity style={{ flex: 0.1 }} onPress={onDrawerPress}>
             <Image
@@ -81,20 +81,10 @@ class CustomHeader extends Component {
                 uri:
                   "https://lh3.googleusercontent.com/qBiPuYC-H23TGfVPUha1gEeito5PQolF_eJjR74gVnMJiE4FGCFNZDEM85D-Ed7YcJg"
               }}
-              resizeMode="center"
+              resizeMode="contain"
             />
           </TouchableOpacity>
-          <CustomText
-            style={{
-              flex: 0.82,
-              textAlign: "left",
-              fontWeight: "bold",
-              fontSize: moderateScale(26),
-              marginTop: moderateScale(10),
-              color: "white"
-            }}
-            title="    Home"
-          />
+          <CustomText style={styles.titleStyle} title="       Home" />
           <View
             style={{
               flex: 0.2,
@@ -109,41 +99,59 @@ class CustomHeader extends Component {
         <View
           style={{
             flex: 1,
-            flexDirection: "row",
-            backgroundColor: "#F4A460"
+            flexDirection: "row"
           }}
         >
-          <CustomText
+          <CustomText style={styles.categoryTextStyle} title="Categories:" />
+          <View
             style={{
-              flex: 0.4,
-              fontWeight: "bold",
-              fontSize: moderateScale(20),
-              color: "white",
-              marginLeft: moderateScale(10),
-              marginTop: moderateScale(10)
-            }}
-            title="Categories:"
-          />
-          <Picker
-            style={{
-              flex: 0.4,
-              height: verticalScale(40),
-              width: scale(150),
-              color: "white"
-            }}
-            selectedValue={this.state.products}
-            onValueChange={(itemValue, itemIndex) => {
-              this.props.onRandomDataUpdate(itemValue);
-              this.setState({ products: itemValue }, () => {});
-            }}
-            itemStyle={{
-              backgroundColor: "grey",
-              color: "white",
-              fontSize: moderateScale(17)
+              flex: 1
             }}
           >
-            {categoryValues}
-          </Picker>
+            <Dropdown
+              onChangeText={(itemValue, itemIndex) => {
+                console.log("===>", JSON.stringify(itemValue));
+                this.props.onRandomDataUpdate(itemIndex + 1);
+                this.setState({
+                  products: itemValue,
+                  selectedCategory: itemIndex
+                });
+              }}
+              dropdownPosition={0}
+              overlayStyle={{ top: 45 }}
+              dropdownOffset={{ top: 10, left: 0, bottom: 0 }}
+              rippleOpacity={0}
+              baseColor={"white"}
+              value={this.state.products}
+              data={categoryValues}
+              itemTextStyle={styles.pickerText}
+              pickerStyle={{ width: "100%", flex: 1 }}
+              style={[
+                styles.pickerText,
+                {
+                  color:
+                    this.state.selectedCategory &&
+                    this.state.selectedCategory.length > 0
+                      ? "black"
+                      : "white"
+                }
+              ]}
+              textColor={
+                this.state.selectedCategory &&
+                this.state.selectedCategory.length > 0
+                  ? "black"
+                  : "white"
+              }
+              itemColor={"black"}
+              selectedItemColor={
+                this.state.selectedCategory &&
+                this.state.selectedCategory.length > 0
+                  ? "white"
+                  : "black"
+              }
+              fontSize={moderateScale(12)}
+            />
+          </View>
         </View>
       </View>
     );
@@ -171,6 +179,32 @@ export default connect(
 )(CustomHeader);
 
 const styles = ScaledSheet.create({
+  containerStyle: {
+    flex: 0.2,
+    backgroundColor: "#F4A460",
+    flexDirection: "column",
+    position: "absolute",
+    top: 0,
+    alignSelf: "stretch",
+    right: 0,
+    left: 0
+  },
+  titleStyle: {
+    flex: 0.82,
+    textAlign: "left",
+    fontWeight: "bold",
+    fontSize: "26@ms",
+    marginTop: "10@ms",
+    color: "white"
+  },
+  categoryTextStyle: {
+    flex: 1,
+    fontWeight: "bold",
+    fontSize: "20@ms",
+    color: "white",
+    marginLeft: "10@ms",
+    marginTop: "10@ms"
+  },
   ImageIconStyle: {
     padding: "10@ms",
     marginLeft: "10@ms",
@@ -187,5 +221,10 @@ const styles = ScaledSheet.create({
     borderWidth: 1,
     width: "390@s",
     color: "white"
+  },
+  pickerText: {
+    fontSize: "12@ms",
+    color: "black",
+    width: "100%"
   }
 });

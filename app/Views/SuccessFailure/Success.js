@@ -25,8 +25,9 @@ class Success extends Component {
         backgroundColor: "#F4A460"
       },
       headerTitle: "Successful Payment",
+      headerForceInset: { top: "never", bottom: "never" },
       headerLeft: (
-        <View style={{ padding: moderateScale(10) }}>
+        <View style={{ flex: 1, marginLeft: moderateScale(10) }}>
           <CustomButton
             color="#F4A460"
             title="Back"
@@ -42,7 +43,7 @@ class Success extends Component {
         </View>
       ),
       headerRight: (
-        <View style={{ padding: moderateScale(10) }}>
+        <View style={{ flex: 1, marginRight: moderateScale(10) }}>
           <CustomButton
             title="LogOut"
             onPress={() => {
@@ -190,7 +191,7 @@ class Success extends Component {
                     {
                       color: "green",
                       fontSize: moderateScale(24),
-                      paddingLeft: moderateScale(20),
+                      paddingLeft: moderateScale(18),
                       marginBottom: moderateScale(10),
                       paddingTop: moderateScale(10)
                     }
@@ -201,14 +202,14 @@ class Success extends Component {
                   style={{
                     flex: moderateScale(0.1),
                     flexDirection: "row",
-                    paddingLeft: moderateScale(20)
+                    paddingLeft: moderateScale(18)
                   }}
                 >
                   <CustomText
                     style={[
                       styles.textStyles,
                       {
-                        fontSize: moderateScale(20),
+                        fontSize: moderateScale(18),
                         color: "black",
                         flex: moderateScale(0.42)
                       }
@@ -219,7 +220,7 @@ class Success extends Component {
                     style={[
                       styles.textStyles,
                       {
-                        fontSize: moderateScale(20),
+                        fontSize: moderateScale(18),
                         color: "blue",
                         fontWeight: "bold",
                         flex: moderateScale(0.58)
@@ -232,7 +233,7 @@ class Success extends Component {
                   style={{
                     flex: moderateScale(0.1),
                     flexDirection: "row",
-                    paddingLeft: moderateScale(20),
+                    paddingLeft: moderateScale(18),
                     justifyContent: "center"
                   }}
                 >
@@ -240,7 +241,7 @@ class Success extends Component {
                     style={[
                       styles.textStyles,
                       {
-                        fontSize: moderateScale(20),
+                        fontSize: moderateScale(18),
                         color: "black",
                         flex: moderateScale(0.42)
                       }
@@ -251,7 +252,7 @@ class Success extends Component {
                     style={[
                       styles.textStyles,
                       {
-                        fontSize: moderateScale(20),
+                        fontSize: moderateScale(18),
                         color: "black",
                         fontWeight: "bold",
                         flex: moderateScale(0.58)
@@ -264,7 +265,7 @@ class Success extends Component {
                   style={{
                     flex: moderateScale(0.1),
                     flexDirection: "row",
-                    paddingLeft: moderateScale(20),
+                    paddingLeft: moderateScale(18),
                     justifyContent: "center"
                   }}
                 >
@@ -272,7 +273,7 @@ class Success extends Component {
                     style={[
                       styles.textStyles,
                       {
-                        fontSize: moderateScale(20),
+                        fontSize: moderateScale(18),
                         color: "black",
                         flex: moderateScale(0.42)
                       }
@@ -283,7 +284,7 @@ class Success extends Component {
                     style={[
                       styles.textStyles,
                       {
-                        fontSize: moderateScale(20),
+                        fontSize: moderateScale(18),
                         color: "red",
                         fontWeight: "bold",
                         flex: moderateScale(0.58)
@@ -316,7 +317,8 @@ class Success extends Component {
             <CustomButton
               style={{
                 marginBottom: moderateScale(10),
-                paddingBottom: moderateScale(10)
+                paddingBottom: moderateScale(10),
+                borderRadius: moderateScale(30)
               }}
               title="Continue Shopping"
               onPress={() => {
@@ -339,7 +341,6 @@ const styles = ScaledSheet.create({
   textStyles: {
     flex: "0.2@ms",
     fontSize: "16@ms",
-    flex: "0.5@ms",
     color: "black"
   },
   flatlistContainerStyle: {
