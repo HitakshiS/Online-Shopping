@@ -17,6 +17,7 @@ export default CustomButton;
 const styles = StyleSheet.create({
   customButton: {
     borderWidth: 1,
-    borderColor: "#F4A460"
+    borderColor: "#F4A460",
+    backgroundColor: Platform.OS === "ios" && "white"
   }
 })

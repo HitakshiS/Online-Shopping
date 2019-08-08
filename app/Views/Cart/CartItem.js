@@ -45,7 +45,7 @@ export default class CartItem extends Component {
           <Image
             style={{
               width: scale(80),
-              height: verticalScale(100),
+              height: verticalScale(130),
               flex: 1
             }}
             source={{
@@ -58,7 +58,7 @@ export default class CartItem extends Component {
               <CustomText
                 style={[
                   styles.textStyles,
-                  { fontWeight: "bold", fontSize: moderateScale(20) }
+                  { fontWeight: "bold", fontSize: moderateScale(18) }
                 ]}
                 title={`${item.name}`}
               />
@@ -100,17 +100,19 @@ export default class CartItem extends Component {
               onPress={onRemovePress}
               style={styles.buttonStyles}
               title="x"
-              color="#F4A460"
+              color="red"
             />
             <Image
               style={{
                 width: scale(30),
-                height: verticalScale(30)
+                height: verticalScale(30),
+                paddingTop: moderateScale(130)
               }}
               source={{
                 uri:
                   "https://pngimage.net/wp-content/uploads/2018/06/veg-sign-png-5.png"
               }}
+              resizeMode="contain"
             />
           </View>
         </View>
@@ -136,22 +138,18 @@ const styles = ScaledSheet.create({
   containerStyles: {
     flexDirection: "column",
     backgroundColor: "white",
-    margin: "20@ms",
+    margin: "10@ms",
     elevation: "30@ms",
-    padding: "30@ms"
+    padding: "10@ms"
   },
   buttonStyles: {
-    flex: 1,
-    marginRight: "10@ms",
-    marginLeft: "10@ms",
-    marginTop: "5@ms",
-    height: "30@vs",
-    width: "30@s",
-    borderRadius: "60@ms"
+    flex: 0.05,
+    borderRadius: "30@ms",
+    backgroundColor: "red"
   },
   buttonContainer: {
     flex: 0.4,
-    alignSelf: "center"
+    alignSelf: "center",
   },
   textStyles: {
     fontSize: "17@ms",
@@ -169,7 +167,7 @@ const styles = ScaledSheet.create({
   },
   listSubContainer: {
     flexDirection: "column",
-    flex: 1.2,
+    flex: 1,
     alignSelf: "center",
     paddingLeft: "10@ms"
   }

@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { View, Button, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 import CustomText from "../../Components/CustomText";
 import { ScaledSheet } from "react-native-size-matters";
 import { scale, verticalScale, moderateScale } from "react-native-size-matters";
+import CustomButton from "../../Components/CustomButton";
 
 export default class Failure extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -10,6 +11,7 @@ export default class Failure extends Component {
       headerStyle: {
         backgroundColor: "#F4A460"
       },
+      headerForceInset: { top: "never", bottom: "never" },
       headerTitle: "Payment Failed"
     };
   };
@@ -32,9 +34,9 @@ export default class Failure extends Component {
         />
         <Image
           style={{
-            width: scale(350),
+            width: scale(300),
             height: verticalScale(300),
-            flex: 0.5
+            flex: 0.4
           }}
           source={{
             uri: "https://png.pngtree.com/svg/20170706/3d9a32a59e.png"
@@ -61,8 +63,8 @@ export default class Failure extends Component {
             title="Click on Place Your Order Button in CartList -> Success from the pop-up menu."
           />
         </View>
-        <Button
-          style={{ margin: moderateScale(20) }}
+        <CustomButton
+          style={{ margin: moderateScale(10), borderRadius: moderateScale(30) }}
           color="#F4A460"
           title="Try again"
           onPress={() => this.cartNavigation()}

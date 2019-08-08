@@ -134,6 +134,7 @@ class ListItem extends Component {
             <View style={styles.buttonContainer}>
               {!this.state.showIncDec && (
                 <CustomButton
+                  style = {{borderRadius: moderateScale(30)}}
                   title="Add To Cart"
                   color="#F4A460"
                   onPress={() => {
@@ -218,8 +219,8 @@ const styles = ScaledSheet.create({
     color: "black"
   },
   buttonContainer: {
-    flex: 0.2,
-    margin: "15@ms"
+    flex: 0.1,
+    //margin: "15@ms",
   },
   listSubContainer: {
     flexDirection: "column",

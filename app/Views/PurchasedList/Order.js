@@ -18,6 +18,7 @@ class Order extends Component {
     headerStyle: {
       backgroundColor: "#F4A460"
     },
+    headerForceInset: { top: "never", bottom: "never" },
     headerTitle: "Previous orders"
   });
 
@@ -122,7 +123,7 @@ class Order extends Component {
                   flex: moderateScale(0.7)
                 }
               ]}
-              title={`${item.total_bill}`}
+              title={`₹${item.total_bill}`}
             />
           </View>
         </View>

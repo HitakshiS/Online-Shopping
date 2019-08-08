@@ -23,6 +23,7 @@ class Profile extends Component {
       headerStyle: {
         backgroundColor: "#F4A460"
       },
+      headerForceInset: { top: "never", bottom: "never" },
       headerTitle: "User Profile"
     };
   };
@@ -186,9 +187,9 @@ class Profile extends Component {
             style={{
               flex: 1,
               backgroundColor: "#FFEFD5",
-              marginLeft: moderateScale(20),
-              marginRight: moderateScale(20),
-              elevation: moderateScale(30),
+              marginLeft: moderateScale(10),
+              marginRight: moderateScale(10),
+              elevation: moderateScale(20),
               paddingTop: moderateScale(10),
               paddingBottom: moderateScale(10)
             }}
@@ -273,19 +274,20 @@ class Profile extends Component {
           </View>
 
           {this.state.addresses && this.state.addresses.length > 0 && (
-            <View style={{ flex: 1, padding: moderateScale(20) }}>
+            <View style={{ flex: 1, padding: moderateScale(10) }}>
               <CustomText
                 title="Please Select Delivery Address"
                 style={{
                   fontSize: moderateScale(24),
                   color: "black",
-                  marginBottom: moderateScale(10)
+                  marginBottom: moderateScale(10),
+                  textAlign: "center"
                 }}
               />
               <FlatList
                 style={{
                   backgroundColor: "#FFEFD5",
-                  elevation: moderateScale(30)
+                  elevation: moderateScale(20)
                 }}
                 data={this.state.addresses}
                 renderItem={this.renderItem}
@@ -294,7 +296,7 @@ class Profile extends Component {
             </View>
           )}
         </View>
-        <View style={{ flex: 0.2 }}>
+        <View style={{ flex: 0.2, marginTop: moderateScale(5) }}>
           {this.state.showAddAddressInput && (
             <Input
               placeholder="address"
@@ -315,9 +317,9 @@ class Profile extends Component {
             style={[
               styles.submitButton,
               {
-                paddingBottom: moderateScale(5),
-                width: scale(300),
-                paddingLeft: moderateScale(90)
+                // marginBottom: moderateScale(5),
+                width: scale(170),
+                marginLeft: moderateScale(95)
               }
             ]}
             title={
@@ -339,7 +341,7 @@ class Profile extends Component {
           />
 
           <CustomButton
-            style={[styles.submitButton, { paddingTop: moderateScale(5) }]}
+            style={[styles.submitButton, { paddingTop: moderateScale(0) }]}
             title="Submit Details"
             color="#F4A460"
             onPress={() => {
@@ -385,9 +387,10 @@ const styles = ScaledSheet.create({
   },
   submitButton: {
     flex: 0.1,
-    padding: "10@ms",
-    margin: "15@ms",
-    height: "40@vs"
+    // padding: "10@ms",
+    margin: "10@ms",
+    height: "30@vs",
+    borderRadius: "30@ms"
   },
   submitButtonText: {
     color: "white",

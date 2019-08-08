@@ -23,9 +23,10 @@ class SignIn extends Component {
       headerStyle: {
         backgroundColor: "#F4A460"
       },
+      headerForceInset: { top: "never", bottom: "never" },
       headerTitle: "Sign In",
       headerLeft: (
-        <View style={{ padding: moderateScale(10) }}>
+        <View style={{ flex: 1, marginLeft: moderateScale(10) }}>
           <CustomButton
             color="#F4A460"
             title="Back"

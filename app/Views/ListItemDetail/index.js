@@ -21,8 +21,9 @@ class ListItemDetail extends Component {
         backgroundColor: "#F4A460"
       },
       headerTitle: "Item Description",
+      headerForceInset: { top: "never", bottom: "never" },
       headerRight: (
-        <View style={{ margin: 10, flexDirection: "row" }}>
+        <View style={{ flex: 1, marginRight: moderateScale(10) }}>
           <CustomButton
             style={styles.buttonStyles}
             onPress={() => navigation.navigate("Cart")}
@@ -32,7 +33,7 @@ class ListItemDetail extends Component {
         </View>
       ),
       headerLeft: (
-        <View style={{ padding: 10 }}>
+        <View style={{ flex: 1, marginLeft: moderateScale(10) }}>
           <CustomButton
             color="#F4A460"
             title="Back"
@@ -201,9 +202,10 @@ class ListItemDetail extends Component {
               title={`Description:  ${itemValue.description}`}
             />
           </ScrollView>
-          <View style={{ flex: 0.1 }}>
+          <View style={{ flex: 0.1}}>
             {!this.state.showIncDec ? (
               <CustomButton
+                style = {{borderRadius: moderateScale(30)}}
                 title="Add To Cart"
                 color="#F4A460"
                 onPress={() => {
