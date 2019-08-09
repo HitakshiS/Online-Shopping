@@ -24,7 +24,8 @@ const styles = ScaledSheet.create({
     margin: "15@ms",
     height: "40@vs",
     borderColor: "#F4A460",
-    borderWidth: "1@ms"
+    borderWidth: "1@ms",
+    paddingLeft: "10@ms"
   }
 });
 export default Profile;

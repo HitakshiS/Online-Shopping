@@ -21,7 +21,8 @@ class ListItem extends Component {
       stockCheck: false,
       qty: 0,
       showIncDec: false,
-      cart: []
+      cart: [],
+      isDisabled: false
     };
   }
 
@@ -134,7 +135,15 @@ class ListItem extends Component {
             <View style={styles.buttonContainer}>
               {!this.state.showIncDec && (
                 <CustomButton
-                  style = {{borderRadius: moderateScale(30)}}
+                  style={{
+                    borderRadius: moderateScale(30),
+                    borderColor:
+                      item.stock_qty === 0 ||
+                      this.state.stockCheck ||
+                      item.stock_qty === item.qty
+                        ? "grey"
+                        : "#F4A460"
+                  }}
                   title="Add To Cart"
                   color="#F4A460"
                   onPress={() => {
@@ -220,7 +229,7 @@ const styles = ScaledSheet.create({
   },
   buttonContainer: {
     flex: 0.1,
-    //margin: "15@ms",
+    marginTop: "15@ms"
   },
   listSubContainer: {
     flexDirection: "column",

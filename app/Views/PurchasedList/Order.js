@@ -11,6 +11,7 @@ import axios from "axios";
 import { Constants } from "../../AppConfig/Constants";
 import { ScaledSheet } from "react-native-size-matters";
 import { scale, verticalScale, moderateScale } from "react-native-size-matters";
+import CustomButton from "../../Components/CustomButton";
 
 class Order extends Component {
   _didFocusSubscription;
@@ -19,6 +20,17 @@ class Order extends Component {
       backgroundColor: "#F4A460"
     },
     headerForceInset: { top: "never", bottom: "never" },
+    headerLeft: (
+      <CustomButton
+        style={{ margin: moderateScale(2), borderColor: "#F4A460" }}
+        title="home"
+        color="#F4A460"
+        onPress={() => {
+          navigation.goBack(null);
+        }}
+        backgroundColor="white"
+      />
+    ),
     headerTitle: "Previous orders"
   });
 

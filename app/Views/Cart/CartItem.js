@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image, Platform } from "react-native";
 import CustomText from "../../Components/CustomText";
 import CustomButton from "../../Components/CustomButton";
 import IncDec from "../../Components/IncDec";
@@ -100,7 +100,8 @@ export default class CartItem extends Component {
               onPress={onRemovePress}
               style={styles.buttonStyles}
               title="x"
-              color="red"
+              color={Platform.OS === "ios" ? "white" : "red"}
+              backgroundColor="red"
             />
             <Image
               style={{
@@ -145,11 +146,12 @@ const styles = ScaledSheet.create({
   buttonStyles: {
     flex: 0.05,
     borderRadius: "30@ms",
-    backgroundColor: "red"
+    backgroundColor: "red",
+    borderColor: "#F4A460"
   },
   buttonContainer: {
     flex: 0.4,
-    alignSelf: "center",
+    alignSelf: "center"
   },
   textStyles: {
     fontSize: "17@ms",

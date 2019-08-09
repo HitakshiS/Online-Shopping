@@ -23,18 +23,30 @@ class ListItemDetail extends Component {
       headerTitle: "Item Description",
       headerForceInset: { top: "never", bottom: "never" },
       headerRight: (
-        <View style={{ flex: 1, marginRight: moderateScale(10) }}>
+        <View
+          style={{
+            flex: 1,
+            marginRight: moderateScale(10)
+          }}
+        >
           <CustomButton
-            style={styles.buttonStyles}
+            style={{ borderColor: "#F4A460" }}
             onPress={() => navigation.navigate("Cart")}
             title="Cart"
             color="#F4A460"
+            backgroundColor="white"
           />
         </View>
       ),
       headerLeft: (
-        <View style={{ flex: 1, marginLeft: moderateScale(10) }}>
+        <View
+          style={{
+            flex: 1,
+            marginLeft: moderateScale(10)
+          }}
+        >
           <CustomButton
+            style={{ borderColor: "#F4A460" }}
             color="#F4A460"
             title="Back"
             onPress={() =>
@@ -45,6 +57,7 @@ class ListItemDetail extends Component {
                 })
               )
             }
+            backgroundColor="white"
           />
         </View>
       )
@@ -202,10 +215,16 @@ class ListItemDetail extends Component {
               title={`Description:  ${itemValue.description}`}
             />
           </ScrollView>
-          <View style={{ flex: 0.1}}>
+          <View style={{ flex: 0.1 }}>
             {!this.state.showIncDec ? (
               <CustomButton
-                style = {{borderRadius: moderateScale(30)}}
+                style={{
+                  borderRadius: moderateScale(30),
+                  borderColor:
+                    itemValue.stock_qty === 0 || itemValue.stock_qty === newQty
+                      ? "grey"
+                      : "#F4A460"
+                }}
                 title="Add To Cart"
                 color="#F4A460"
                 onPress={() => {

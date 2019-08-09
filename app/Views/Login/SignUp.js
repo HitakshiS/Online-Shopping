@@ -5,7 +5,7 @@ import CustomButton from "../../Components/CustomButton";
 import CustomText from "../../Components/CustomText";
 import axios from "axios";
 import ErrorBoundary from "../../Components/ErrorBoundary";
-import { ScaledSheet } from "react-native-size-matters";
+import { ScaledSheet, moderateScale } from "react-native-size-matters";
 
 export default class SignUp extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -13,6 +13,7 @@ export default class SignUp extends Component {
       headerStyle: {
         backgroundColor: "#F4A460"
       },
+      headerForceInset: { top: "never", bottom: "never" },
       headerTitle: "Sign Up"
     };
   };
@@ -203,6 +204,18 @@ export default class SignUp extends Component {
 
         <View style={styles.submitButton}>
           <CustomButton
+            style={{
+              borderColor:
+                this.state.name.length > 0 &&
+                this.state.email.length > 0 &&
+                this.state.password.length > 0 &&
+                this.state.confirmPassword.length > 0 &&
+                this.state.address.length > 0 &&
+                this.state.mobile.length > 0
+                  ? "#F4A460"
+                  : "grey",
+              borderRadius: moderateScale(30)
+            }}
             title="Submit Details"
             color="#F4A460"
             onPress={() => this.handleButtonPress()}
@@ -235,9 +248,9 @@ const styles = ScaledSheet.create({
   },
   submitButton: {
     flex: 0.1,
-    padding: "10@ms",
     margin: "15@ms",
-    height: "40@vs"
+    height: "40@vs",
+    borderRadius: "30@ms"
   },
   submitButtonText: {
     color: "white",

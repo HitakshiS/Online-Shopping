@@ -26,11 +26,18 @@ class SignIn extends Component {
       headerForceInset: { top: "never", bottom: "never" },
       headerTitle: "Sign In",
       headerLeft: (
-        <View style={{ flex: 1, marginLeft: moderateScale(10) }}>
+        <View
+          style={{
+            flex: 1,
+            marginLeft: moderateScale(10)
+          }}
+        >
           <CustomButton
+            style={{ borderColor: "#F4A460" }}
             color="#F4A460"
             title="Back"
             onPress={() => navigation.navigate("Login")}
+            backgroundColor="white"
           />
         </View>
       )
@@ -155,6 +162,13 @@ class SignIn extends Component {
         </View>
         <View style={styles.submitButton}>
           <CustomButton
+            style={{
+              borderColor:
+                this.state.email.length > 0 && this.state.password.length > 0
+                  ? "#F4A460"
+                  : "grey",
+              borderRadius: moderateScale(30)
+            }}
             title="Submit Details"
             color="#F4A460"
             onPress={() => this.handleButtonPress()}
@@ -168,6 +182,10 @@ class SignIn extends Component {
         <ErrorBoundary>
           <View style={styles.submitButton}>
             <CustomButton
+              style={{
+                borderColor: "#F4A460",
+                borderRadius: moderateScale(30)
+              }}
               title="Sign Up"
               color="#F4A460"
               onPress={() => this.props.navigation.navigate("SignUp")}
@@ -203,7 +221,6 @@ const styles = ScaledSheet.create({
   },
   submitButton: {
     flex: 0.1,
-    padding: "10@ms",
     margin: "15@ms",
     height: "40@vs"
   },

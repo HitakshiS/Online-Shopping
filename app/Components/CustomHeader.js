@@ -93,7 +93,13 @@ class CustomHeader extends Component {
               padding: moderateScale(15)
             }}
           >
-            <CustomButton onPress={onCartPress} title="Cart" color="#F4A460" />
+            <CustomButton
+              style={{ borderColor: "#F4A460" }}
+              onPress={onCartPress}
+              title="Cart"
+              color="#F4A460"
+              backgroundColor="white"
+            />
           </View>
         </View>
         <View
@@ -105,7 +111,8 @@ class CustomHeader extends Component {
           <CustomText style={styles.categoryTextStyle} title="Categories:" />
           <View
             style={{
-              flex: 1
+              flex: 1,
+              paddingLeft: 10
             }}
           >
             <Dropdown

@@ -29,9 +29,14 @@ class Cart extends Component {
     headerTitle: "Cart",
     headerForceInset: { top: "never", bottom: "never" },
     headerLeft: (
-      <View style={{ flex: 1, marginLeft: moderateScale(10) }}>
+      <View
+        style={{
+          flex: 1,
+          marginLeft: moderateScale(10)
+        }}
+      >
         <CustomButton
-          style={{ borderColor: "white" }}
+          style={{ borderColor: "#F4A460" }}
           color="#F4A460"
           title="Back"
           onPress={() =>
@@ -42,12 +47,19 @@ class Cart extends Component {
               })
             )
           }
+          backgroundColor="white"
         />
       </View>
     ),
     headerRight: (
-      <View style={{ flex: 1, marginRight: moderateScale(10) }}>
+      <View
+        style={{
+          flex: 1,
+          marginRight: moderateScale(10)
+        }}
+      >
         <CustomButton
+          style={{ borderColor: "#F4A460" }}
           title="LogOut"
           onPress={() => {
             const logOutFn = navigation.getParam("logOutFn");
@@ -55,6 +67,7 @@ class Cart extends Component {
             logOutFn();
           }}
           color="#F4A460"
+          backgroundColor="white"
         />
       </View>
     )
@@ -296,7 +309,7 @@ class Cart extends Component {
             <Image
               style={{
                 marginTop: moderateScale(100),
-                width: scale(360),
+                width: scale(330),
                 height: verticalScale(400),
                 flex: 0.5
               }}
@@ -319,7 +332,7 @@ class Cart extends Component {
           </View>
         )}
         {this.state.cart.length > 0 && (
-          <View style={{ flex: 0.2 }}>
+          <View style={{ flex: 0.15 }}>
             <CustomText
               style={[
                 styles.textStyles,
@@ -327,7 +340,7 @@ class Cart extends Component {
                   textAlign: "center",
                   fontSize: moderateScale(24),
                   backgroundColor: "white",
-                  flex: 1
+                  flex: 0.8
                   // marginBottom: moderateScale(10)
                 }
               ]}
@@ -344,6 +357,7 @@ class Cart extends Component {
                   ? this.ProfilePage()
                   : this.alertBoxCustom();
               }}
+              backgroundColor="white"
             />
           </View>
         )}
@@ -365,7 +379,8 @@ const styles = ScaledSheet.create({
     marginRight: "10@ms",
     marginLeft: "10@ms",
     marginTop: "5@ms",
-    borderRadius: 30
+    borderRadius: 30,
+    borderColor: "#F4A460"
   },
   textStyles: {
     fontSize: "20@ms",

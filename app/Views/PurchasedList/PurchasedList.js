@@ -11,7 +11,7 @@ class PurchasedList extends Component {
     headerStyle: {
       backgroundColor: "#F4A460"
     },
-    headerForceInset: { top: 'never', bottom: 'never' },
+    headerForceInset: { top: "never", bottom: "never" },
     title: "Purchased Items"
   };
 
@@ -65,7 +65,7 @@ class PurchasedList extends Component {
                     styles.textStyles,
                     {
                       color: "blue",
-    
+
                       marginLeft: moderateScale(0),
                       flex: moderateScale(0.7)
                     }
@@ -86,7 +86,7 @@ class PurchasedList extends Component {
                     styles.textStyles,
                     {
                       color: "red",
-    
+
                       marginLeft: moderateScale(0),
                       flex: moderateScale(0.7)
                     }
