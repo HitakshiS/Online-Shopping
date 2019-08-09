@@ -51,14 +51,14 @@ export default class Login extends Component {
             style={styles.submitButton}
             title="sign In"
             onPress={() => this.props.navigation.navigate("SignIn")}
-            color="white"
+            color={Platform.OS === "ios" ? "white" : "rgba(100, 100, 100, 0.6)"}
             backgroundColor="rgba(100, 100, 100, 0.6)"
           />
           <CustomButton
             style={styles.submitButton}
             title="sign up"
             onPress={() => this.props.navigation.navigate("SignUp")}
-            color="white"
+            color={Platform.OS === "ios" ? "white" : "rgba(100, 100, 100, 0.6)"}
             backgroundColor="rgba(100, 100, 100, 0.6)"
           />
         </View>
